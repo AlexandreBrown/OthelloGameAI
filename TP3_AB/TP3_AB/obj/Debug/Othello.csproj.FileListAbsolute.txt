@@ -1,0 +1,35 @@
+D:\Visual Studio 2015\Projects\Othello\Othello\bin\Debug\Othello.exe.config
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\Othello.csprojResolveAssemblyReference.cache
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\MainWindow.g.cs
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\App.g.cs
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\Othello_MarkupCompile.cache
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\Othello_MarkupCompile.lref
+D:\Visual Studio 2015\Projects\Othello\Othello\bin\Debug\Othello.exe
+D:\Visual Studio 2015\Projects\Othello\Othello\bin\Debug\Othello.pdb
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\MainWindow.baml
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\Othello.g.resources
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\Othello.Properties.Resources.resources
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\Othello.csproj.GenerateResource.Cache
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\Othello.exe
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\Othello.pdb
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\JeuOthelloControl.g.cs
+D:\Visual Studio 2015\Projects\Othello\Othello\obj\Debug\JeuOthelloControl.baml
+C:\Users\MaitreBrown\Downloads\fichiers\Othello - version de base\Othello\bin\Debug\Othello.exe.config
+C:\Users\MaitreBrown\Downloads\fichiers\Othello - version de base\Othello\obj\Debug\Othello.exe
+C:\Users\MaitreBrown\Downloads\fichiers\Othello - version de base\Othello\obj\Debug\Othello.pdb
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\bin\Debug\Othello.exe.config
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello.exe
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello.pdb
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\bin\Debug\Othello.exe
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\bin\Debug\Othello.pdb
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello.csprojResolveAssemblyReference.cache
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\JeuOthelloControl.g.cs
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\MainWindow.g.cs
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\App.g.cs
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello_MarkupCompile.cache
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello_MarkupCompile.lref
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\JeuOthelloControl.baml
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\MainWindow.baml
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello.g.resources
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello.Properties.Resources.resources
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello.csproj.GenerateResource.Cache
