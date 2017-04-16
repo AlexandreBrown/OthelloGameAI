@@ -29,7 +29,7 @@
 
         <!-- Row 2 -->
         <Rectangle Grid.Row="2" Grid.Column="0" Fill="#8d9099"/>
-        <Button Grid.Row="2" Grid.Column="0" Height="70" Width="700" Content="Jouer" FontSize="40"/>
+        <Button Name="btnJouer" Grid.Row="2" Grid.Column="0" Height="70" Width="700" Content="Jouer" FontSize="40" Click="btnJouer_Click"/>
         
         <!-- Row 3 -->
         <Rectangle Grid.Row="3" Grid.Column="0" Fill="#8d9099"/>

@@ -20,20 +20,26 @@ namespace Othello
     /// </summary>
     public partial class MainWindow : Window
     {
+        private UserControl ContenuEcran { get; set; }
         private JeuOthelloControl Jeu { get; set; }
-
+        
         public MainWindow()
         {
             InitializeComponent();
-
-            //Jeu = new JeuOthelloControl();
-
-            //grdPrincipale.Children.Add(Jeu);
+            Jeu = new JeuOthelloControl();
         }
 
         private void btnQuitMainWindow_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void btnJouer_Click(object sender, RoutedEventArgs e)
+        {
+
+            ContenuEcran = Jeu;
+
+            grdPrincipale.Children.Add(ContenuEcran);
         }
     }
 }
