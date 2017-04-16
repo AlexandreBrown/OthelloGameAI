@@ -76,9 +76,11 @@ namespace Othello
             this._contentLoaded = true;
         }
 
-        internal System.Windows.Controls.Grid grdEcranDemarragePartie;
         internal System.Windows.Shapes.Rectangle recOptions;
         internal System.Windows.Shapes.Rectangle recBackground;
+        internal System.Windows.Controls.Grid grdEcranDemarrageContainer;
+        internal System.Windows.Controls.Grid grdEcranDemarragePartieFront;
+        internal System.Windows.Controls.Slider sldTailleCase;
     }
 }
 

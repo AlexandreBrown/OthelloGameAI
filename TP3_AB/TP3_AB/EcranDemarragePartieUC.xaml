@@ -6,14 +6,47 @@
              xmlns:local="clr-namespace:Othello"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid x:Name="grdEcranDemarragePartie">
+    <Grid x:Name="grdEcranDemarrageContainer">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Rectangle Name="recOptions" Height="250" Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="White" Panel.ZIndex="99"></Rectangle>
-        <Rectangle Name="recBackground" Height="300" Width="300" Fill="Black" Opacity="0.5" Panel.ZIndex="0"></Rectangle>
+        <Rectangle Name="recOptions" Height="250" Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="White" Panel.ZIndex="10"></Rectangle>
+        <Rectangle Name="recBackground" Height="300" Width="300" Fill="Black" Opacity="0.5" Panel.ZIndex="1"></Rectangle>
+        <Grid x:Name="grdEcranDemarragePartieFront" Panel.ZIndex="11" Height="250" Width="250">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!-- Row 0 -->
+            <Label Grid.Row="0" Grid.Column="0" Content="Configuration de la partie" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <!-- Row 1 -->
+            <Label Grid.Row="1" Grid.Column="0" Content="Taille des cases de jeu" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Aperçu" FontSize="10" Margin="40,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Rectangle Grid.Row="1" Grid.Column="0" Width="60" Height="60" Margin="30,15,0,0" HorizontalAlignment="Left" Fill="Beige"></Rectangle>
+            <Grid Grid.Row="1" Grid.Column="0" Width="60" Height="60" Margin="30,15,0,0" HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Rectangle Grid.Row="0" Grid.Column="0" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black"></Rectangle>
+            </Grid>
+            <Label Grid.Row="1" Grid.Column="0" Content="Taille (px)" FontSize="10" Margin="0,50,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="0" Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            <Slider Grid.Row="1" Grid.Column="0" Name="sldTailleCase" Width="150" Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"></Slider>
+            <Button Grid.Row="1" Grid.Column="0" Height=" 20" Width=" 70" Content="Valeur par défaut" FontSize="8" Margin="0,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+            <!-- Row 2 -->
+            <Label Grid.Row="2" Grid.Column="0" Content="Jeu de couleur" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+        </Grid>
     </Grid>
 </UserControl>
