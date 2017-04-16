@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Othello"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="800">
     <Grid x:Name="grdEcranDemarrageContainer">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -13,40 +13,85 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Rectangle Name="recOptions" Height="250" Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="White" Panel.ZIndex="10"></Rectangle>
-        <Rectangle Name="recBackground" Height="300" Width="300" Fill="Black" Opacity="0.5" Panel.ZIndex="1"></Rectangle>
-        <Grid x:Name="grdEcranDemarragePartieFront" Panel.ZIndex="11" Height="250" Width="250">
+        <Rectangle Name="recOptions" Height="500" Width="600" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="White" Panel.ZIndex="10"></Rectangle>
+        <Rectangle Name="recBackground" Height="600" Width="800" Fill="Black" Opacity="0.5" Panel.ZIndex="1"></Rectangle>
+        <Grid x:Name="grdEcranDemarragePartieFront" Panel.ZIndex="11" Height="500" Width="600">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="3*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <!-- Row 0 -->
-            <Label Grid.Row="0" Grid.Column="0" Content="Configuration de la partie" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Configuration de la partie" FontWeight="Bold" FontSize="42" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Separator Grid.Row="0" VerticalAlignment="Bottom"/>
             <!-- Row 1 -->
-            <Label Grid.Row="1" Grid.Column="0" Content="Taille des cases de jeu" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="Aperçu" FontSize="10" Margin="40,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Rectangle Grid.Row="1" Grid.Column="0" Width="60" Height="60" Margin="30,15,0,0" HorizontalAlignment="Left" Fill="Beige"></Rectangle>
-            <Grid Grid.Row="1" Grid.Column="0" Width="60" Height="60" Margin="30,15,0,0" HorizontalAlignment="Left">
+            <Label Grid.Row="1" Grid.Column="0" Content="Taille des cases de jeu" FontWeight="Bold" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Aperçu" FontSize="20" Margin="85,40,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Rectangle Grid.Row="1" Grid.Column="0" Width="100" Height="100" Margin="70,40,0,0" HorizontalAlignment="Left" Fill="Beige"></Rectangle>
+            <Grid Grid.Row="1" Grid.Column="0" Width="100" Height="100" Margin="70,40,0,0" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Rectangle Grid.Row="0" Grid.Column="0" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black"></Rectangle>
+                <Rectangle Grid.Row="0" Grid.Column="0" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black"></Rectangle>
             </Grid>
-            <Label Grid.Row="1" Grid.Column="0" Content="Taille (px)" FontSize="10" Margin="0,50,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="0" Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-            <Slider Grid.Row="1" Grid.Column="0" Name="sldTailleCase" Width="150" Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"></Slider>
-            <Button Grid.Row="1" Grid.Column="0" Height=" 20" Width=" 70" Content="Valeur par défaut" FontSize="8" Margin="0,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+            <Slider Grid.Row="1" Grid.Column="0" Name="sldTailleCase" Width="200" Margin="20,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"></Slider>
+            <Label Grid.Row="1" Grid.Column="0" Content="Taille (px)" FontSize="20" Margin="0,70,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="0" Width="100" Height="50" Margin="0,40,0,0" FontSize="30" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            <Button Grid.Row="1" Grid.Column="0" Height=" 60" Width=" 150" Content="Valeur par défaut" FontSize="17" Margin="0,70,30,0" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+            <Separator Grid.Row="1" VerticalAlignment="Bottom"/>
             <!-- Row 2 -->
-            <Label Grid.Row="2" Grid.Column="0" Content="Jeu de couleur" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-
+            <Label Grid.Row="2" Grid.Column="0" Content="Jeu de couleur" FontWeight="Bold" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Grid Grid.Row="2" Width="600" Height="100" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Viewbox Height="25">
+                        <RadioButton/>
+                    </Viewbox>
+                    <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
+                        <Image Source="./Ressources/Images/OthelloColor01.jpg" Width="100" Height="65"></Image>
+                    </Border>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Viewbox Height="25">
+                        <RadioButton/>
+                    </Viewbox>
+                    <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
+                        <Image Source="./Ressources/Images/OthelloColor02.jpg" Width="100" Height="65"></Image>
+                    </Border>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <Viewbox Height="25">
+                        <RadioButton/>
+                    </Viewbox>
+                    <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
+                        <Image Source="./Ressources/Images/OthelloColor03.jpg" Width="100" Height="65"></Image>
+                    </Border>
+                </StackPanel>
+                <StackPanel Grid.Column="3">
+                    <Viewbox Height="25">
+                        <RadioButton/>
+                    </Viewbox>
+                    <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
+                        <Image Source="./Ressources/Images/OthelloColor04.jpg" Width="100" Height="65"></Image>
+                    </Border>
+                </StackPanel>
+            </Grid>
+            <Separator Grid.Row="2" VerticalAlignment="Bottom"/>
+            <!-- Row 3 -->
+            <Button Grid.Row="3" Height="50" Width="150" Content="Annuler" Margin="0,0,200,0" FontSize="15" HorizontalAlignment="Center"></Button>
+            <Button Grid.Row="3" Height="50" Width="150" Content="Débuter la partie" FontSize="15" Margin="200,0,0,0" HorizontalAlignment="Center"></Button>
         </Grid>
     </Grid>
 </UserControl>

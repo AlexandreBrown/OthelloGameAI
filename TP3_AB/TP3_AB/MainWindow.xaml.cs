@@ -22,11 +22,13 @@ namespace Othello
     {
         private UserControl ContenuEcran { get; set; }
         private JeuOthelloControl Jeu { get; set; }
+        private EcranDemarragePartieUC EcranDemarrage { get; set; }
         
         public MainWindow()
         {
             InitializeComponent();
             Jeu = new JeuOthelloControl();
+            EcranDemarrage = new EcranDemarragePartieUC();
         }
 
         private void btnQuitMainWindow_Click(object sender, RoutedEventArgs e)
@@ -37,9 +39,9 @@ namespace Othello
         private void btnJouer_Click(object sender, RoutedEventArgs e)
         {
 
-            ContenuEcran = Jeu;
+            ContenuEcran = EcranDemarrage;
 
-            grdPrincipale.Children.Add(ContenuEcran);
+            grdConteneur.Children.Add(ContenuEcran);
         }
     }
 }

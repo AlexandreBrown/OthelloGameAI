@@ -115,9 +115,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Ressources\Images\Logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ressources\Images\OthelloColor01.jpg" />
+    <Resource Include="Ressources\Images\OthelloColor02.jpg" />
+    <Resource Include="Ressources\Images\OthelloColor03.jpg" />
+    <Resource Include="Ressources\Images\OthelloColor04.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
