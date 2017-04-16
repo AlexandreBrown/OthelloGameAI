@@ -20,9 +20,44 @@ namespace Othello
     /// </summary>
     public partial class EcranDemarragePartieUC : UserControl
     {
+        public Action delete;
+
         public EcranDemarragePartieUC()
         {
             InitializeComponent();
+            InitializeDefaultValue();
+        }
+
+        private void SetTailleCasePreviewValue(int newValue)
+        {
+            recCasePreview.Height = newValue;
+            recCasePreview.Width = newValue;
+            brdCasePreview.Height = newValue;
+            brdCasePreview.Width = newValue;
+            txbPixels.Text = newValue.ToString();
+            sldTailleCase.Value = newValue;
+        }
+
+        private void InitializeDefaultValue()
+        {
+            SetTailleCasePreviewValue((int)sldTailleCase.Minimum);
+            rdbCouleur01.IsChecked = true;
+        }
+
+        private void sldTailleCase_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SetTailleCasePreviewValue((int)((Slider)sender).Value);
+        }
+
+        private void btnDefaultValue_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeDefaultValue();
+        }
+
+        private void btnAnnulerConfigPartie_Click(object sender, RoutedEventArgs e)
+        {
+            if (delete != null)
+                delete();
         }
     }
 }

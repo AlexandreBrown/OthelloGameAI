@@ -29,6 +29,7 @@ namespace Othello
             InitializeComponent();
             Jeu = new JeuOthelloControl();
             EcranDemarrage = new EcranDemarragePartieUC();
+            EcranDemarrage.delete += OnDelete;
         }
 
         private void btnQuitMainWindow_Click(object sender, RoutedEventArgs e)
@@ -38,10 +39,15 @@ namespace Othello
 
         private void btnJouer_Click(object sender, RoutedEventArgs e)
         {
-
             ContenuEcran = EcranDemarrage;
-
             grdConteneur.Children.Add(ContenuEcran);
+        }
+
+        private void OnDelete()
+        {
+            grdConteneur.Children.Remove(ContenuEcran);
+            EcranDemarrage = new EcranDemarragePartieUC();
+            EcranDemarrage.delete += OnDelete;
         }
     }
 }

@@ -14,7 +14,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Rectangle Name="recOptions" Height="500" Width="600" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="White" Panel.ZIndex="10"></Rectangle>
-        <Rectangle Name="recBackground" Height="600" Width="800" Fill="Black" Opacity="0.5" Panel.ZIndex="1"></Rectangle>
+        <Rectangle Name="recBackground" Height="600" Width="800" Fill="Black" Opacity="0.8" Panel.ZIndex="1"></Rectangle>
         <Grid x:Name="grdEcranDemarragePartieFront" Panel.ZIndex="11" Height="500" Width="600">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -39,12 +39,18 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Rectangle Grid.Row="0" Grid.Column="0" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black"></Rectangle>
+                <Border Name="brdCasePreview" Grid.Row="0" Grid.Column="0" BorderThickness="1" BorderBrush="Black">
+                    <Rectangle Name="recCasePreview" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Green"></Rectangle>
+                </Border>
             </Grid>
-            <Slider Grid.Row="1" Grid.Column="0" Name="sldTailleCase" Width="200" Margin="20,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"></Slider>
+            <TextBlock Name="txbPixels" Grid.Row="1" Grid.Column="0" Text="0" Width="100" Height="50" Margin="0,40,0,0" FontSize="30" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            <Slider Name="sldTailleCase" Grid.Row="1" Grid.Column="0" Width="200" Margin="20,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                    Minimum="50" Maximum="80" ValueChanged="sldTailleCase_ValueChanged"
+                    IsSnapToTickEnabled="True"
+                    TickFrequency="5">
+            </Slider>
             <Label Grid.Row="1" Grid.Column="0" Content="Taille (px)" FontSize="20" Margin="0,70,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="0" Width="100" Height="50" Margin="0,40,0,0" FontSize="30" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-            <Button Grid.Row="1" Grid.Column="0" Height=" 60" Width=" 150" Content="Valeur par défaut" FontSize="17" Margin="0,70,30,0" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Button>
+            <Button Name="btnDefaultValue" Grid.Row="1" Grid.Column="0" Height=" 60" Width=" 150" Content="Valeur par défaut" FontSize="17" Margin="0,70,30,0" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="btnDefaultValue_Click"></Button>
             <Separator Grid.Row="1" VerticalAlignment="Bottom"/>
             <!-- Row 2 -->
             <Label Grid.Row="2" Grid.Column="0" Content="Jeu de couleur" FontWeight="Bold" FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -57,7 +63,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <Viewbox Height="25">
-                        <RadioButton/>
+                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur01" IsChecked="True"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor01.jpg" Width="100" Height="65"></Image>
@@ -65,7 +71,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <Viewbox Height="25">
-                        <RadioButton/>
+                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur02"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor02.jpg" Width="100" Height="65"></Image>
@@ -73,7 +79,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <Viewbox Height="25">
-                        <RadioButton/>
+                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur03"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor03.jpg" Width="100" Height="65"></Image>
@@ -81,7 +87,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="3">
                     <Viewbox Height="25">
-                        <RadioButton/>
+                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur04"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor04.jpg" Width="100" Height="65"></Image>
@@ -90,7 +96,7 @@
             </Grid>
             <Separator Grid.Row="2" VerticalAlignment="Bottom"/>
             <!-- Row 3 -->
-            <Button Grid.Row="3" Height="50" Width="150" Content="Annuler" Margin="0,0,200,0" FontSize="15" HorizontalAlignment="Center"></Button>
+            <Button Name="btnAnnulerConfigPartie" Grid.Row="3" Height="50" Width="150" Content="Annuler" Margin="0,0,200,0" FontSize="15" HorizontalAlignment="Center" Click="btnAnnulerConfigPartie_Click"></Button>
             <Button Grid.Row="3" Height="50" Width="150" Content="Débuter la partie" FontSize="15" Margin="200,0,0,0" HorizontalAlignment="Center"></Button>
         </Grid>
     </Grid>
