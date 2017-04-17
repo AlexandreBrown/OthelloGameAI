@@ -69,7 +69,7 @@ namespace Othello
 
         private List<List<Ellipse>> GrillePions { get; set; }
 
-        public int TourJeu { get; set; }
+        public Couleur TourJeu { get; set; }
 
         private IA_Othello IA { get; set; }
 
@@ -84,7 +84,7 @@ namespace Othello
             InitialiserGrillePions();
             DessinerCases();
             RafraichirAffichage();
-            TourJeu = (int)Couleur.Noir;
+            TourJeu = Couleur.Noir;
 
             // Initialiser l'IA.
             IA = new IA_Othello(this);
@@ -164,11 +164,11 @@ namespace Othello
                     {
                         if ((bool)Grille.EstCaseBlanche(position))
                         {
-                            AjouterCerclePion(position, (int)Couleur.Blanc);
+                            AjouterCerclePion(position, Couleur.Blanc);
                         }
                         else
                         {
-                            AjouterCerclePion(position, (int)Couleur.Noir);
+                            AjouterCerclePion(position, Couleur.Noir);
                         }
                     }
                 }
@@ -199,11 +199,11 @@ namespace Othello
             return el;
         }
 
-        private void AjouterCerclePion(Coordonnee position, int couleur)
+        private void AjouterCerclePion(Coordonnee position, Couleur couleur)
         {
             Ellipse cerclePion;
 
-            if (couleur == (int)Couleur.Blanc)
+            if (couleur == Couleur.Blanc)
             {
                 cerclePion = CreerCercle(Brushes.White);
             }
@@ -250,13 +250,13 @@ namespace Othello
                 Grille.AjouterPion(position, TourJeu);
                 AjouterCerclePion(position, TourJeu);
 
-                if (TourJeu == (int)Couleur.Blanc)
+                if (TourJeu == Couleur.Blanc)
                 {
-                    TourJeu = (int)Couleur.Noir;
+                    TourJeu = Couleur.Noir;
                 }
                 else
                 {
-                    TourJeu = (int)Couleur.Blanc;
+                    TourJeu = Couleur.Blanc;
                 }
 
                 Notify();

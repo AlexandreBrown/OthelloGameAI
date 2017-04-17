@@ -47,14 +47,14 @@ namespace Othello
 
         private void AjouterPionsDepart()
         {
-            ListeCasesJeu[3][3].AjouterPion((int)Couleur.Blanc);
-            ListeCasesJeu[4][4].AjouterPion((int)Couleur.Blanc);
+            ListeCasesJeu[3][3].AjouterPion(Couleur.Blanc);
+            ListeCasesJeu[4][4].AjouterPion(Couleur.Blanc);
 
-            ListeCasesJeu[3][4].AjouterPion((int)Couleur.Noir);
-            ListeCasesJeu[4][3].AjouterPion((int)Couleur.Noir);
+            ListeCasesJeu[3][4].AjouterPion(Couleur.Noir);
+            ListeCasesJeu[4][3].AjouterPion(Couleur.Noir);
         }
 
-        public bool AjouterPion(Coordonnee position, int couleur)
+        public bool AjouterPion(Coordonnee position, Couleur couleur)
         {
             return ListeCasesJeu[position.X - 1][position.Y - 1].AjouterPion(couleur);
         }

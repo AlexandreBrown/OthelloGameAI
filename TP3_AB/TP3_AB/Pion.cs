@@ -9,31 +9,31 @@ namespace Othello
     public enum Couleur { Blanc, Noir }
     public class Pion
     {
-        private int CouleurPion { get; set; }
-        public Pion(int couleurPion)
+        private Couleur Couleur { get; set; }
+        public Pion(Couleur couleur)
         {
-            CouleurPion = couleurPion;
+            Couleur = couleur;
         }
 
         public bool EstBlanc()
         {
-            return (CouleurPion == (int)Couleur.Blanc);
+            return (Couleur == Couleur.Blanc);
         }
 
         public bool EstNoir()
         {
-            return (CouleurPion == (int)Couleur.Noir);
+            return (Couleur == Couleur.Noir);
         }
 
         public void InverserCouleur()
         {
-            if (CouleurPion == (int)Couleur.Blanc)
+            if (Couleur == Couleur.Blanc)
             {
-                CouleurPion = (int)Couleur.Noir;
+                Couleur = Couleur.Noir;
             }
             else
             {
-                CouleurPion = (int)Couleur.Blanc;
+                Couleur = Couleur.Blanc;
             }
         }
     }

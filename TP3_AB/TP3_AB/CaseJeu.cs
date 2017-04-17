@@ -44,7 +44,7 @@ namespace Othello
             }
         }
 
-        public bool AjouterPion(int couleur)
+        public bool AjouterPion(Couleur couleur)
         {
             if (!EstOccupe())
             {

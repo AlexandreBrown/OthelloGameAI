@@ -41,11 +41,11 @@ namespace Othello
 
         private JeuOthelloControl Jeu { get; set; }
 
-        private int CouleurIA { get; set; }
+        private Couleur CouleurIA { get; set; }
 
-        public IA_Othello(JeuOthelloControl jeu) : this(jeu, (int)Couleur.Blanc) { }
+        public IA_Othello(JeuOthelloControl jeu) : this(jeu, Couleur.Blanc) { }
 
-        public IA_Othello(JeuOthelloControl jeu, int couleur)
+        public IA_Othello(JeuOthelloControl jeu, Couleur couleur)
         {
             Jeu = jeu;
             CouleurIA = couleur;
