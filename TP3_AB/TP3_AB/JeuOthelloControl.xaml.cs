@@ -268,5 +268,10 @@ namespace Othello
                 InverserCerclePion(position);
             }
         }
+
+        private void btnAllerMenuPrincipal_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
