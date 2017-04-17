@@ -59,11 +59,7 @@ namespace Othello
         }
         #endregion
 
-        #region Static
-
-        private const int TAILLE_CASE = 50;
-
-        #endregion
+        private int TailleCase { get; set; }
 
         public GrilleJeu Grille { get; private set; }
 
@@ -75,11 +71,12 @@ namespace Othello
 
         public Action Delete;
 
-        public JeuOthelloControl()
+        public JeuOthelloControl(int tailleCase)
         {
+            TailleCase = tailleCase;
             InitializeComponent();
-            DefinirGrid(50);
-
+            DefinirGrid();
+            
             // Initialise la liste d'observateurs.
             observers = new List<IObserver<JeuOthelloControl>>();
 
@@ -88,9 +85,9 @@ namespace Othello
             DessinerCases();
             RafraichirAffichage();
             TourJeu = Couleur.Noir;
-
             // Initialiser l'IA.
             IA = new IA_Othello(this);
+            
         }
 
         private void InitialiserGrillePions()
@@ -183,8 +180,8 @@ namespace Othello
             Rectangle r;
 
             r = new Rectangle();
-            r.Height = TAILLE_CASE - 1;
-            r.Width = TAILLE_CASE - 1;
+            r.Height = TailleCase - 1;
+            r.Width = TailleCase - 1 ;
             r.Fill = couleur;
 
             return r;
@@ -195,14 +192,14 @@ namespace Othello
             Ellipse el ;
 
             el = new Ellipse();
-            el.Height = 0.8 * TAILLE_CASE;
-            el.Width = 0.8 * TAILLE_CASE;
+            el.Height = 0.8 * TailleCase;
+            el.Width = 0.8 * TailleCase;
             el.Fill = couleur;
 
             return el;
         }
 
-        private void AjouterCerclePion(Coordonnee position, Couleur couleur)
+        private void AjouterCerclePion(Coordonnee position,Couleur couleur)
         {
             Ellipse cerclePion;
 
@@ -276,26 +273,64 @@ namespace Othello
         {
             Delete?.Invoke();
         }
-
-        private void DefinirGrid(int tailleCasse)
+        private void InitialiserContourJeu()
         {
-            for(int i = 0;i<(GrilleJeu.TAILLE_GRILLE_JEU+1);i++ )
+            // Columns (A-H)
+            char lettre = 'A';
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
             {
                 ColumnDefinition column = new ColumnDefinition();
-                column.Width = new GridLength(tailleCasse, GridUnitType.Pixel);
+                column.Width = GridLength.Auto;
                 grdJeu.ColumnDefinitions.Add(column);
-                for (int j = 0; j < (GrilleJeu.TAILLE_GRILLE_JEU + 1); j++)
+                Label l = new Label();
+                l.Content = (lettre).ToString();
+                l.HorizontalAlignment = HorizontalAlignment.Center;
+                Grid.SetColumn(l, i);
+                Grid.SetRow(l, 0);
+                grdJeu.Children.Add(l);
+                lettre++;
+            }
+
+            // Rows (1-8)
+            for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+            {
+                RowDefinition row = new RowDefinition();
+                row.Height = GridLength.Auto;
+                grdJeu.RowDefinitions.Add(row);
+                Label l = new Label();
+                l.Content = (j).ToString();
+                l.VerticalAlignment = VerticalAlignment.Center;
+                Grid.SetColumn(l, 0);
+                Grid.SetRow(l, j);
+                grdJeu.Children.Add(l);
+            }
+        }
+
+        private void InitialiserJeu()
+        {
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                ColumnDefinition column = new ColumnDefinition();
+                column.Width = new GridLength(TailleCase);
+                grdJeu.ColumnDefinitions.Add(column);
+                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
                 {
                     RowDefinition row = new RowDefinition();
-                    row.Height = new GridLength(tailleCasse, GridUnitType.Pixel);
+                    row.Height = new GridLength(TailleCase);
                     grdJeu.RowDefinitions.Add(row);
-                    Label l = new Label();
-                    l.Content = (i + j).ToString();
-                    Grid.SetColumn(l, i);
-                    Grid.SetRow(l, j);
-                    grdJeu.Children.Add(l);
                 }
             }
+        }
+        private void DefinirGrid()
+        {
+            InitialiserContourJeu();
+            InitialiserJeu();
+            grdJeuScore.RowDefinitions[1].Height = new GridLength(9*TailleCase);
+        }
+
+        private void btnNouvellePartie_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Othello
 
         private void InitializeGame()
         {
-            uctJeu = new JeuOthelloControl();
+            uctJeu = new JeuOthelloControl(uctEcranDemarrage.TailleCase);
             uctJeu.Delete = OnDeleteCurrentView;
         }
 
