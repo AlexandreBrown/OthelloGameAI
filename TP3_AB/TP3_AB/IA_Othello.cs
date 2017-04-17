@@ -41,11 +41,11 @@ namespace Othello
 
         private JeuOthelloControl Jeu { get; set; }
 
-        private string CouleurIA { get; set; }
+        private int CouleurIA { get; set; }
 
-        public IA_Othello(JeuOthelloControl jeu) : this(jeu, "Blanc") { }
+        public IA_Othello(JeuOthelloControl jeu) : this(jeu, (int)Couleur.Blanc) { }
 
-        public IA_Othello(JeuOthelloControl jeu, string couleur)
+        public IA_Othello(JeuOthelloControl jeu, int couleur)
         {
             Jeu = jeu;
             CouleurIA = couleur;
@@ -77,11 +77,6 @@ namespace Othello
                 for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
                 {
                     position = new Coordonnee(i, j);
-
-                    if (position.X == 8 && position.Y == 8)
-                    {
-                        position.X = position.X;
-                    }
 
                     if (grille.EstCaseBlanche(position) == null)
                     {

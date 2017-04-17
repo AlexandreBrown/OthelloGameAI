@@ -6,50 +6,34 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
+    public enum Couleur { Blanc, Noir }
     public class Pion
     {
-        private string couleur;
-        private string Couleur
+        private int CouleurPion { get; set; }
+        public Pion(int couleurPion)
         {
-            get { return couleur; }
-            set
-            {
-                if (value == "Blanc" || value == "Noir")
-                {
-                    couleur = value;
-                }
-                else
-                {
-                    // Le "default" d'office.
-                    couleur = "Blanc";
-                }
-            }
-        }
-
-        public Pion(string couleurPion)
-        {
-            Couleur = couleurPion;
+            CouleurPion = couleurPion;
         }
 
         public bool EstBlanc()
         {
-            return (Couleur == "Blanc");
+            return (CouleurPion == (int)Couleur.Blanc);
         }
 
         public bool EstNoir()
         {
-            return (Couleur == "Noir");
+            return (CouleurPion == (int)Couleur.Noir);
         }
 
         public void InverserCouleur()
         {
-            if (Couleur == "Blanc")
+            if (CouleurPion == (int)Couleur.Blanc)
             {
-                Couleur = "Noir";
+                CouleurPion = (int)Couleur.Noir;
             }
             else
             {
-                Couleur = "Blanc";
+                CouleurPion = (int)Couleur.Blanc;
             }
         }
     }
