@@ -141,7 +141,7 @@ namespace Othello
 
         private void RafraichirAffichage()
         {
-            Point position;
+            Coordonnee position;
 
             // Retirer de la Grid les ellipses utilisées pour afficher des pions.
             foreach (List<Ellipse> listePion in GrillePions)
@@ -158,7 +158,7 @@ namespace Othello
             {
                 for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
                 {
-                    position = new Point(i, j);
+                    position = new Coordonnee(i, j);
 
                     if (Grille.EstCaseBlanche(position) != null)
                     {
@@ -199,7 +199,7 @@ namespace Othello
             return el;
         }
 
-        private void AjouterCerclePion(Point position, string couleur)
+        private void AjouterCerclePion(Coordonnee position, string couleur)
         {
             Ellipse cerclePion;
 
@@ -212,18 +212,18 @@ namespace Othello
                 cerclePion = CreerCercle(Brushes.Black);
             }
 
-            Grid.SetColumn(cerclePion, (int)position.X);
-            Grid.SetRow(cerclePion, (int)position.Y);
+            Grid.SetColumn(cerclePion, position.X);
+            Grid.SetRow(cerclePion, position.Y);
 
             grdJeu.Children.Add(cerclePion);
 
             // Ajouter le pion dans la liste de l'affichage.
-            GrillePions[(int)position.X - 1][(int)position.Y - 1] = cerclePion;
+            GrillePions[position.X - 1][position.Y - 1] = cerclePion;
         }
 
-        private void InverserCerclePion(Point position)
+        private void InverserCerclePion(Coordonnee position)
         {
-            Ellipse cercle = GrillePions[(int)position.X - 1][(int)position.Y - 1];
+            Ellipse cercle = GrillePions[position.X - 1][position.Y - 1];
 
             if ((bool)Grille.EstCaseBlanche(position))
             {
@@ -237,12 +237,12 @@ namespace Othello
 
         private void GrilleJeu_Click(object sender, MouseButtonEventArgs e)
         {
-            Point position = new Point(Grid.GetColumn(sender as UIElement), Grid.GetRow(sender as UIElement));
+            Coordonnee position = new Coordonnee(Grid.GetColumn(sender as UIElement), Grid.GetRow(sender as UIElement));
 
             ExecuterChoixCase(position);
         }
 
-        public void ExecuterChoixCase(Point position)
+        public void ExecuterChoixCase(Coordonnee position)
         {
             if (Grille.EstCaseBlanche(position) == null)
             {

@@ -56,7 +56,7 @@ namespace Othello
 
         private void JouerCoup(JeuOthelloControl jeu)
         {
-            List<Point> ListeCoupsPermis;
+            List<Coordonnee> ListeCoupsPermis;
             Random rnd = new Random(DateTime.Now.Millisecond);
             
             if (jeu.TourJeu == CouleurIA)
@@ -67,16 +67,16 @@ namespace Othello
             }
         }
 
-        private List<Point> TrouverCoupsPermis(GrilleJeu grille)
+        private List<Coordonnee> TrouverCoupsPermis(GrilleJeu grille)
         {
-            List<Point> listeCoups = new List<Point>();
-            Point position;
+            List<Coordonnee> listeCoups = new List<Coordonnee>();
+            Coordonnee position;
 
             for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
             {
                 for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
                 {
-                    position = new Point(i, j);
+                    position = new Coordonnee(i, j);
 
                     if (position.X == 8 && position.Y == 8)
                     {
@@ -87,42 +87,42 @@ namespace Othello
                     {
                         // Vérifier les voisins pour voir s'il y a un pion.
                         if (position.X > 1 && position.Y > 1 
-                            && grille.EstCaseBlanche(new Point(position.X - 1, position.Y - 1)) != null)
+                            && grille.EstCaseBlanche(new Coordonnee(position.X - 1, position.Y - 1)) != null)
                         {
                             listeCoups.Add(position);
                         }
                         else if (position.Y > 1
-                                 && grille.EstCaseBlanche(new Point(position.X, position.Y - 1)) != null)
+                                 && grille.EstCaseBlanche(new Coordonnee(position.X, position.Y - 1)) != null)
                         {
                             listeCoups.Add(position);
                         }
                         else if (position.X < GrilleJeu.TAILLE_GRILLE_JEU && position.Y > 1
-                                 && grille.EstCaseBlanche(new Point(position.X + 1, position.Y - 1)) != null)
+                                 && grille.EstCaseBlanche(new Coordonnee(position.X + 1, position.Y - 1)) != null)
                         {
                             listeCoups.Add(position);
                         }
                         else if (position.X > 1
-                                 && grille.EstCaseBlanche(new Point(position.X - 1, position.Y)) != null)
+                                 && grille.EstCaseBlanche(new Coordonnee(position.X - 1, position.Y)) != null)
                         {
                             listeCoups.Add(position);
                         }
                         else if (position.X < GrilleJeu.TAILLE_GRILLE_JEU
-                                 && grille.EstCaseBlanche(new Point(position.X + 1, position.Y)) != null)
+                                 && grille.EstCaseBlanche(new Coordonnee(position.X + 1, position.Y)) != null)
                         {
                             listeCoups.Add(position);
                         }
                         else if (position.X > 1 && position.Y < GrilleJeu.TAILLE_GRILLE_JEU
-                                 && grille.EstCaseBlanche(new Point(position.X - 1, position.Y + 1)) != null)
+                                 && grille.EstCaseBlanche(new Coordonnee(position.X - 1, position.Y + 1)) != null)
                         {
                             listeCoups.Add(position);
                         }
                         else if (position.Y < GrilleJeu.TAILLE_GRILLE_JEU
-                                 && grille.EstCaseBlanche(new Point(position.X, position.Y + 1)) != null)
+                                 && grille.EstCaseBlanche(new Coordonnee(position.X, position.Y + 1)) != null)
                         {
                             listeCoups.Add(position);
                         }
                         else if (position.X < GrilleJeu.TAILLE_GRILLE_JEU && position.Y < GrilleJeu.TAILLE_GRILLE_JEU
-                                 && grille.EstCaseBlanche(new Point(position.X + 1, position.Y + 1)) != null)
+                                 && grille.EstCaseBlanche(new Coordonnee(position.X + 1, position.Y + 1)) != null)
                         {
                             listeCoups.Add(position);
                         }

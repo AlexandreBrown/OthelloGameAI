@@ -54,24 +54,24 @@ namespace Othello
             ListeCasesJeu[4][3].AjouterPion("Noir");
         }
 
-        public bool AjouterPion(Point position, string couleur)
+        public bool AjouterPion(Coordonnee position, string couleur)
         {
-            return ListeCasesJeu[(int)position.X - 1][(int)position.Y - 1].AjouterPion(couleur);
+            return ListeCasesJeu[position.X - 1][position.Y - 1].AjouterPion(couleur);
         }
 
-        public bool InverserPion(Point position)
+        public bool InverserPion(Coordonnee position)
         {
-            return ListeCasesJeu[(int)position.X - 1][(int)position.Y - 1].InverserPion();
+            return ListeCasesJeu[position.X - 1][position.Y - 1].InverserPion();
         }
 
-        public bool? EstCaseBlanche(Point position)
+        public bool? EstCaseBlanche(Coordonnee position)
         {
-            return ListeCasesJeu[(int)position.X - 1][(int)position.Y - 1].EstCaseBlanche();
+            return ListeCasesJeu[position.X - 1][position.Y - 1].EstCaseBlanche();
         }
 
-        public bool? EstCaseNoire(Point position)
+        public bool? EstCaseNoire(Coordonnee position)
         {
-            return ListeCasesJeu[(int)position.X - 1][(int)position.Y - 1].EstCaseNoire();
+            return ListeCasesJeu[position.X - 1][position.Y - 1].EstCaseNoire();
         }
     }
 }

@@ -74,6 +74,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CaseJeu.cs" />
+    <Compile Include="Coordonnee.cs" />
     <Compile Include="EcranDemarragePartieUC.xaml.cs">
       <DependentUpon>EcranDemarragePartieUC.xaml</DependentUpon>
     </Compile>
