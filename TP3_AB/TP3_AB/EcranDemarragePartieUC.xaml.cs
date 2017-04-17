@@ -20,8 +20,8 @@ namespace Othello
     /// </summary>
     public partial class EcranDemarragePartieUC : UserControl
     {
-        public Action delete;
-        public Action startGame;
+        public Action Delete { get; set; }
+        public Action StartGame { get; set; }
         private const int TailleCaseDefault = 50;
 
         public EcranDemarragePartieUC()
@@ -58,12 +58,12 @@ namespace Othello
 
         private void btnAnnulerConfigPartie_Click(object sender, RoutedEventArgs e)
         {
-            delete?.Invoke(); // Si delete n'est pas null on call la méthode sur laquelle l'action delete pointe
+            Delete?.Invoke(); // Si delete n'est pas null on call la méthode sur laquelle l'action delete pointe
         }
 
         private void btnDebutPartie_Click(object sender, RoutedEventArgs e)
         {
-            startGame?.Invoke(); // On vérifie que startGame n'est pas null , si newGame n'est pas null alors la méthode est appelé
+            StartGame?.Invoke(); // On vérifie que startGame n'est pas null , si newGame n'est pas null alors la méthode est appelé
         }
     }
 }

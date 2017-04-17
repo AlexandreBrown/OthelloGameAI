@@ -37,8 +37,14 @@ namespace Othello
         private void InitializeNewEcranDemarrage()
         {
             uctEcranDemarrage = new EcranDemarragePartieUC(); // On réinitialise l'écran de démarrage
-            uctEcranDemarrage.delete = OnDeleteCurrentView; // On réattribut la fonction OnDelete à l'action delete
-            uctEcranDemarrage.startGame = OnStartGame; // On fait pointer l'action startGame sur la méthode OnStartGame();
+            uctEcranDemarrage.Delete = OnDeleteCurrentView; // On réattribut la fonction OnDelete à l'action delete
+            uctEcranDemarrage.StartGame = OnStartGame; // On fait pointer l'action startGame sur la méthode OnStartGame();
+        }
+
+        private void InitializeGame()
+        {
+            uctJeu = new JeuOthelloControl();
+            uctJeu.Delete = OnDeleteCurrentView;
         }
 
         private void btnJouer_Click(object sender, RoutedEventArgs e)
@@ -56,7 +62,7 @@ namespace Othello
         private void OnStartGame()
         {
             OnDeleteCurrentView(); // On retire l'écran actuel
-            uctJeu = new JeuOthelloControl(); // On construit le jeu
+            InitializeGame();
             ContenuEcran = uctJeu;
             grdConteneur.Children.Add(ContenuEcran);
         }

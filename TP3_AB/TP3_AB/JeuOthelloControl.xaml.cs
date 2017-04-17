@@ -73,9 +73,12 @@ namespace Othello
 
         private IA_Othello IA { get; set; }
 
+        public Action Delete;
+
         public JeuOthelloControl()
         {
             InitializeComponent();
+            DefinirGrid(50);
 
             // Initialise la liste d'observateurs.
             observers = new List<IObserver<JeuOthelloControl>>();
@@ -271,7 +274,28 @@ namespace Othello
 
         private void btnAllerMenuPrincipal_Click(object sender, RoutedEventArgs e)
         {
+            Delete?.Invoke();
+        }
 
+        private void DefinirGrid(int tailleCasse)
+        {
+            for(int i = 0;i<(GrilleJeu.TAILLE_GRILLE_JEU+1);i++ )
+            {
+                ColumnDefinition column = new ColumnDefinition();
+                column.Width = new GridLength(tailleCasse, GridUnitType.Pixel);
+                grdJeu.ColumnDefinitions.Add(column);
+                for (int j = 0; j < (GrilleJeu.TAILLE_GRILLE_JEU + 1); j++)
+                {
+                    RowDefinition row = new RowDefinition();
+                    row.Height = new GridLength(tailleCasse, GridUnitType.Pixel);
+                    grdJeu.RowDefinitions.Add(row);
+                    Label l = new Label();
+                    l.Content = (i + j).ToString();
+                    Grid.SetColumn(l, i);
+                    Grid.SetRow(l, j);
+                    grdJeu.Children.Add(l);
+                }
+            }
         }
     }
 }
