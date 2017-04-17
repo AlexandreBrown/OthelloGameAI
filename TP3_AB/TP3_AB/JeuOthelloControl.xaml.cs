@@ -70,6 +70,7 @@ namespace Othello
         private IA_Othello IA { get; set; }
 
         public Action Delete;
+        public Action NewGame { get; set; }
 
         public JeuOthelloControl(int tailleCase)
         {
@@ -83,6 +84,7 @@ namespace Othello
             Grille = new GrilleJeu();
             InitialiserGrillePions();
             DessinerCases();
+            InitialiserQuadrillageCases();
             RafraichirAffichage();
             TourJeu = Couleur.Noir;
             // Initialiser l'IA.
@@ -321,6 +323,33 @@ namespace Othello
                 }
             }
         }
+
+        private void InitialiserQuadrillageCases()
+        {
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                Rectangle rec = new Rectangle();
+                rec.Fill = Brushes.White;
+                rec.Height = 1;
+                rec.VerticalAlignment = VerticalAlignment.Bottom;
+                Grid.SetRow(rec, i);
+                Grid.SetColumn(rec, i);
+                grdJeu.Children.Add(rec);
+            }
+            for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+            {
+                Rectangle rec = new Rectangle();
+                rec.Fill = Brushes.White;
+                rec.Width = 1;
+                rec.HorizontalAlignment = HorizontalAlignment.Right;
+                Grid.SetColumn(rec, j);
+                Grid.SetRow(rec, j);
+                grdJeu.Children.Add(rec);
+            }
+        
+        }
+    
+
         private void DefinirGrid()
         {
             InitialiserContourJeu();
@@ -330,7 +359,7 @@ namespace Othello
 
         private void btnNouvellePartie_Click(object sender, RoutedEventArgs e)
         {
-
+            NewGame?.Invoke();
         }
     }
 }
