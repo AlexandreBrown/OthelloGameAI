@@ -22,6 +22,7 @@ namespace Othello
     {
         public Action delete;
         public Action startGame;
+        private const int TailleCaseDefault = 50;
 
         public EcranDemarragePartieUC()
         {
@@ -41,7 +42,7 @@ namespace Othello
 
         private void InitializeDefaultValue()
         {
-            SetTailleCasePreviewValue((int)sldTailleCase.Minimum);
+            SetTailleCasePreviewValue(TailleCaseDefault);
             rdbCouleur01.IsChecked = true;
         }
 

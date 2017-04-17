@@ -45,9 +45,9 @@
             </Grid>
             <TextBlock Name="txbPixels" Grid.Row="1" Grid.Column="0" Text="0" Width="100" Height="50" Margin="0,40,0,0" FontSize="30" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
             <Slider Name="sldTailleCase" Grid.Row="1" Grid.Column="0" Width="200" Margin="20,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                    Minimum="50" Maximum="80" ValueChanged="sldTailleCase_ValueChanged"
+                    Minimum="40" Maximum="60" ValueChanged="sldTailleCase_ValueChanged"
                     IsSnapToTickEnabled="True"
-                    TickFrequency="5">
+                    TickFrequency="2">
             </Slider>
             <Label Grid.Row="1" Grid.Column="0" Content="Taille (px)" FontSize="20" Margin="0,70,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Button Name="btnDefaultValues" Grid.Row="1" Grid.Column="0" Height=" 60" Width=" 150" Content="Valeurs par défaut" FontSize="17" Margin="0,70,30,0" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="btnDefaultValues_Click"></Button>
