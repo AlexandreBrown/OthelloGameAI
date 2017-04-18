@@ -326,27 +326,40 @@ namespace Othello
 
         private void InitialiserQuadrillageCases()
         {
-            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            var converter = new BrushConverter();
+            var brush = (Brush)converter.ConvertFromString("#cfd1d8");
+
+            // Row
+            for(int i =0;i<GrilleJeu.TAILLE_GRILLE_JEU;i++)
             {
-                Rectangle rec = new Rectangle();
-                rec.Fill = Brushes.White;
-                rec.Height = 1;
-                rec.VerticalAlignment = VerticalAlignment.Bottom;
-                Grid.SetRow(rec, i);
-                Grid.SetColumn(rec, i);
-                grdJeu.Children.Add(rec);
+                for(int j = 0;j<GrilleJeu.TAILLE_GRILLE_JEU;j++)
+                {
+                    Rectangle recRow = new Rectangle();
+                    recRow.Fill = brush;
+                    recRow.Width = 1;
+                    recRow.HorizontalAlignment = HorizontalAlignment.Right;
+                    Grid.SetRow(recRow, i);
+                    Grid.SetRowSpan(recRow, GrilleJeu.TAILLE_GRILLE_JEU);
+                    Grid.SetColumn(recRow, j);
+                    grdJeu.Children.Add(recRow);
+                }
             }
-            for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+
+            // Columns
+            for (int i = 0; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
             {
-                Rectangle rec = new Rectangle();
-                rec.Fill = Brushes.White;
-                rec.Width = 1;
-                rec.HorizontalAlignment = HorizontalAlignment.Right;
-                Grid.SetColumn(rec, j);
-                Grid.SetRow(rec, j);
-                grdJeu.Children.Add(rec);
+                for (int j = 0; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Rectangle recCol = new Rectangle();
+                    recCol.Fill = brush;
+                    recCol.Height = 1;
+                    recCol.VerticalAlignment = VerticalAlignment.Bottom;
+                    Grid.SetRow(recCol, i);
+                    Grid.SetColumn(recCol, j);
+                    Grid.SetColumnSpan(recCol, GrilleJeu.TAILLE_GRILLE_JEU);
+                    grdJeu.Children.Add(recCol);
+                }
             }
-        
         }
     
 
