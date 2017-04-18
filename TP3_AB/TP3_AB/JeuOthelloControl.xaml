@@ -24,7 +24,7 @@
             <Rectangle Grid.Row="0" Fill="#191d2c" Width="520" Height="40"></Rectangle>
             <Label Name="lblScore" Grid.Row="0" Content="Score:6400" Foreground="#3855b4" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
             <!-- Row 1 -->
-            <Rectangle Grid.Row="1" Fill="#cfd1d8"></Rectangle>
+            <Rectangle Name="recJeuBG" Grid.Row="1" Fill="#cfd1d8"></Rectangle>
             <Grid Name="grdJeu" Grid.Row="1"></Grid>
             <!-- Row 2 -->
             <Rectangle Grid.Row="2" Fill="#191d2c"></Rectangle>

@@ -67,14 +67,19 @@ namespace Othello
 
         public Couleur TourJeu { get; set; }
 
+        private SolidColorBrush CouleurPionHumain { get; set; }
+        private SolidColorBrush CouleurPionAI { get; set; }
+
         private IA_Othello IA { get; set; }
 
         public Action Delete;
         public Action NewGame { get; set; }
 
-        public JeuOthelloControl(int tailleCase)
+        public JeuOthelloControl(int tailleCase, SolidColorBrush couleurPionHumain, SolidColorBrush couleurPionAI)
         {
             TailleCase = tailleCase;
+            CouleurPionHumain = couleurPionHumain;
+            CouleurPionAI = couleurPionAI;
             InitializeComponent();
             DefinirGrid();
             
@@ -90,6 +95,95 @@ namespace Othello
             // Initialiser l'IA.
             IA = new IA_Othello(this);
             
+        }
+
+        private void DefinirGrid()
+        {
+            InitialiserContourJeu();
+            InitialiserJeu();
+            grdJeuScore.RowDefinitions[1].Height = new GridLength((GrilleJeu.TAILLE_GRILLE_JEU + 1) * TailleCase);
+        }
+
+        private void InitialiserContourJeu()
+        {
+            // Columns (A-H)
+            char lettre = 'A';
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                ColumnDefinition column = new ColumnDefinition();
+                column.Width = GridLength.Auto;
+                grdJeu.ColumnDefinitions.Add(column);
+                Label l = new Label();
+                l.Content = (lettre).ToString();
+                l.HorizontalAlignment = HorizontalAlignment.Center;
+                Grid.SetColumn(l, i);
+                Grid.SetRow(l, 0);
+                grdJeu.Children.Add(l);
+                lettre++;
+            }
+            // Rows (1-8)
+            for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+            {
+                RowDefinition row = new RowDefinition();
+                row.Height = GridLength.Auto;
+                grdJeu.RowDefinitions.Add(row);
+                Label l = new Label();
+                l.Content = (j).ToString();
+                l.VerticalAlignment = VerticalAlignment.Center;
+                Grid.SetColumn(l, 0);
+                Grid.SetRow(l, j);
+                grdJeu.Children.Add(l);
+            }
+        }
+
+        private void InitialiserJeu()
+        {
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                ColumnDefinition column = new ColumnDefinition();
+                column.Width = new GridLength(TailleCase);
+                grdJeu.ColumnDefinitions.Add(column);
+                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    RowDefinition row = new RowDefinition();
+                    row.Height = new GridLength(TailleCase);
+                    grdJeu.RowDefinitions.Add(row);
+                }
+            }
+        }
+
+        private void InitialiserQuadrillageCases()
+        {
+            // Row
+            for (int i = 0; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 0; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Rectangle recRow = new Rectangle();
+                    recRow.Fill = recJeuBG.Fill;
+                    recRow.Width = 1;
+                    recRow.HorizontalAlignment = HorizontalAlignment.Right;
+                    Grid.SetRow(recRow, i);
+                    Grid.SetRowSpan(recRow, GrilleJeu.TAILLE_GRILLE_JEU);
+                    Grid.SetColumn(recRow, j);
+                    grdJeu.Children.Add(recRow);
+                }
+            }
+            // Columns
+            for (int i = 0; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 0; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Rectangle recCol = new Rectangle();
+                    recCol.Fill = recJeuBG.Fill;
+                    recCol.Height = 1;
+                    recCol.VerticalAlignment = VerticalAlignment.Bottom;
+                    Grid.SetRow(recCol, i);
+                    Grid.SetColumn(recCol, j);
+                    Grid.SetColumnSpan(recCol, GrilleJeu.TAILLE_GRILLE_JEU);
+                    grdJeu.Children.Add(recCol);
+                }
+            }
         }
 
         private void InitialiserGrillePions()
@@ -177,7 +271,7 @@ namespace Othello
             }
         }
         
-        private Rectangle CreerCarre(Brush couleur)
+        private Rectangle CreerCarre(SolidColorBrush couleur)
         {
             Rectangle r;
 
@@ -189,7 +283,7 @@ namespace Othello
             return r;
         }
 
-        private Ellipse CreerCercle(Brush couleur)
+        private Ellipse CreerCercle(SolidColorBrush couleur)
         {
             Ellipse el ;
 
@@ -207,11 +301,11 @@ namespace Othello
 
             if (couleur == Couleur.Blanc)
             {
-                cerclePion = CreerCercle(Brushes.White);
+                cerclePion = CreerCercle(CouleurPionAI);
             }
             else
             {
-                cerclePion = CreerCercle(Brushes.Black);
+                cerclePion = CreerCercle(CouleurPionHumain);
             }
 
             Grid.SetColumn(cerclePion, position.X);
@@ -229,11 +323,11 @@ namespace Othello
 
             if ((bool)Grille.EstCaseBlanche(position))
             {
-                cercle.Fill = Brushes.White;
+                cercle.Fill = CouleurPionAI;
             }
             else
             {
-                cercle.Fill = Brushes.Black;
+                cercle.Fill = CouleurPionHumain;
             }
         }
 
@@ -275,100 +369,8 @@ namespace Othello
         {
             Delete?.Invoke();
         }
-        private void InitialiserContourJeu()
-        {
-            // Columns (A-H)
-            char lettre = 'A';
-            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
-            {
-                ColumnDefinition column = new ColumnDefinition();
-                column.Width = GridLength.Auto;
-                grdJeu.ColumnDefinitions.Add(column);
-                Label l = new Label();
-                l.Content = (lettre).ToString();
-                l.HorizontalAlignment = HorizontalAlignment.Center;
-                Grid.SetColumn(l, i);
-                Grid.SetRow(l, 0);
-                grdJeu.Children.Add(l);
-                lettre++;
-            }
 
-            // Rows (1-8)
-            for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
-            {
-                RowDefinition row = new RowDefinition();
-                row.Height = GridLength.Auto;
-                grdJeu.RowDefinitions.Add(row);
-                Label l = new Label();
-                l.Content = (j).ToString();
-                l.VerticalAlignment = VerticalAlignment.Center;
-                Grid.SetColumn(l, 0);
-                Grid.SetRow(l, j);
-                grdJeu.Children.Add(l);
-            }
-        }
 
-        private void InitialiserJeu()
-        {
-            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
-            {
-                ColumnDefinition column = new ColumnDefinition();
-                column.Width = new GridLength(TailleCase);
-                grdJeu.ColumnDefinitions.Add(column);
-                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
-                {
-                    RowDefinition row = new RowDefinition();
-                    row.Height = new GridLength(TailleCase);
-                    grdJeu.RowDefinitions.Add(row);
-                }
-            }
-        }
-
-        private void InitialiserQuadrillageCases()
-        {
-            var converter = new BrushConverter();
-            var brush = (Brush)converter.ConvertFromString("#cfd1d8");
-
-            // Row
-            for(int i =0;i<GrilleJeu.TAILLE_GRILLE_JEU;i++)
-            {
-                for(int j = 0;j<GrilleJeu.TAILLE_GRILLE_JEU;j++)
-                {
-                    Rectangle recRow = new Rectangle();
-                    recRow.Fill = brush;
-                    recRow.Width = 1;
-                    recRow.HorizontalAlignment = HorizontalAlignment.Right;
-                    Grid.SetRow(recRow, i);
-                    Grid.SetRowSpan(recRow, GrilleJeu.TAILLE_GRILLE_JEU);
-                    Grid.SetColumn(recRow, j);
-                    grdJeu.Children.Add(recRow);
-                }
-            }
-
-            // Columns
-            for (int i = 0; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
-            {
-                for (int j = 0; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
-                {
-                    Rectangle recCol = new Rectangle();
-                    recCol.Fill = brush;
-                    recCol.Height = 1;
-                    recCol.VerticalAlignment = VerticalAlignment.Bottom;
-                    Grid.SetRow(recCol, i);
-                    Grid.SetColumn(recCol, j);
-                    Grid.SetColumnSpan(recCol, GrilleJeu.TAILLE_GRILLE_JEU);
-                    grdJeu.Children.Add(recCol);
-                }
-            }
-        }
-    
-
-        private void DefinirGrid()
-        {
-            InitialiserContourJeu();
-            InitialiserJeu();
-            grdJeuScore.RowDefinitions[1].Height = new GridLength(9*TailleCase);
-        }
 
         private void btnNouvellePartie_Click(object sender, RoutedEventArgs e)
         {

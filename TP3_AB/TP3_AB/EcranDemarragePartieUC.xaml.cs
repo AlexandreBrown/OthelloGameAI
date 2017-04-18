@@ -23,6 +23,7 @@ namespace Othello
         public Action Delete { get; set; }
         public Action StartGame { get; set; }
         public int TailleCase { get; set; }
+        public int IdCheckedRdb { get; set; }
         private const int TailleCaseDefault = 50;
 
         public EcranDemarragePartieUC()
@@ -66,6 +67,26 @@ namespace Othello
         {
             TailleCase = (int)sldTailleCase.Value;
             StartGame?.Invoke(); // On vérifie que StartGame n'est pas null , si StartGame n'est pas null alors la méthode est appelé
+        }
+
+        private void rdbCouleur01_Checked(object sender, RoutedEventArgs e)
+        {
+            IdCheckedRdb = 1;
+        }
+
+        private void rdbCouleur02_Checked(object sender, RoutedEventArgs e)
+        {
+            IdCheckedRdb = 2;
+        }
+
+        private void rdbCouleur03_Checked(object sender, RoutedEventArgs e)
+        {
+            IdCheckedRdb = 3;
+        }
+
+        private void rdbCouleur04_Checked(object sender, RoutedEventArgs e)
+        {
+            IdCheckedRdb = 4;
         }
     }
 }

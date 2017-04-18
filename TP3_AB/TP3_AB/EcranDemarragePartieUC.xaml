@@ -61,9 +61,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+
                 <StackPanel Grid.Column="0">
                     <Viewbox Height="25">
-                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur01" IsChecked="True"/>
+                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur01" IsChecked="True" Checked="rdbCouleur01_Checked"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor01.jpg" Width="100" Height="65"></Image>
@@ -71,7 +72,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <Viewbox Height="25">
-                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur02"/>
+                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur02" Checked="rdbCouleur02_Checked"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor02.jpg" Width="100" Height="65"></Image>
@@ -79,7 +80,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <Viewbox Height="25">
-                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur03"/>
+                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur03" Checked="rdbCouleur03_Checked"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor03.jpg" Width="100" Height="65"></Image>
@@ -87,7 +88,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="3">
                     <Viewbox Height="25">
-                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur04"/>
+                        <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur04" Checked="rdbCouleur04_Checked"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor04.jpg" Width="100" Height="65"></Image>

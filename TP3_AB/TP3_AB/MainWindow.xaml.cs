@@ -43,7 +43,29 @@ namespace Othello
 
         private void InitializeGame()
         {
-            uctJeu = new JeuOthelloControl(uctEcranDemarrage.TailleCase);
+            SolidColorBrush couleurHumain = new SolidColorBrush();
+            SolidColorBrush couleurAI = new SolidColorBrush();
+            switch (uctEcranDemarrage.IdCheckedRdb)
+            {
+                case 1:
+                    couleurHumain = Brushes.Black;
+                    couleurAI = Brushes.White;
+                    break;
+                case 2:
+                    couleurHumain = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ff0000"));
+                    couleurAI = (SolidColorBrush)(new BrushConverter().ConvertFrom("#0000ff"));
+                    break;
+                case 3:
+                    couleurHumain = (SolidColorBrush)(new BrushConverter().ConvertFrom("#603913"));
+                    couleurAI = (SolidColorBrush)(new BrushConverter().ConvertFrom("#aba000"));
+                    break;
+                case 4:
+                    couleurHumain = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ec008c"));
+                    couleurAI = (SolidColorBrush)(new BrushConverter().ConvertFrom("#00bff3"));
+                    break;
+            }
+
+            uctJeu = new JeuOthelloControl(uctEcranDemarrage.TailleCase,couleurHumain, couleurAI);
             uctJeu.Delete = OnDeleteCurrentView;
             uctJeu.NewGame = OnLoadGameConfig;
         }
