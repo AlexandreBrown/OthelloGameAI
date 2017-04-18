@@ -20,8 +20,8 @@ namespace Othello
     /// </summary>
     public partial class EcranDemarragePartieUC : UserControl
     {
-        public Action Delete { get; set; }
-        public Action StartGame { get; set; }
+        public Action SupprimerVue { get; set; }
+        public Action NouvellePartie { get; set; }
         public int TailleCase { get; set; }
         public int IdCheckedRdb { get; set; }
         private const int TailleCaseDefault = 50;
@@ -29,10 +29,10 @@ namespace Othello
         public EcranDemarragePartieUC()
         {
             InitializeComponent();
-            InitializeDefaultValue();
+            InitialiserValeursDefaut();
         }
 
-        private void SetTailleCasePreviewValue(int newValue)
+        private void SetTailleCasePreview(int newValue)
         {
             recCasePreview.Height = newValue;
             recCasePreview.Width = newValue;
@@ -42,31 +42,31 @@ namespace Othello
             sldTailleCase.Value = newValue;
         }
 
-        private void InitializeDefaultValue()
+        private void InitialiserValeursDefaut()
         {
-            SetTailleCasePreviewValue(TailleCaseDefault);
+            SetTailleCasePreview(TailleCaseDefault);
             rdbCouleur01.IsChecked = true;
         }
 
         private void sldTailleCase_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            SetTailleCasePreviewValue((int)((Slider)sender).Value);
+            SetTailleCasePreview((int)((Slider)sender).Value);
         }
 
         private void btnDefaultValues_Click(object sender, RoutedEventArgs e)
         {
-            InitializeDefaultValue();
+            InitialiserValeursDefaut();
         }
 
         private void btnAnnulerConfigPartie_Click(object sender, RoutedEventArgs e)
         {
-            Delete?.Invoke(); // Si Delete n'est pas null on call la méthode sur laquelle l'action delete pointe
+            SupprimerVue?.Invoke(); // Si Delete n'est pas null on call la méthode sur laquelle l'action delete pointe
         }
 
         private void btnDebutPartie_Click(object sender, RoutedEventArgs e)
         {
             TailleCase = (int)sldTailleCase.Value;
-            StartGame?.Invoke(); // On vérifie que StartGame n'est pas null , si StartGame n'est pas null alors la méthode est appelé
+            NouvellePartie?.Invoke(); // On vérifie que StartGame n'est pas null , si StartGame n'est pas null alors la méthode est appelé
         }
 
         private void rdbCouleur01_Checked(object sender, RoutedEventArgs e)

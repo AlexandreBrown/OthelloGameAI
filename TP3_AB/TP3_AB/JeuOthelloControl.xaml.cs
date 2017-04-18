@@ -72,8 +72,8 @@ namespace Othello
 
         private IA_Othello IA { get; set; }
 
-        public Action Delete;
-        public Action NewGame { get; set; }
+        public Action SupprimerVue;
+        public Action NouvellePartie { get; set; }
 
         public JeuOthelloControl(int tailleCase, SolidColorBrush couleurPionHumain, SolidColorBrush couleurPionAI)
         {
@@ -367,14 +367,14 @@ namespace Othello
 
         private void btnAllerMenuPrincipal_Click(object sender, RoutedEventArgs e)
         {
-            Delete?.Invoke();
+            SupprimerVue?.Invoke();
         }
 
 
 
         private void btnNouvellePartie_Click(object sender, RoutedEventArgs e)
         {
-            NewGame?.Invoke();
+            NouvellePartie?.Invoke();
         }
     }
 }
