@@ -19,6 +19,9 @@
                 <RowDefinition Height="500"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
             <!-- Row 0 -->
             <Rectangle Grid.Row="0" Fill="#8d9099"></Rectangle>
             <Rectangle Grid.Row="0" Fill="#191d2c" Width="520" Height="40"></Rectangle>
@@ -33,10 +36,12 @@
         <!-- grdControls -->
         <Grid Name="grdControls" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
             <!-- Row 0 -->
             <Border Grid.Row="0" BorderThickness="7" BorderBrush="#8d9099">
@@ -52,12 +57,7 @@
             <Border Grid.Row="1" BorderThickness="7" BorderBrush="#8d9099">
                 <Rectangle Grid.Row="1" Fill="#cfd1d8"></Rectangle>
             </Border>
-            <Label Grid.Row="1" Content="Votre tour" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
-            <!-- Row 2 -->
-            <Border Grid.Row="2" BorderThickness="7" BorderBrush="#8d9099">
-                <Rectangle Grid.Row="2" Fill="#cfd1d8"></Rectangle>
-            </Border>
-            <StackPanel Grid.Row="2" VerticalAlignment="Center">
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
                 <Button Name="btnNouvellePartie" Height="50" Width="200" FontSize="15" Content="Nouvelle partie" Click="btnNouvellePartie_Click"></Button>
                 <Button Name="btnAllerMenuPrincipal" Height="50" Width="200" FontSize="15" Content="Menu principal" Margin="0,20,0,0" Click="btnAllerMenuPrincipal_Click"></Button>
                 <Button Name="btnEnvoyerScore" Height="50" Width="200" FontSize="15" Content="Envoyer mon score" IsEnabled="False" Margin="0,20,0,0"></Button>
