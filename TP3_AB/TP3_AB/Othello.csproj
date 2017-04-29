@@ -125,6 +125,16 @@
     <Resource Include="Ressources\Images\OthelloColor03.jpg" />
     <Resource Include="Ressources\Images\OthelloColor04.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ressources\Images\000000.jpg" />
+    <Resource Include="Ressources\Images\0000FF.jpg" />
+    <Resource Include="Ressources\Images\00BFF3.jpg" />
+    <Resource Include="Ressources\Images\603913.jpg" />
+    <Resource Include="Ressources\Images\ABA000.jpg" />
+    <Resource Include="Ressources\Images\EC008C.jpg" />
+    <Resource Include="Ressources\Images\FF0000.jpg" />
+    <Resource Include="Ressources\Images\FFFFFF.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

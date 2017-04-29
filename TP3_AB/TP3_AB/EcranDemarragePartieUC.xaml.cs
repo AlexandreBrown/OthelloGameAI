@@ -23,7 +23,8 @@ namespace Othello
         public Action SupprimerVue { get; set; }
         public Action NouvellePartie { get; set; }
         public int TailleCase { get; set; }
-        public int IdCheckedRdb { get; set; }
+        public SolidColorBrush CouleurHumain { get; set; }
+        public SolidColorBrush CouleurAI { get; set; }
         private const int TailleCaseDefault = 50;
 
         public EcranDemarragePartieUC()
@@ -71,22 +72,27 @@ namespace Othello
 
         private void rdbCouleur01_Checked(object sender, RoutedEventArgs e)
         {
-            IdCheckedRdb = 1;
+            CouleurHumain = (SolidColorBrush)(new BrushConverter().ConvertFrom("#000000"));
+            CouleurAI = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFFFFF"));
         }
 
         private void rdbCouleur02_Checked(object sender, RoutedEventArgs e)
         {
-            IdCheckedRdb = 2;
+            CouleurHumain = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF0000"));
+            CouleurAI = (SolidColorBrush)(new BrushConverter().ConvertFrom("#0000FF"));
         }
 
         private void rdbCouleur03_Checked(object sender, RoutedEventArgs e)
         {
-            IdCheckedRdb = 3;
+            CouleurHumain = (SolidColorBrush)(new BrushConverter().ConvertFrom("#EC008C"));
+            CouleurAI = (SolidColorBrush)(new BrushConverter().ConvertFrom("#00BFF3"));
         }
 
         private void rdbCouleur04_Checked(object sender, RoutedEventArgs e)
         {
-            IdCheckedRdb = 4;
+            CouleurHumain = (SolidColorBrush)(new BrushConverter().ConvertFrom("#603913"));
+            CouleurAI = (SolidColorBrush)(new BrushConverter().ConvertFrom("#ABA000"));
         }
+
     }
 }

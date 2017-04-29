@@ -82,6 +82,7 @@ namespace Othello
             CouleurPionAI = couleurPionAI;
             InitializeComponent();
             DefinirGrid();
+            DefinirCouleurJoueurs(CouleurPionHumain, CouleurPionAI);
             
             // Initialise la liste d'observateurs.
             observers = new List<IObserver<JeuOthelloControl>>();
@@ -95,6 +96,12 @@ namespace Othello
             // Initialiser l'IA.
             IA = new IA_Othello(this);
             
+        }
+
+        private void DefinirCouleurJoueurs(SolidColorBrush couleurHumain,SolidColorBrush couleurAi)
+        {
+            imgCouleurHumain.Source = new BitmapImage(new Uri(("./Ressources/Images/" + couleurHumain.Color.ToString().Substring(3) + ".jpg"), UriKind.Relative));
+            imgCouleurAI.Source = new BitmapImage(new Uri(("./Ressources/Images/" + couleurAi.Color.ToString().Substring(3) + ".jpg"), UriKind.Relative));
         }
 
         private void DefinirGrid()

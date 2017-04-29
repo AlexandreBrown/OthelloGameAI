@@ -8,9 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/othellocolor01.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/othellocolor02.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/othellocolor03.jpg")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/othellocolor04.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/000000.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/0000ff.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/00bff3.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/603913.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/aba000.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/ec008c.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/ff0000.jpg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/ffffff.jpg")]
 
 
