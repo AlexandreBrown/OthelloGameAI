@@ -9,7 +9,7 @@ namespace Othello
     public enum Couleur { Blanc, Noir }
     public class Pion
     {
-        private Couleur Couleur { get; set; }
+        private Couleur Couleur { get; set; } // Par défaut la couleur est vide
         public Pion(Couleur couleur)
         {
             Couleur = couleur;

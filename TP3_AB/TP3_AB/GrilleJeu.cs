@@ -45,6 +45,44 @@ namespace Othello
             }
         }
 
+
+
+        public List<Coordonnee> TrouverCasesAdjacentesLibres(Coordonnee position)
+        {
+            List<Coordonnee> casesAdjacentesLibres = new List<Coordonnee>();
+
+            // En haut à gauche
+            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X - 1, position.Y - 1));
+            // En haut
+            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X, position.Y - 1));
+            // En haut à droite
+            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X + 1, position.Y - 1));
+            // À droite
+            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X + 1, position.Y));
+            // En bas à droite
+            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X + 1, position.Y + 1));
+            // En bas
+            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X, position.Y + 1));
+            // En bas à gauche
+            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X - 1, position.Y + 1));
+            // À gauche
+            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X - 1, position.Y));
+
+            return casesAdjacentesLibres;
+        }
+
+        private void TesterPositionLibre(List<Coordonnee> casesAdjacentesLibres, Coordonnee positionEnVerification)
+        {
+            if ((positionEnVerification.X > 0 && positionEnVerification.Y > 0) && (positionEnVerification.X < (GrilleJeu.TAILLE_GRILLE_JEU + 1) && positionEnVerification.Y < (GrilleJeu.TAILLE_GRILLE_JEU + 1)))
+            {
+                if (EstCaseLibre(positionEnVerification))
+                {
+                    casesAdjacentesLibres.Add(positionEnVerification);
+                }
+            }
+        }
+
+
         private void AjouterPionsDepart()
         {
             ListeCasesJeu[3][3].AjouterPion(Couleur.Blanc);
@@ -64,14 +102,19 @@ namespace Othello
             return ListeCasesJeu[position.X - 1][position.Y - 1].InverserPion();
         }
 
-        public bool? EstCaseBlanche(Coordonnee position)
+        public bool EstCaseBlanche(Coordonnee position)
         {
             return ListeCasesJeu[position.X - 1][position.Y - 1].EstCaseBlanche();
         }
 
-        public bool? EstCaseNoire(Coordonnee position)
+        public bool EstCaseNoire(Coordonnee position)
         {
             return ListeCasesJeu[position.X - 1][position.Y - 1].EstCaseNoire();
+        }
+
+        public bool EstCaseLibre(Coordonnee position)
+        {
+            return ListeCasesJeu[position.X - 1][position.Y - 1].EstOccupe() == false;
         }
     }
 }

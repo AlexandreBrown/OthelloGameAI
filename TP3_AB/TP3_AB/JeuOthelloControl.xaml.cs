@@ -95,7 +95,9 @@ namespace Othello
             TourJeu = Couleur.Noir;
             // Initialiser l'IA.
             IA = new IA_Othello(this);
-            
+            MettreAJourScore();
+            AfficherCoupsLegauxHumain();
+
         }
 
         private void DefinirCouleurJoueurs(SolidColorBrush couleurHumain,SolidColorBrush couleurAi)
@@ -106,12 +108,12 @@ namespace Othello
 
         private void DefinirGrid()
         {
-            InitialiserContourJeu();
+            InitialiserNomColsLignes();
             InitialiserJeu();
             grdJeuScore.RowDefinitions[1].Height = new GridLength((GrilleJeu.TAILLE_GRILLE_JEU + 1) * TailleCase);
         }
 
-        private void InitialiserContourJeu()
+        private void InitialiserNomColsLignes()
         {
             // Columns (A-H)
             char lettre = 'A';
@@ -255,6 +257,8 @@ namespace Othello
                 }
             }
 
+            EffacerCases();
+
             InitialiserGrillePions();
 
             for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
@@ -263,9 +267,9 @@ namespace Othello
                 {
                     position = new Coordonnee(i, j);
 
-                    if (Grille.EstCaseBlanche(position) != null)
+                    if (Grille.EstCaseLibre(position) == false)
                     {
-                        if ((bool)Grille.EstCaseBlanche(position))
+                        if (Grille.EstCaseBlanche(position))
                         {
                             AjouterCerclePion(position, Couleur.Blanc);
                         }
@@ -324,11 +328,139 @@ namespace Othello
             GrillePions[position.X - 1][position.Y - 1] = cerclePion;
         }
 
+        private bool coupEstLegal(Coordonnee positionAVerifer)
+        {
+            List<Coordonnee> couprsPermis = TrouverCoupsPermisHumain();
+            foreach (Coordonnee c in couprsPermis)
+            {
+                if (positionAVerifer.X == c.X && positionAVerifer.Y == c.Y)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private List<Coordonnee> TrouverCoupsPermisHumain()
+        {
+            List<Coordonnee> coupsPermis = new List<Coordonnee>();
+
+            // Trouver pion AI
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Coordonnee position = new Coordonnee(i, j);
+                    // Si la case n'est pas libre et qu'elle contient une piece de l'AI
+                    if (Grille.EstCaseLibre(position) == false && Grille.EstCaseBlanche(position))
+                    {
+                        List<Coordonnee> caseAdjacentesLibres = new List<Coordonnee>();
+                        // On trouve les cases adjacantes libres
+                        caseAdjacentesLibres = Grille.TrouverCasesAdjacentesLibres(position);
+                        // On élimine ceux qui n'encadre pas de pièce , nous donnant ainsi que les coups valides
+                        // TODO
+
+
+                        // On ajoute les coordonnées des coups légaux à notre List de Coordonnee
+                        foreach (Coordonnee c in caseAdjacentesLibres)
+                        {
+                            coupsPermis.Add(c);
+                        }
+                    }
+                }
+            }
+            return coupsPermis;
+        }
+
+        private void MettreAJourScore()
+        {
+            lblAIScore.Content = CalculerNbPiecesAI().ToString();
+            lblHumainScore.Content = CalculerNbPiecesHumain().ToString();
+            lblScore.Content = (CalculerNbPiecesHumain() * 100).ToString();
+        }
+
+        private int CalculerNbPiecesAI()
+        {
+            int compteur = 0;
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Coordonnee position = new Coordonnee(i, j);
+                    if(Grille.EstCaseLibre(position) == false)
+                    {
+                        if(Grille.EstCaseBlanche(position))
+                        {
+                            compteur++;
+                        }
+                    }
+                }
+            }
+            return compteur;
+        }
+
+        private int CalculerNbPiecesHumain()
+        {
+            int compteur = 0;
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Coordonnee position = new Coordonnee(i, j);
+                    if (Grille.EstCaseLibre(position) == false)
+                    {
+                        if (Grille.EstCaseNoire(position))
+                        {
+                            compteur++;
+                        }
+                    }
+                }
+            }
+            return compteur;
+        }
+
+        private void EffacerCases()
+        {
+            for(int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Rectangle rect = new Rectangle();
+                    rect.Height = TailleCase - 5;
+                    rect.Width = TailleCase - 5;
+                    rect.Fill = Brushes.Green;
+                    Grid.SetColumn(rect, i);
+                    Grid.SetRow(rect,j);
+                    grdJeu.Children.Add(rect);
+                }
+            }
+        }
+
+        private void AfficherCoupsLegauxHumain()
+        {
+            List<Coordonnee> coupsLegaux = new List<Coordonnee>();
+            coupsLegaux = TrouverCoupsPermisHumain();
+            for (int i = 0; i < coupsLegaux.Count; i++)
+            {
+                Rectangle rect = new Rectangle();
+                rect.Fill = Brushes.Pink;
+                rect.Height = 45;
+                rect.Width = 45;
+                Grid.SetColumn(rect, coupsLegaux[i].X);
+                Grid.SetRow(rect, coupsLegaux[i].Y);
+
+                grdJeu.Children.Add(rect);
+            }
+
+        }
+
+
+
         private void InverserCerclePion(Coordonnee position)
         {
             Ellipse cercle = GrillePions[position.X - 1][position.Y - 1];
 
-            if ((bool)Grille.EstCaseBlanche(position))
+            if (Grille.EstCaseBlanche(position))
             {
                 cercle.Fill = CouleurPionAI;
             }
@@ -341,17 +473,18 @@ namespace Othello
         private void GrilleJeu_Click(object sender, MouseButtonEventArgs e)
         {
             Coordonnee position = new Coordonnee(Grid.GetColumn(sender as UIElement), Grid.GetRow(sender as UIElement));
-
             ExecuterChoixCase(position);
         }
 
         public void ExecuterChoixCase(Coordonnee position)
         {
-            if (Grille.EstCaseBlanche(position) == null)
+            if (coupEstLegal(position))
             {
                 // Jouer un coup.
                 Grille.AjouterPion(position, TourJeu);
+                RafraichirAffichage();
                 AjouterCerclePion(position, TourJeu);
+                AfficherCoupsLegauxHumain();
 
                 if (TourJeu == Couleur.Blanc)
                 {
@@ -363,12 +496,16 @@ namespace Othello
                 }
 
                 Notify();
+                MettreAJourScore();
             }
             else
             {
                 // Inverser une pièce.
+                /*
+                 * TODO : USE THISE CODE SOMEWHERE APPROPRIATE
                 Grille.InverserPion(position);
                 InverserCerclePion(position);
+                */
             }
         }
 

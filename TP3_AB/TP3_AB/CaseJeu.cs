@@ -15,33 +15,19 @@ namespace Othello
 
         }
 
-        private bool EstOccupe()
+        public bool EstOccupe()
         {
             return (Contenu != null);
         }
 
-        public bool? EstCaseBlanche()
+        public bool EstCaseBlanche()
         {
-            if (EstOccupe())
-            {
-                return Contenu.EstBlanc();
-            }
-            else
-            {
-                return null;
-            }
+            return Contenu.EstBlanc();
         }
 
-        public bool? EstCaseNoire()
+        public bool EstCaseNoire()
         {
-            if (EstOccupe())
-            {
-                return Contenu.EstNoir();
-            }
-            else
-            {
-                return null;
-            }
+            return Contenu.EstNoir();
         }
 
         public bool AjouterPion(Couleur couleur)

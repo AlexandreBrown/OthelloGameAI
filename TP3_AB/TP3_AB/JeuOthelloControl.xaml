@@ -28,9 +28,10 @@
                 <Rectangle Grid.Row="0" Fill="#8d9099" Width="585" Height="40"></Rectangle>
                 <!-- Score -->
                     <!-- Score total joueur-->
-                    <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="80,0,0,0">
+                    <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="80,0,0,0" Width="135">
                         <Rectangle Grid.Row="0" Fill="#191d2c" Width="5" Height="42" HorizontalAlignment="Left"></Rectangle>
-                        <Label Name="lblScore" Grid.Row="0" Content="Score:200" Foreground="#3855b4" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+                        <Label Grid.Row="0" Content="Score:" Foreground="#3855b4" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+                        <Label Name="lblScore" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
                         <Rectangle Grid.Row="0" Fill="#191d2c" Width="5" Height="42" HorizontalAlignment="Right"></Rectangle>
                     </DockPanel>
                     <!-- Nombre pièces humain -->
@@ -39,7 +40,7 @@
                             <Image x:Name="imgCouleurHumain" Width="40" Height="30" ></Image>
                         </Border>
                         <Label Content="Vous:" FontSize="25" FontWeight="Bold"></Label>
-                        <Label Content="2" FontSize="25"></Label>
+                        <Label Name="lblHumainScore" FontSize="25"></Label>
                     </DockPanel>
                     <!--Nombre de pièces ordinateur -->
                     <DockPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0">
@@ -47,7 +48,7 @@
                             <Image x:Name="imgCouleurAI" Width="40" Height="30"></Image>
                         </Border>
                         <Label Content="L'ordinateur:" FontSize="25" FontWeight="Bold" ></Label>
-                        <Label Content="2" FontSize="25"></Label>
+                        <Label Name="lblAIScore" FontSize="25"></Label>
                     </DockPanel>
             <!-- Row 1 -->
                 <!-- Fond de la grille de jeu -->
