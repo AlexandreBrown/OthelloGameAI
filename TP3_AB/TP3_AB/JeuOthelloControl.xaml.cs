@@ -96,7 +96,7 @@ namespace Othello
             // Initialiser l'IA.
             IA = new IA_Othello(this);
             MettreAJourScore();
-            AfficherCoupsLegauxHumain();
+            AfficherCoupsPermisHumain();
 
         }
 
@@ -328,12 +328,12 @@ namespace Othello
             GrillePions[position.X - 1][position.Y - 1] = cerclePion;
         }
 
-        private bool coupEstLegal(Coordonnee positionAVerifer)
+        private bool coupEstLegal(Coordonnee positionAVerifier,Couleur couleurAppelante)
         {
-            List<Coordonnee> couprsPermis = TrouverCoupsPermisHumain();
+            List<Coordonnee> couprsPermis = TrouverCasesValides(positionAVerifier, couleurAppelante);
             foreach (Coordonnee c in couprsPermis)
             {
-                if (positionAVerifer.X == c.X && positionAVerifer.Y == c.Y)
+                if (positionAVerifier.X == c.X && positionAVerifier.Y == c.Y)
                 {
                     return true;
                 }
@@ -341,35 +341,145 @@ namespace Othello
             return false;
         }
 
-        private List<Coordonnee> TrouverCoupsPermisHumain()
+        public List<Coordonnee> TrouverCasesValides(Coordonnee position,Couleur couleurAppelante)
         {
             List<Coordonnee> coupsPermis = new List<Coordonnee>();
 
-            // Trouver pion AI
-            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            // En haut à gauche
+            TesterPositionValide(coupsPermis, new Coordonnee(position.X - 1, position.Y - 1), Emplacement.TopLeft, couleurAppelante);
+            // En haut
+            TesterPositionValide(coupsPermis, new Coordonnee(position.X, position.Y - 1), Emplacement.Top, couleurAppelante);
+            // En haut à droite
+            TesterPositionValide(coupsPermis, new Coordonnee(position.X + 1, position.Y - 1), Emplacement.TopRight, couleurAppelante);
+            // À droite
+            TesterPositionValide(coupsPermis, new Coordonnee(position.X + 1, position.Y), Emplacement.Right, couleurAppelante);
+            // En bas à droite
+            TesterPositionValide(coupsPermis, new Coordonnee(position.X + 1, position.Y + 1), Emplacement.BottomRight, couleurAppelante);
+            // En bas
+            TesterPositionValide(coupsPermis, new Coordonnee(position.X, position.Y + 1), Emplacement.Bottom, couleurAppelante);
+            // En bas à gauche
+            TesterPositionValide(coupsPermis, new Coordonnee(position.X - 1, position.Y + 1), Emplacement.BottomLeft, couleurAppelante);
+            // À gauche
+            TesterPositionValide(coupsPermis, new Coordonnee(position.X - 1, position.Y), Emplacement.Left, couleurAppelante);
+
+            return coupsPermis;
+        }
+
+        private void TesterPositionValide(List<Coordonnee> casesAdjacentesLibres, Coordonnee positionEnVerification, Emplacement e, Couleur couleurAppelante)
+        {
+            if ((positionEnVerification.X > 0 && positionEnVerification.Y > 0) && (positionEnVerification.X < (GrilleJeu.TAILLE_GRILLE_JEU + 1) && positionEnVerification.Y < (GrilleJeu.TAILLE_GRILLE_JEU + 1)))
             {
-                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                if (Grille.EstCaseLibre(positionEnVerification))
                 {
-                    Coordonnee position = new Coordonnee(i, j);
-                    // Si la case n'est pas libre et qu'elle contient une piece de l'AI
-                    if (Grille.EstCaseLibre(position) == false && Grille.EstCaseBlanche(position))
+                    if (EncadreAutrePions(positionEnVerification, e, couleurAppelante))
                     {
-                        List<Coordonnee> caseAdjacentesLibres = new List<Coordonnee>();
-                        // On trouve les cases adjacantes libres
-                        caseAdjacentesLibres = Grille.TrouverCasesAdjacentesLibres(position);
-                        // On élimine ceux qui n'encadre pas de pièce , nous donnant ainsi que les coups valides
-                        // TODO
-
-
-                        // On ajoute les coordonnées des coups légaux à notre List de Coordonnee
-                        foreach (Coordonnee c in caseAdjacentesLibres)
-                        {
-                            coupsPermis.Add(c);
-                        }
+                        casesAdjacentesLibres.Add(positionEnVerification);
                     }
                 }
             }
-            return coupsPermis;
+        }
+
+        private bool EncadreAutrePions(Coordonnee position, Emplacement e,Couleur couleurAppelante)
+        {
+            switch (e)
+            {
+                case Emplacement.TopLeft:
+                    return TopLeftEncadreAutrePions(position,couleurAppelante);
+                case Emplacement.Top:
+                    return TopEncadreAutrePions(position, couleurAppelante);
+                case Emplacement.TopRight:
+                    return TopRightEncadreAutrePions(position, couleurAppelante);
+                case Emplacement.Right:
+                    return RightEncadreAutrePions(position, couleurAppelante);
+                case Emplacement.BottomRight:
+                    return BottomRightEncadreAutrePions(position, couleurAppelante);
+                case Emplacement.Bottom:
+                    return BottomEncadreAutrePions(position, couleurAppelante);
+                case Emplacement.BottomLeft:
+                    return BottomLeftEncadreAutrePions(position, couleurAppelante);
+                case Emplacement.Left:
+                    return LeftEncadreAutrePions(position, couleurAppelante);
+            }
+            return false;
+        }
+
+        private bool TopLeftEncadreAutrePions(Coordonnee position,Couleur couleurAppelante)
+        {
+            int nbPionsEncadres = 1;
+            bool pieceMemeCouleurRencontree = false;
+            bool caseVideRencontree = false;
+            // La première case en diagonale sera toujours le pion de l'autre joueur donc il est inutile de le vérifier 
+            Coordonnee positionEnVerification = new Coordonnee(position.X + 1, position.Y + 1);
+            for (int i = 0; i < (GrilleJeu.TAILLE_GRILLE_JEU - position.X); i++)
+            {
+                if(pieceMemeCouleurRencontree == false && caseVideRencontree == false)
+                {
+                    positionEnVerification.X += 1;
+                    positionEnVerification.Y += 1;
+                    if(couleurAppelante == Couleur.Blanc)
+                    {
+                        if (Grille.EstCaseNoire(positionEnVerification))
+                        {
+                            nbPionsEncadres++;
+                        }else if (Grille.EstCaseBlanche(positionEnVerification))
+                        {
+                            pieceMemeCouleurRencontree = true;
+                        }else if (Grille.EstCaseLibre(positionEnVerification))
+                        {
+                            caseVideRencontree = true;
+                        }
+                    }
+                    else if (couleurAppelante == Couleur.Noir)
+                    {
+                        if (Grille.EstCaseBlanche(positionEnVerification))
+                        {
+                            nbPionsEncadres++;
+                        }
+                        else if (Grille.EstCaseNoire(positionEnVerification))
+                        {
+                            pieceMemeCouleurRencontree = true;
+                        }
+                        else if (Grille.EstCaseLibre(positionEnVerification))
+                        {
+                            caseVideRencontree = true;
+                        }
+                    }
+
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return pieceMemeCouleurRencontree;
+        }
+        private bool TopEncadreAutrePions(Coordonnee position, Couleur couleurAppelante)
+        {
+            return false;
+        }
+        private bool TopRightEncadreAutrePions(Coordonnee position, Couleur couleurAppelante)
+        {
+            return false;
+        }
+        private bool RightEncadreAutrePions(Coordonnee position, Couleur couleurAppelante)
+        {
+            return false;
+        }
+        private bool BottomRightEncadreAutrePions(Coordonnee position, Couleur couleurAppelante)
+        {
+            return false;
+        }
+        private bool BottomEncadreAutrePions(Coordonnee position, Couleur couleurAppelante)
+        {
+            return false;
+        }
+        private bool BottomLeftEncadreAutrePions(Coordonnee position, Couleur couleurAppelante)
+        {
+            return false;
+        }
+        private bool LeftEncadreAutrePions(Coordonnee position, Couleur couleurAppelante)
+        {
+            return false;
         }
 
         private void MettreAJourScore()
@@ -436,7 +546,7 @@ namespace Othello
             }
         }
 
-        private void AfficherCoupsLegauxHumain()
+        private void AfficherCoupsPermisHumain()
         {
             List<Coordonnee> coupsLegaux = new List<Coordonnee>();
             coupsLegaux = TrouverCoupsPermisHumain();
@@ -451,7 +561,33 @@ namespace Othello
 
                 grdJeu.Children.Add(rect);
             }
+        }
 
+        private List<Coordonnee> TrouverCoupsPermisHumain()
+        {
+            List<Coordonnee> coupsPermis = new List<Coordonnee>();
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Coordonnee position = new Coordonnee(i, j);
+
+                    // Si la case n'est pas libre et qu'elle contient une piece de l'AI
+                    if (Grille.EstCaseLibre(position) == false && Grille.EstCaseBlanche(position))
+                    {
+                        List<Coordonnee> coupsTrouves = new List<Coordonnee>();
+                        // On trouve les cases valides
+                        coupsTrouves = TrouverCasesValides(position,Couleur.Noir);
+
+                        // On ajoute les coordonnées des coups légaux à notre List de Coordonnee
+                        foreach (Coordonnee c in coupsTrouves)
+                        {
+                            coupsPermis.Add(c);
+                        }
+                    }
+                }
+            }
+            return coupsPermis;
         }
 
 
@@ -478,13 +614,13 @@ namespace Othello
 
         public void ExecuterChoixCase(Coordonnee position)
         {
-            if (coupEstLegal(position))
+            if (coupEstLegal(position,Couleur.Noir))
             {
                 // Jouer un coup.
                 Grille.AjouterPion(position, TourJeu);
                 RafraichirAffichage();
                 AjouterCerclePion(position, TourJeu);
-                AfficherCoupsLegauxHumain();
+                AfficherCoupsPermisHumain();
 
                 if (TourJeu == Couleur.Blanc)
                 {

@@ -7,6 +7,7 @@ using System.Windows;
 
 namespace Othello
 {
+    public enum Emplacement { TopLeft, Top,TopRight,Right,BottomRight,Bottom,BottomLeft,Left }
     public class GrilleJeu
     {
         #region Static
@@ -42,43 +43,6 @@ namespace Othello
                 }
 
                 ListeCasesJeu.Add(listeTemp);
-            }
-        }
-
-
-
-        public List<Coordonnee> TrouverCasesAdjacentesLibres(Coordonnee position)
-        {
-            List<Coordonnee> casesAdjacentesLibres = new List<Coordonnee>();
-
-            // En haut à gauche
-            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X - 1, position.Y - 1));
-            // En haut
-            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X, position.Y - 1));
-            // En haut à droite
-            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X + 1, position.Y - 1));
-            // À droite
-            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X + 1, position.Y));
-            // En bas à droite
-            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X + 1, position.Y + 1));
-            // En bas
-            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X, position.Y + 1));
-            // En bas à gauche
-            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X - 1, position.Y + 1));
-            // À gauche
-            TesterPositionLibre(casesAdjacentesLibres, new Coordonnee(position.X - 1, position.Y));
-
-            return casesAdjacentesLibres;
-        }
-
-        private void TesterPositionLibre(List<Coordonnee> casesAdjacentesLibres, Coordonnee positionEnVerification)
-        {
-            if ((positionEnVerification.X > 0 && positionEnVerification.Y > 0) && (positionEnVerification.X < (GrilleJeu.TAILLE_GRILLE_JEU + 1) && positionEnVerification.Y < (GrilleJeu.TAILLE_GRILLE_JEU + 1)))
-            {
-                if (EstCaseLibre(positionEnVerification))
-                {
-                    casesAdjacentesLibres.Add(positionEnVerification);
-                }
             }
         }
 

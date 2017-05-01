@@ -84,7 +84,7 @@ namespace Othello
                     {
                         List<Coordonnee> caseAdjacentesLibres = new List<Coordonnee>();
                         // On trouve les cases adjacantes libres
-                        caseAdjacentesLibres = grille.TrouverCasesAdjacentesLibres(position);
+                        caseAdjacentesLibres = Jeu.TrouverCasesValides(position,Couleur.Blanc);
                         // On élimine ceux qui n'encadre pas de pièce , nous donnant ainsi que les coups valides
                         // TODO
 
