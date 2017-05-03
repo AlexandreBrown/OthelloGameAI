@@ -387,7 +387,7 @@ namespace Othello
             {
                 if (Grille.EstCaseLibre(positionEnVerification))
                 {
-                    if (TesterPositionEncadrePion(positionEnVerification,emplacementCase, couleurAppelante))
+                    if (PionEncadresParPosition(positionEnVerification,emplacementCase, couleurAppelante) > 0)
                     {
                         casesAdjacentesLibres.Add(positionEnVerification);
                     }
@@ -400,54 +400,100 @@ namespace Othello
             return (position.X > 0 && position.Y > 0) && (position.X < GrilleJeu.TAILLE_GRILLE_JEU + 1 && position.Y < GrilleJeu.TAILLE_GRILLE_JEU + 1);
         }
 
-        private bool TesterPositionEncadrePion(Coordonnee position,Emplacement emplacement,Couleur couleurAppelante)
+        private int PionEncadresParPosition(Coordonnee position,Emplacement emplacement,Couleur couleurAppelante)
         {
-            int nbPionsEncadres = 1;
-            bool pieceMemeCouleurRencontree = false;
-            bool caseVideRencontree = false;
-            // La première case en diagonale sera toujours le pion de l'autre joueur donc il est inutile de le vérifier 
+            int nbPionsEncadres = 1; // Utilisié pour déterminer le score d'un coup
+            bool pieceMemeCouleurRencontree = false; // Doit être à true pour que le coup soit valide
+            bool caseVideRencontree = false; // Ne doit pas se retrouver à true pour que le coup soit valide
+            // La première case sera toujours le pion de l'autre joueur donc il est inutile de le vérifier
             Coordonnee positionEnVerification = new Coordonnee(position.X, position.Y);
-            IncrementerPositionVersOppose(positionEnVerification,emplacement);
-            while (PositionEstValide(positionEnVerification) && caseVideRencontree == false && pieceMemeCouleurRencontree == false)
+            IncrementerPosition(positionEnVerification,emplacement);
+            while (caseVideRencontree == false && PositionEstValide(positionEnVerification) && pieceMemeCouleurRencontree == false)
             {
-                if (couleurAppelante == Couleur.Blanc)
+                if (Grille.EstCaseLibre(positionEnVerification))
                 {
-                    if (Grille.EstCaseLibre(positionEnVerification))
-                    {
-                        caseVideRencontree = true;
-                    }
-                    else if (Grille.EstCaseNoire(positionEnVerification))
-                    {
-                        nbPionsEncadres++;
-                    }
-                    else if (Grille.EstCaseBlanche(positionEnVerification))
-                    {
-                        pieceMemeCouleurRencontree = true;
-                    }
+                    caseVideRencontree = true;
                 }
-                else if (couleurAppelante == Couleur.Noir)
+                else
                 {
-                    if (Grille.EstCaseLibre(positionEnVerification))
+                    if (couleurAppelante == Couleur.Blanc)
                     {
-                        caseVideRencontree = true;
+                        if (Grille.EstCaseNoire(positionEnVerification))
+                        {
+                            nbPionsEncadres++;
+                        }
+                        else if (Grille.EstCaseBlanche(positionEnVerification))
+                        {
+                            pieceMemeCouleurRencontree = true;
+                        }
                     }
-                    else if (Grille.EstCaseBlanche(positionEnVerification))
+                    else if (couleurAppelante == Couleur.Noir)
                     {
-                        nbPionsEncadres++;
+                        if (Grille.EstCaseBlanche(positionEnVerification))
+                        {
+                            nbPionsEncadres++;
+                        }
+                        else if (Grille.EstCaseNoire(positionEnVerification))
+                        {
+                            pieceMemeCouleurRencontree = true;
+                        }
                     }
-                    else if (Grille.EstCaseNoire(positionEnVerification))
-                    {
-                        pieceMemeCouleurRencontree = true;
-                    }
+                    IncrementerPositionVersOppose(positionEnVerification, emplacement);
                 }
-                IncrementerPositionVersOppose(positionEnVerification, emplacement);
             }
-            return pieceMemeCouleurRencontree;
+            if(pieceMemeCouleurRencontree == true) // Si le coup est valide (il encadre au moins une pièce de façon valide)
+            {
+                return nbPionsEncadres; // On retourne le nombre de pions qui serait encadrés
+            }
+            else
+            {
+                return 0; // Si aucune pièces ne peuvent être encadrées alors 0 est retournée
+            }
+        }
+
+        private void IncrementerEmplacement(Emplacement e)
+        {
+            if((int)e < Enum.GetNames(typeof(Emplacement)).Length)
+            {
+                ++e;
+            }
+            
         }
 
         private void IncrementerPositionVersOppose(Coordonnee position,Emplacement emplacementCase)
         {
             switch(emplacementCase)
+            {
+                case Emplacement.TopLeft:
+                    IncrementerBottomRight(position);
+                    break;
+                case Emplacement.Top:
+                    IncrementerBottom(position);
+                    break;
+                case Emplacement.TopRight:
+                    IncrementerBottomLeft(position);
+                    break;
+                case Emplacement.Right:
+                    IncrementerLeft(position);
+                    break;
+                case Emplacement.BottomRight:
+                    IncrementerTopLeft(position);
+                    break;
+                case Emplacement.Bottom:
+                    IncrementerTop(position);
+                    break;
+                case Emplacement.BottomLeft:
+                    IncrementerTopRight(position);
+                    break;
+                case Emplacement.Left:
+                    IncrementerRight(position);
+                    break;
+            }
+        }
+
+        private void IncrementerPosition(Coordonnee position, Emplacement emplacementCase)
+        {
+            switch (emplacementCase)
             {
                 case Emplacement.TopLeft:
                     IncrementerTopLeft(position);
@@ -478,46 +524,46 @@ namespace Othello
 
         private void IncrementerTopLeft(Coordonnee position)
         {
-            position.X += 1;
-            position.Y += 1;
+            position.X -= 1;
+            position.Y -= 1;
         }
 
         private void IncrementerTop(Coordonnee position)
         {
-            position.Y += 1;
+            position.Y -= 1;
         }
 
         private void IncrementerTopRight(Coordonnee position)
         {
-            position.X -= 1;
-            position.Y += 1;
+            position.X += 1;
+            position.Y -= 1;
         }
 
         private void IncrementerRight(Coordonnee position)
         {
-            position.X -= 1;
+            position.X += 1;
         }
 
         private void IncrementerBottomRight(Coordonnee position)
         {
-            position.X -= 1;
-            position.Y -= 1;
+            position.X += 1;
+            position.Y += 1;
         }
 
         private void IncrementerBottom(Coordonnee position)
         {
-            position.Y -= 1;
+            position.Y += 1;
         }
 
         private void IncrementerBottomLeft(Coordonnee position)
         {
-            position.X += 1;
-            position.Y -= 1;
+            position.X -= 1;
+            position.Y += 1;
         }
 
         private void IncrementerLeft(Coordonnee position)
         {
-            position.X += 1;
+            position.X -= 1;
         }
 
         private void MettreAJourScore()
@@ -667,8 +713,6 @@ namespace Othello
             return coupsPermis;
         }
 
-
-
         private void InverserCerclePion(Coordonnee position)
         {
             Ellipse cercle = GrillePions[position.X - 1][position.Y - 1];
@@ -710,6 +754,7 @@ namespace Othello
 
                 Notify();
                 MettreAJourScore();
+                InverserPionsEnnemis(position);
             }
             else
             {
@@ -719,6 +764,86 @@ namespace Othello
                 Grille.InverserPion(position);
                 InverserCerclePion(position);
                 */
+            }
+        }
+
+        private bool EstPionAdverse(Coordonnee position,Couleur couleurAppelante)
+        {
+            if(PositionEstValide(position) && Grille.EstCaseLibre(position) == false)
+            {
+                if(couleurAppelante == Couleur.Blanc)
+                {
+                    return Grille.EstCaseNoire(position);
+                }else if (couleurAppelante == Couleur.Noir)
+                {
+                    return Grille.EstCaseBlanche(position);
+                }
+            }
+            return false;
+        }
+
+        private void InverserPionsEnnemis(Coordonnee coup, Couleur couleurAppelante)
+        {
+            Emplacement emplacementEnVerification = new Emplacement();
+            emplacementEnVerification = Emplacement.TopLeft; // On commence par vérifier l'emplacement en haut à gauche
+            // On vérifie tous les emplacements possible
+            for (int i = 0; i < Enum.GetNames(typeof(Emplacement)).Length; i++)
+            {
+                // On se positionne sur le coup actuel du joueur
+                Coordonnee positionEnVerificationCaseAdj = new Coordonnee(coup.X, coup.Y);
+                // On se position à la coordonnée associée à l'emplacement à vérifier (ex : En haut à droite du coup , en haut , en haut à droite etc)
+                IncrementerPosition(positionEnVerificationCaseAdj, emplacementEnVerification);
+                // On vérifie que le pion à l'emplacement que nous sommes est bien un pion adverse
+                if (EstPionAdverse(positionEnVerificationCaseAdj, couleurAppelante))
+                {
+                    // On s'assure qu'il y a possibilité d'encadrer au moins une pièce
+                    if (PionEncadresParPosition(positionEnVerificationCaseAdj, emplacementEnVerification, couleurAppelante) > 0)
+                    {
+                        // On encadre toutes les pièces possibles
+                        InverserPionsEncadres(positionEnVerificationCaseAdj,emplacementEnVerification,couleurAppelante);
+                    }
+                }
+                // En demande le prochain emplacement
+                IncrementerEmplacement(emplacementEnVerification);
+            }
+        }
+    
+        private void InverserPionsEncadres(Coordonnee position,Emplacement emplacement, Couleur couleurAppelante)
+        {
+            // On commence par inverser le pion adjacent rencontré de l'adversaire
+            Grille.InverserPion(position);
+            InverserCerclePion(position);
+            //
+            // Puis on vérifie pour une même direction s'il est possible d'inverser d'autres pions adverse , si c'est le cas on s'occupe de les inverser
+            bool caseVideRencontree = false;
+            bool pieceMemeCouleurRencontree = false;
+            Coordonnee positionEnVerification = new Coordonnee(position.X, position.Y);
+            IncrementerPositionVersOppose(positionEnVerification, emplacement);
+            while (PositionEstValide(positionEnVerification) && caseVideRencontree == false && pieceMemeCouleurRencontree == false)
+            {
+                if (couleurAppelante == Couleur.Blanc)
+                {
+                    if (Grille.EstCaseLibre(positionEnVerification))
+                    {
+                        caseVideRencontree = true;
+                    }
+                    else if (Grille.EstCaseBlanche(positionEnVerification))
+                    {
+                        pieceMemeCouleurRencontree = true;
+                    }
+                }
+                else if (couleurAppelante == Couleur.Noir)
+                {
+                    if (Grille.EstCaseLibre(positionEnVerification))
+                    {
+                        caseVideRencontree = true;
+                    }
+                    else if (Grille.EstCaseNoire(positionEnVerification))
+                    {
+                        pieceMemeCouleurRencontree = true;
+                    }
+                }
+                IncrementerPositionVersOppose(positionEnVerification, emplacement);
             }
         }
 
