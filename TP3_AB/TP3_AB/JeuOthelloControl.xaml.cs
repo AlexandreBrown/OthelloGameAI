@@ -357,57 +357,19 @@ namespace Othello
             return false;
         }
 
-        private List<Coordonnee> TrouverCasesValides(Coordonnee position,Couleur couleurAppelante)
-        {
-            List<Coordonnee> coupsPermis = new List<Coordonnee>();
-
-            // En haut à gauche
-            TesterPositionValide(coupsPermis, new Coordonnee(position.X - 1, position.Y - 1), Emplacement.TopLeft, couleurAppelante);
-            // En haut
-            TesterPositionValide(coupsPermis, new Coordonnee(position.X, position.Y - 1), Emplacement.Top, couleurAppelante);
-            // En haut à droite
-            TesterPositionValide(coupsPermis, new Coordonnee(position.X + 1, position.Y - 1), Emplacement.TopRight, couleurAppelante);
-            // À droite
-            TesterPositionValide(coupsPermis, new Coordonnee(position.X + 1, position.Y), Emplacement.Right, couleurAppelante);
-            // En bas à droite
-            TesterPositionValide(coupsPermis, new Coordonnee(position.X + 1, position.Y + 1), Emplacement.BottomRight, couleurAppelante);
-            // En bas
-            TesterPositionValide(coupsPermis, new Coordonnee(position.X, position.Y + 1), Emplacement.Bottom, couleurAppelante);
-            // En bas à gauche
-            TesterPositionValide(coupsPermis, new Coordonnee(position.X - 1, position.Y + 1), Emplacement.BottomLeft, couleurAppelante);
-            // À gauche
-            TesterPositionValide(coupsPermis, new Coordonnee(position.X - 1, position.Y), Emplacement.Left, couleurAppelante);
-
-            return coupsPermis;
-        }
-
-        private void TesterPositionValide(List<Coordonnee> casesAdjacentesLibres, Coordonnee positionEnVerification, Emplacement emplacementCase, Couleur couleurAppelante)
-        {
-            if (PositionEstValide(positionEnVerification))
-            {
-                if (Grille.EstCaseLibre(positionEnVerification))
-                {
-                    if (PionEncadresParPosition(positionEnVerification,emplacementCase, couleurAppelante) > 0)
-                    {
-                        casesAdjacentesLibres.Add(positionEnVerification);
-                    }
-                }
-            }
-        }
-
         private bool PositionEstValide(Coordonnee position)
         {
             return (position.X > 0 && position.Y > 0) && (position.X < GrilleJeu.TAILLE_GRILLE_JEU + 1 && position.Y < GrilleJeu.TAILLE_GRILLE_JEU + 1);
         }
 
-        private int PionEncadresParPosition(Coordonnee position,Emplacement emplacement,Couleur couleurAppelante)
+        private int PionEncadresParPosition(Coordonnee positionPieceAdjacenteAdverse, Direction direction,Couleur couleurAppelante)
         {
             int nbPionsEncadres = 1; // Utilisié pour déterminer le score d'un coup
             bool pieceMemeCouleurRencontree = false; // Doit être à true pour que le coup soit valide
             bool caseVideRencontree = false; // Ne doit pas se retrouver à true pour que le coup soit valide
-            // La première case sera toujours le pion de l'autre joueur donc il est inutile de le vérifier
-            Coordonnee positionEnVerification = new Coordonnee(position.X, position.Y);
-            IncrementerPosition(positionEnVerification,emplacement);
+            // La première case sera toujours le pion de l'autre joueur donc il est inutile de la vérifier
+            Coordonnee positionEnVerification = IncrementerPosition(positionPieceAdjacenteAdverse, direction);
+            // On vérifie si l'encadrement de ce pion est valide et si il n'y a pas d'autre pions qui seraient encadrés de façon légal
             while (caseVideRencontree == false && PositionEstValide(positionEnVerification) && pieceMemeCouleurRencontree == false)
             {
                 if (Grille.EstCaseLibre(positionEnVerification))
@@ -438,7 +400,7 @@ namespace Othello
                             pieceMemeCouleurRencontree = true;
                         }
                     }
-                    IncrementerPositionVersOppose(positionEnVerification, emplacement);
+                    positionEnVerification = IncrementerPosition(positionEnVerification, direction);
                 }
             }
             if(pieceMemeCouleurRencontree == true) // Si le coup est valide (il encadre au moins une pièce de façon valide)
@@ -451,119 +413,81 @@ namespace Othello
             }
         }
 
-        private void IncrementerEmplacement(Emplacement e)
+        private Direction IncrementerDirection(Direction d)
         {
-            if((int)e < Enum.GetNames(typeof(Emplacement)).Length)
+            return (Direction)((int)d + 1);
+        }
+
+        private Coordonnee IncrementerPosition(Coordonnee position, Direction directionCase)
+        {
+            switch (directionCase)
             {
-                ++e;
+                case Direction.TopLeft:
+                    return IncrementerTopLeft(position);
+                case Direction.Top:
+                    return IncrementerTop(position);
+                case Direction.TopRight:
+                    return IncrementerTopRight(position);
+                case Direction.Right:
+                    return IncrementerRight(position);
+                case Direction.BottomRight:
+                    return IncrementerBottomRight(position);
+                case Direction.Bottom:
+                    return IncrementerBottom(position);
+                case Direction.BottomLeft:
+                    return IncrementerBottomLeft(position);
+                case Direction.Left:
+                    return IncrementerLeft(position);
             }
-            
+            return position;
         }
 
-        private void IncrementerPositionVersOppose(Coordonnee position,Emplacement emplacementCase)
+        private Coordonnee IncrementerTopLeft(Coordonnee position)
         {
-            switch(emplacementCase)
-            {
-                case Emplacement.TopLeft:
-                    IncrementerBottomRight(position);
-                    break;
-                case Emplacement.Top:
-                    IncrementerBottom(position);
-                    break;
-                case Emplacement.TopRight:
-                    IncrementerBottomLeft(position);
-                    break;
-                case Emplacement.Right:
-                    IncrementerLeft(position);
-                    break;
-                case Emplacement.BottomRight:
-                    IncrementerTopLeft(position);
-                    break;
-                case Emplacement.Bottom:
-                    IncrementerTop(position);
-                    break;
-                case Emplacement.BottomLeft:
-                    IncrementerTopRight(position);
-                    break;
-                case Emplacement.Left:
-                    IncrementerRight(position);
-                    break;
-            }
+            Coordonnee positionIncrementee = new Coordonnee(position.X - 1, position.Y - 1);
+            return positionIncrementee;
         }
 
-        private void IncrementerPosition(Coordonnee position, Emplacement emplacementCase)
+        private Coordonnee IncrementerTop(Coordonnee position)
         {
-            switch (emplacementCase)
-            {
-                case Emplacement.TopLeft:
-                    IncrementerTopLeft(position);
-                    break;
-                case Emplacement.Top:
-                    IncrementerTop(position);
-                    break;
-                case Emplacement.TopRight:
-                    IncrementerTopRight(position);
-                    break;
-                case Emplacement.Right:
-                    IncrementerRight(position);
-                    break;
-                case Emplacement.BottomRight:
-                    IncrementerBottomRight(position);
-                    break;
-                case Emplacement.Bottom:
-                    IncrementerBottom(position);
-                    break;
-                case Emplacement.BottomLeft:
-                    IncrementerBottomLeft(position);
-                    break;
-                case Emplacement.Left:
-                    IncrementerLeft(position);
-                    break;
-            }
+            Coordonnee positionIncrementee = new Coordonnee(position.X,position.Y - 1);
+            return positionIncrementee;
         }
 
-        private void IncrementerTopLeft(Coordonnee position)
+        private Coordonnee IncrementerTopRight(Coordonnee position)
         {
-            position.X -= 1;
-            position.Y -= 1;
+            Coordonnee positionIncrementee = new Coordonnee(position.X + 1, position.Y - 1);
+            return positionIncrementee;
         }
 
-        private void IncrementerTop(Coordonnee position)
+        private Coordonnee IncrementerRight(Coordonnee position)
         {
-            position.Y -= 1;
+            Coordonnee positionIncrementee = new Coordonnee(position.X + 1, position.Y);
+            return positionIncrementee;
         }
 
-        private void IncrementerTopRight(Coordonnee position)
+        private Coordonnee IncrementerBottomRight(Coordonnee position)
         {
-            position.X += 1;
-            position.Y -= 1;
+            Coordonnee positionIncrementee = new Coordonnee(position.X + 1, position.Y + 1);
+            return positionIncrementee;
         }
 
-        private void IncrementerRight(Coordonnee position)
+        private Coordonnee IncrementerBottom(Coordonnee position)
         {
-            position.X += 1;
+            Coordonnee positionIncrementee = new Coordonnee(position.X, position.Y + 1);
+            return positionIncrementee;
         }
 
-        private void IncrementerBottomRight(Coordonnee position)
+        private Coordonnee IncrementerBottomLeft(Coordonnee position)
         {
-            position.X += 1;
-            position.Y += 1;
+            Coordonnee positionIncrementee = new Coordonnee(position.X - 1, position.Y + 1);
+            return positionIncrementee;
         }
 
-        private void IncrementerBottom(Coordonnee position)
+        private Coordonnee IncrementerLeft(Coordonnee position)
         {
-            position.Y += 1;
-        }
-
-        private void IncrementerBottomLeft(Coordonnee position)
-        {
-            position.X -= 1;
-            position.Y += 1;
-        }
-
-        private void IncrementerLeft(Coordonnee position)
-        {
-            position.X -= 1;
+            Coordonnee positionIncrementee = new Coordonnee(position.X - 1, position.Y);
+            return positionIncrementee;
         }
 
         private void MettreAJourScore()
@@ -652,63 +576,57 @@ namespace Othello
                 for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
                 {
                     Coordonnee position = new Coordonnee(i, j);
-                    if (couleurAppelante == Couleur.Blanc)
-                    {
-                        // Si la case n'est pas libre et qu'elle contient une piece de l'humain
-                        if (Grille.EstCaseLibre(position) == false && Grille.EstCaseNoire(position))
-                        {
-                            List<Coordonnee> coupsTrouves = new List<Coordonnee>();
-                            // On trouve les cases valides
-                            coupsTrouves = TrouverCasesValides(position, couleurAppelante);
+                    AjouterCoupSiPermit(position,coupsPermis, couleurAppelante);
+                }
+            }
+            return coupsPermis;
+        }
 
-                            // On ajoute les coordonnées des coups légaux à notre List de Coordonnee
-                            foreach (Coordonnee c in coupsTrouves)
-                            {
-                                bool coordDejaPresente = false;
-                                foreach (Coordonnee coordonDejaPresente in coupsPermis) // On s'assure que la coordonnée n'existe pas déjà dans notre liste de coups permis
-                                {
-                                    if (coordonDejaPresente == c)
-                                    {
-                                        coordDejaPresente = true;
-                                        break;
-                                    }
-                                }
-                                if (coordDejaPresente == false)
-                                {
-                                    coupsPermis.Add(c);
-                                }
-                            }
-                        }
-                    }
-                    else if (couleurAppelante == Couleur.Noir)
-                    {
-                        // Si la case n'est pas libre et qu'elle contient une piece de l'AI
-                        if (Grille.EstCaseLibre(position) == false && Grille.EstCaseBlanche(position))
-                        {
-                            List<Coordonnee> coupsTrouves = new List<Coordonnee>();
-                            // On trouve les cases valides
-                            coupsTrouves = TrouverCasesValides(position, couleurAppelante);
+        private void AjouterCoupSiPermit(Coordonnee position, List<Coordonnee> coupsPermis,Couleur couleurAppelante)
+        {
+            // Si la case est libre
+            if (Grille.EstCaseLibre(position))
+            {
+                List<Coordonnee> coupsLegauxTrouves = new List<Coordonnee>();
+                // On trouve les cases valides
+                coupsLegauxTrouves = TrouverCasesValides(position, couleurAppelante);
 
-                            // On ajoute les coordonnées des coups légaux à notre List de Coordonnee
-                            foreach (Coordonnee c in coupsTrouves)
-                            {
-                                bool coordDejaPresente = false;
-                                foreach (Coordonnee coordonDejaPresente in coupsPermis) // On s'assure que la coordonnée n'existe pas déjà dans notre liste de coups permis
-                                {
-                                    if (coordonDejaPresente == c)
-                                    {
-                                        coordDejaPresente = true;
-                                        break;
-                                    }
-                                }
-                                if (coordDejaPresente == false)
-                                {
-                                    coupsPermis.Add(c);
-                                }
-                            }
+                // On ajoute les coordonnées des coups légaux à notre <<List>> de <<Coordonnee>>
+                foreach (Coordonnee c in coupsLegauxTrouves)
+                {
+                    coupsPermis.Add(c);
+                }
+            }
+        }
+
+        private List<Coordonnee> TrouverCasesValides(Coordonnee positionInitiale, Couleur couleurAppelante)
+        {
+            List<Coordonnee> coupsPermis = new List<Coordonnee>();
+
+            Direction directionEnVerification = new Direction();
+            directionEnVerification = Direction.TopLeft; // On commence par vérifier la direction : en haut à gauche
+            // On vérifie tous les directions possibles
+            for (int i = 0; i < Enum.GetNames(typeof(Direction)).Length; i++)
+            {
+                // On se position à la coordonnée associée à la direction à vérifier (ex : En haut à droite du coup , en haut , en haut à droite etc)
+                Coordonnee positionEnVerification = IncrementerPosition(positionInitiale, directionEnVerification);
+                // On vérifie que la position que nous voulons vérifie est toujours dans l'espace de jeu
+                if (PositionEstValide(positionEnVerification))
+                {
+                    // On tente de trouver une pièce adverse adjacente
+                    // On vérifie que le pion à la position que nous sommes est bien un pion adverse
+                    if (EstPionAdverse(positionEnVerification, couleurAppelante))
+                    {
+                        // On s'assure qu'il y a possibilité d'encadrer au moins une pièce
+                        if (PionEncadresParPosition(positionEnVerification, directionEnVerification, couleurAppelante) > 0)
+                        {
+                            // Si le coup est valide on l'ajoute à notre liste de coups permis
+                            coupsPermis.Add(positionInitiale);
                         }
                     }
                 }
+                // En demande la prochaine direction
+                directionEnVerification = IncrementerDirection(directionEnVerification);
             }
             return coupsPermis;
         }
@@ -754,16 +672,7 @@ namespace Othello
 
                 Notify();
                 MettreAJourScore();
-                InverserPionsEnnemis(position);
-            }
-            else
-            {
-                // Inverser une pièce.
-                /*
-                 * TODO : USE THISE CODE SOMEWHERE APPROPRIATE
-                Grille.InverserPion(position);
-                InverserCerclePion(position);
-                */
+                InverserPionsAdverse(position,couleurAppelante);
             }
         }
 
@@ -782,68 +691,43 @@ namespace Othello
             return false;
         }
 
-        private void InverserPionsEnnemis(Coordonnee coup, Couleur couleurAppelante)
+        private void InverserPionsAdverse(Coordonnee coup, Couleur couleurAppelante)
         {
-            Emplacement emplacementEnVerification = new Emplacement();
-            emplacementEnVerification = Emplacement.TopLeft; // On commence par vérifier l'emplacement en haut à gauche
-            // On vérifie tous les emplacements possible
-            for (int i = 0; i < Enum.GetNames(typeof(Emplacement)).Length; i++)
+            Direction directionEnVerification = new Direction();
+            directionEnVerification = Direction.TopLeft; // On commence par vérifier la direction : en haut à gauche
+            // On vérifie tous les directions dans le but d'inverser toutes les pions possibles
+            for (int i = 0; i < Enum.GetNames(typeof(Direction)).Length; i++)
             {
-                // On se positionne sur le coup actuel du joueur
-                Coordonnee positionEnVerificationCaseAdj = new Coordonnee(coup.X, coup.Y);
-                // On se position à la coordonnée associée à l'emplacement à vérifier (ex : En haut à droite du coup , en haut , en haut à droite etc)
-                IncrementerPosition(positionEnVerificationCaseAdj, emplacementEnVerification);
-                // On vérifie que le pion à l'emplacement que nous sommes est bien un pion adverse
-                if (EstPionAdverse(positionEnVerificationCaseAdj, couleurAppelante))
+                // On se positionne a une position x à partir du coup (position initiale)
+                Coordonnee positionEnVerification = IncrementerPosition(coup, directionEnVerification);
+                // On vérifie que la nouvelle position est bien dans l'espace de jeu
+                if (PositionEstValide(positionEnVerification))
                 {
-                    // On s'assure qu'il y a possibilité d'encadrer au moins une pièce
-                    if (PionEncadresParPosition(positionEnVerificationCaseAdj, emplacementEnVerification, couleurAppelante) > 0)
+                    // On vérifie que le pion à la position que nous sommes est bien un pion adverse
+                    if (EstPionAdverse(positionEnVerification, couleurAppelante))
                     {
-                        // On encadre toutes les pièces possibles
-                        InverserPionsEncadres(positionEnVerificationCaseAdj,emplacementEnVerification,couleurAppelante);
+                        // On s'assure qu'il y a possibilité d'encadrer au moins une pièce
+                        int nbPionsAInverser = PionEncadresParPosition(positionEnVerification, directionEnVerification, couleurAppelante);
+                        if (nbPionsAInverser > 0)
+                        {
+                            // On inverse la couleur des pièces encadrables
+                            //InverserPionsEncadres(positionEnVerification, directionEnVerification, couleurAppelante, nbPionsAInverser);
+                        }
                     }
                 }
-                // En demande le prochain emplacement
-                IncrementerEmplacement(emplacementEnVerification);
+                // On demande la prochaine direction
+                directionEnVerification = IncrementerDirection(directionEnVerification);
             }
         }
     
-        private void InverserPionsEncadres(Coordonnee position,Emplacement emplacement, Couleur couleurAppelante)
+        private void InverserPionsEncadres(Coordonnee position,Direction direction, Couleur couleurAppelante,int nbPionsAInverser)
         {
-            // On commence par inverser le pion adjacent rencontré de l'adversaire
-            Grille.InverserPion(position);
-            InverserCerclePion(position);
-            //
-            // Puis on vérifie pour une même direction s'il est possible d'inverser d'autres pions adverse , si c'est le cas on s'occupe de les inverser
-            bool caseVideRencontree = false;
-            bool pieceMemeCouleurRencontree = false;
-            Coordonnee positionEnVerification = new Coordonnee(position.X, position.Y);
-            IncrementerPositionVersOppose(positionEnVerification, emplacement);
-            while (PositionEstValide(positionEnVerification) && caseVideRencontree == false && pieceMemeCouleurRencontree == false)
+            Coordonnee positionPionAInverser = new Coordonnee(position.X, position.Y);
+            for (int i = 0; i < nbPionsAInverser; i++)
             {
-                if (couleurAppelante == Couleur.Blanc)
-                {
-                    if (Grille.EstCaseLibre(positionEnVerification))
-                    {
-                        caseVideRencontree = true;
-                    }
-                    else if (Grille.EstCaseBlanche(positionEnVerification))
-                    {
-                        pieceMemeCouleurRencontree = true;
-                    }
-                }
-                else if (couleurAppelante == Couleur.Noir)
-                {
-                    if (Grille.EstCaseLibre(positionEnVerification))
-                    {
-                        caseVideRencontree = true;
-                    }
-                    else if (Grille.EstCaseNoire(positionEnVerification))
-                    {
-                        pieceMemeCouleurRencontree = true;
-                    }
-                }
-                IncrementerPositionVersOppose(positionEnVerification, emplacement);
+                Grille.InverserPion(position);
+                InverserCerclePion(position);
+                //IncrementerPosition(positionEnVerification, emplacement);
             }
         }
 
@@ -851,8 +735,6 @@ namespace Othello
         {
             SupprimerVue?.Invoke();
         }
-
-
 
         private void btnNouvellePartie_Click(object sender, RoutedEventArgs e)
         {
