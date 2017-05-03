@@ -50,8 +50,10 @@ namespace Othello
         private void AjouterPionsDepart()
         {
             ListeCasesJeu[3][3].AjouterPion(Couleur.Blanc);
+            ListeCasesJeu[4][2].AjouterPion(Couleur.Blanc);
             ListeCasesJeu[4][4].AjouterPion(Couleur.Blanc);
 
+            ListeCasesJeu[5][2].AjouterPion(Couleur.Noir);
             ListeCasesJeu[3][4].AjouterPion(Couleur.Noir);
             ListeCasesJeu[4][3].AjouterPion(Couleur.Noir);
         }

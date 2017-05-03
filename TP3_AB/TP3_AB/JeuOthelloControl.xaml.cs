@@ -575,7 +575,7 @@ namespace Othello
             {
                 for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
                 {
-                    Coordonnee position = new Coordonnee(i, j);
+                    Coordonnee position = new Coordonnee(i, j);                   
                     AjouterCoupSiPermit(position,coupsPermis, couleurAppelante);
                 }
             }
@@ -587,16 +587,28 @@ namespace Othello
             // Si la case est libre
             if (Grille.EstCaseLibre(position))
             {
-                List<Coordonnee> coupsLegauxTrouves = new List<Coordonnee>();
-                // On trouve les cases valides
-                coupsLegauxTrouves = TrouverCasesValides(position, couleurAppelante);
+                List<Coordonnee> coupsValides = new List<Coordonnee>();
+                // On trouve les coups permis
+                coupsValides = TrouverCasesValides(position, couleurAppelante);
 
-                // On ajoute les coordonnées des coups légaux à notre <<List>> de <<Coordonnee>>
-                foreach (Coordonnee c in coupsLegauxTrouves)
+                if (CoupEstPresentDansListe(position, coupsValides))
                 {
-                    coupsPermis.Add(c);
+                    coupsPermis.Add(position);
+                }
+
+            }
+        }
+
+        private bool CoupEstPresentDansListe(Coordonnee coup,List<Coordonnee> lstCoups)
+        {
+            foreach(Coordonnee c in lstCoups)
+            {
+                if(coup == c)
+                {
+                    return true;
                 }
             }
+            return false;
         }
 
         private List<Coordonnee> TrouverCasesValides(Coordonnee positionInitiale, Couleur couleurAppelante)
