@@ -35,7 +35,7 @@ namespace Othello
 
         public void OnNext(JeuOthelloControl g)
         {
-            JouerCoup(g);
+            JouerCoupAsync(g);
         }
         #endregion
 
@@ -56,15 +56,16 @@ namespace Othello
             jeu.Subscribe(this);
         }
 
-        private void JouerCoup(JeuOthelloControl jeu)
+        private async void JouerCoupAsync(JeuOthelloControl jeu)
         {
             Random rnd = new Random(DateTime.Now.Millisecond);
-            
+
             if (jeu.TourJeu == CouleurIA)
             {
                 CoupsPermisAI = jeu.TrouverCoupsPermis(CouleurIA);
-                if(CoupsPermisAI.Count > 0)
+                if (CoupsPermisAI.Count > 0)
                 {
+                    await Task.Delay(3000);
                     jeu.ExecuterChoixCase(CoupsPermisAI[rnd.Next(0, CoupsPermisAI.Count)], CouleurIA);
                 }
             }

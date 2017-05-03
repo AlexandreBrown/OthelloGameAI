@@ -362,7 +362,7 @@ namespace Othello
             return (position.X > 0 && position.Y > 0) && (position.X < GrilleJeu.TAILLE_GRILLE_JEU + 1 && position.Y < GrilleJeu.TAILLE_GRILLE_JEU + 1);
         }
 
-        private int PionEncadresParPosition(Coordonnee positionPieceAdjacenteAdverse, Direction direction,Couleur couleurAppelante)
+        private int PionsEncadresParPosition(Coordonnee positionPieceAdjacenteAdverse, Direction direction,Couleur couleurAppelante)
         {
             int nbPionsEncadres = 1; // Utilisié pour déterminer le score d'un coup
             bool pieceMemeCouleurRencontree = false; // Doit être à true pour que le coup soit valide
@@ -610,20 +610,12 @@ namespace Othello
             {
                 // On se position à la coordonnée associée à la direction à vérifier (ex : En haut à droite du coup , en haut , en haut à droite etc)
                 Coordonnee positionEnVerification = IncrementerPosition(positionInitiale, directionEnVerification);
-                // On vérifie que la position que nous voulons vérifie est toujours dans l'espace de jeu
-                if (PositionEstValide(positionEnVerification))
+                // Si on suit la direction actuelle à partir de la position et que : 1.la position est valide
+                                                                                   //2.On encadre au moins une pièce
+                if(PionsEncadresParPositionValide(positionEnVerification,couleurAppelante,directionEnVerification) > 0)
                 {
-                    // On tente de trouver une pièce adverse adjacente
-                    // On vérifie que le pion à la position que nous sommes est bien un pion adverse
-                    if (EstPionAdverse(positionEnVerification, couleurAppelante))
-                    {
-                        // On s'assure qu'il y a possibilité d'encadrer au moins une pièce
-                        if (PionEncadresParPosition(positionEnVerification, directionEnVerification, couleurAppelante) > 0)
-                        {
-                            // Si le coup est valide on l'ajoute à notre liste de coups permis
-                            coupsPermis.Add(positionInitiale);
-                        }
-                    }
+                    // On ajoute le coup à notre liste de coups permis
+                    coupsPermis.Add(positionInitiale);
                 }
                 // En demande la prochaine direction
                 directionEnVerification = IncrementerDirection(directionEnVerification);
@@ -637,11 +629,11 @@ namespace Othello
 
             if (Grille.EstCaseBlanche(position))
             {
-                cercle.Fill = CouleurPionAI;
+                cercle.Fill = CouleurPionHumain;
             }
             else
             {
-                cercle.Fill = CouleurPionHumain;
+                cercle.Fill = CouleurPionAI;
             }
         }
 
@@ -657,6 +649,7 @@ namespace Othello
             {
                 // Jouer un coup.
                 Grille.AjouterPion(position, TourJeu);
+                InverserPionsAdverse(position, couleurAppelante);
                 RafraichirAffichage();
                 AjouterCerclePion(position, TourJeu);
                 AfficherCoupsPermisHumain();
@@ -672,7 +665,7 @@ namespace Othello
 
                 Notify();
                 MettreAJourScore();
-                InverserPionsAdverse(position,couleurAppelante);
+                
             }
         }
 
@@ -698,36 +691,43 @@ namespace Othello
             // On vérifie tous les directions dans le but d'inverser toutes les pions possibles
             for (int i = 0; i < Enum.GetNames(typeof(Direction)).Length; i++)
             {
-                // On se positionne a une position x à partir du coup (position initiale)
+                // On se positionne a une position x du coup selon la direction actuelle ( ex : En haut à droite du coup )
                 Coordonnee positionEnVerification = IncrementerPosition(coup, directionEnVerification);
-                // On vérifie que la nouvelle position est bien dans l'espace de jeu
-                if (PositionEstValide(positionEnVerification))
+                int nbPionsAInverser = PionsEncadresParPositionValide(positionEnVerification, couleurAppelante, directionEnVerification);
+                // Si le nombre de pions à inverser est au moins de un
+                if (nbPionsAInverser > 0)
                 {
-                    // On vérifie que le pion à la position que nous sommes est bien un pion adverse
-                    if (EstPionAdverse(positionEnVerification, couleurAppelante))
-                    {
-                        // On s'assure qu'il y a possibilité d'encadrer au moins une pièce
-                        int nbPionsAInverser = PionEncadresParPosition(positionEnVerification, directionEnVerification, couleurAppelante);
-                        if (nbPionsAInverser > 0)
-                        {
-                            // On inverse la couleur des pièces encadrables
-                            //InverserPionsEncadres(positionEnVerification, directionEnVerification, couleurAppelante, nbPionsAInverser);
-                        }
-                    }
+                    // On inverse le nombre de pions trouvé plus haut
+                    InverserNbPionsSelonPositionDirection(nbPionsAInverser, positionEnVerification, directionEnVerification, couleurAppelante);
                 }
                 // On demande la prochaine direction
                 directionEnVerification = IncrementerDirection(directionEnVerification);
             }
         }
+
+        private int PionsEncadresParPositionValide(Coordonnee position,Couleur couleurAppelante,Direction direction)
+        {
+            // On vérifie que la nouvelle position est bien dans l'espace de jeu
+            if (PositionEstValide(position))
+            {
+                // On vérifie que le pion à la position que nous sommes est bien un pion adverse
+                if (EstPionAdverse(position, couleurAppelante))
+                {
+                    // Le nombre de pièces encadrées est retourné
+                    return PionsEncadresParPosition(position, direction, couleurAppelante);
+                }
+            }
+            return 0;
+        }
     
-        private void InverserPionsEncadres(Coordonnee position,Direction direction, Couleur couleurAppelante,int nbPionsAInverser)
+        private void InverserNbPionsSelonPositionDirection(int nbPionsAInverser,Coordonnee position,Direction direction, Couleur couleurAppelante)
         {
             Coordonnee positionPionAInverser = new Coordonnee(position.X, position.Y);
             for (int i = 0; i < nbPionsAInverser; i++)
             {
-                Grille.InverserPion(position);
-                InverserCerclePion(position);
-                //IncrementerPosition(positionEnVerification, emplacement);
+                Grille.InverserPion(positionPionAInverser);
+                InverserCerclePion(positionPionAInverser);
+                positionPionAInverser = IncrementerPosition(positionPionAInverser, direction);
             }
         }
 
