@@ -13,7 +13,6 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
                 <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -31,11 +30,7 @@
             <!-- Row 2 -->
             <Rectangle Grid.Row="2" Grid.Column="0" Fill="#8d9099"/>
             <Button Name="btnJouer" Grid.Row="2" Grid.Column="0" Height="70" Width="700" Content="Jouer" FontSize="40" Click="btnJouer_Click"/>
-        
-            <!-- Row 3 -->
-            <Rectangle Grid.Row="3" Grid.Column="0" Fill="#8d9099"/>
-            <Button Grid.Row="3" Grid.Column="0" Height="70" Width="700" Content="Scoreboard" FontSize="40"/>
-        
+
             <!-- Row 4 -->
             <Rectangle Grid.Row="4" Grid.Column="0" Fill="#cfd1d8"/>
             <Button Name="btnQuitMainWindow" Grid.Row="4" Grid.Column="0" Height="40" Width="150" Content="Quitter" FontSize="20" Margin="0,0,10,0" HorizontalAlignment="Right" Click="btnQuitMainWindow_Click"/>

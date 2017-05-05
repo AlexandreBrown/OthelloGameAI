@@ -5,13 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Othello"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
-    <Grid Name="grdConteneurJeu">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-
+             d:DesignHeight="600" d:DesignWidth="600">
+    <Grid>
         <!-- grdJeuScore -->
         <Grid Name="grdJeuScore" Grid.Column="0">
             <Grid.RowDefinitions>
@@ -23,62 +18,43 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <!-- Row 0 -->
-                <!-- Fond -->
-                <Rectangle Grid.Row="0" Fill="#191d2c"></Rectangle>
-                <Rectangle Grid.Row="0" Fill="#8d9099" Width="585" Height="40"></Rectangle>
-                <!-- Score -->
-                    <!-- Score total joueur-->
-                    <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="80,0,0,0" Width="135">
-                        <Rectangle Grid.Row="0" Fill="#191d2c" Width="5" Height="42" HorizontalAlignment="Left"></Rectangle>
-                        <Label Grid.Row="0" Content="Score:" Foreground="#3855b4" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"></Label>
-                        <Label Name="lblScore" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                        <Rectangle Grid.Row="0" Fill="#191d2c" Width="5" Height="42" HorizontalAlignment="Right"></Rectangle>
-                    </DockPanel>
-                    <!-- Nombre pièces humain -->
-                    <DockPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0">
-                        <Border Width="40" Height="30" BorderThickness="1" BorderBrush="Black">
-                            <Image x:Name="imgCouleurHumain" Width="40" Height="30" ></Image>
-                        </Border>
-                        <Label Content="Vous:" FontSize="25" FontWeight="Bold"></Label>
-                        <Label Name="lblHumainScore" FontSize="25"></Label>
-                    </DockPanel>
-                    <!--Nombre de pièces ordinateur -->
-                    <DockPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0">
-                        <Border Width="40" Height="30" BorderThickness="1" BorderBrush="Black">
-                            <Image x:Name="imgCouleurAI" Width="40" Height="30"></Image>
-                        </Border>
-                        <Label Content="L'ordinateur:" FontSize="25" FontWeight="Bold" ></Label>
-                        <Label Name="lblAIScore" FontSize="25"></Label>
-                    </DockPanel>
+            <!-- Fond -->
+            <Rectangle Grid.Row="0" Fill="#191d2c"></Rectangle>
+            <Rectangle Grid.Row="0" Fill="#8d9099" Width="585" Height="40"></Rectangle>
+            <!-- Score -->
+            <!-- Score total joueur-->
+            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="80,0,0,0" Width="135">
+                <Rectangle Grid.Row="0" Fill="#191d2c" Width="5" Height="42" HorizontalAlignment="Left"></Rectangle>
+                <Label Grid.Row="0" Content="Score:" Foreground="#3855b4" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+                <Label Name="lblScore" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                <Rectangle Grid.Row="0" Fill="#191d2c" Width="5" Height="42" HorizontalAlignment="Right"></Rectangle>
+            </DockPanel>
+            <!-- Nombre pièces humain -->
+            <DockPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0">
+                <Border Width="40" Height="30" BorderThickness="1" BorderBrush="Black">
+                    <Image x:Name="imgCouleurHumain" Width="40" Height="30" ></Image>
+                </Border>
+                <Label Content="Vous:" FontSize="25" FontWeight="Bold"></Label>
+                <Label Name="lblHumainScore" FontSize="25"></Label>
+            </DockPanel>
+            <!--Nombre de pièces ordinateur -->
+            <DockPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,0,0,0">
+                <Border Width="40" Height="30" BorderThickness="1" BorderBrush="Black">
+                    <Image x:Name="imgCouleurAI" Width="40" Height="30"></Image>
+                </Border>
+                <Label Content="L'ordinateur:" FontSize="25" FontWeight="Bold" ></Label>
+                <Label Name="lblAIScore" FontSize="25"></Label>
+            </DockPanel>
             <!-- Row 1 -->
-                <!-- Fond de la grille de jeu -->
-                <Rectangle Name="recJeuBG" Grid.Row="1" Fill="#cfd1d8"></Rectangle>
-                <!-- gride de jeu -->
-                <Grid Name="grdJeu" Grid.Row="1"></Grid>
+            <!-- Fond de la grille de jeu -->
+            <Rectangle Name="recJeuBG" Grid.Row="1" Fill="#cfd1d8"></Rectangle>
+            <!-- gride de jeu -->
+            <Grid Name="grdJeu" Grid.Row="1"></Grid>
             <!-- Row 2 -->
-                <!-- Fond partie du bas -->
-                <Rectangle Grid.Row="2" Fill="#191d2c"></Rectangle>
+            <!-- Fond partie du bas -->
+            <Rectangle Grid.Row="2" Fill="#191d2c"></Rectangle>
         </Grid>
 
-        <!-- grdControls -->
-        <Grid Name="grdControls" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <!-- Row 0 -->
-            <Border Grid.Row="0" BorderThickness="7" BorderBrush="#8d9099">
-                <Rectangle Grid.Row="0" Fill="#cfd1d8"></Rectangle>
-            </Border>
-            <StackPanel Grid.Row="0" VerticalAlignment="Center">
-                <Button Name="btnNouvellePartie" Height="150" Width="175" FontSize="20" Content="Nouvelle partie" Click="btnNouvellePartie_Click"></Button>
-                <Button Name="btnAllerMenuPrincipal" Height="150" Width="175" FontSize="20" Content="Menu principal" Margin="0,20,0,0" Click="btnAllerMenuPrincipal_Click"></Button>
-                <Button Name="btnEnvoyerScore" Height="150" Width="175" FontSize="18" Content="Envoyer mon score" IsEnabled="False" Margin="0,20,0,0"></Button>
-            </StackPanel>
-
-        </Grid>
     </Grid>
 
 </UserControl>

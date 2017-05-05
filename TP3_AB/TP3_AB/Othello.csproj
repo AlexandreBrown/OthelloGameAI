@@ -57,7 +57,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="EcranDemarragePartieUC.xaml">
+    <Page Include="ControleurJeuControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EcranDemarragePartieControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -74,9 +78,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CaseJeu.cs" />
+    <Compile Include="ControleurJeuControl.xaml.cs">
+      <DependentUpon>ControleurJeuControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Coordonnee.cs" />
-    <Compile Include="EcranDemarragePartieUC.xaml.cs">
-      <DependentUpon>EcranDemarragePartieUC.xaml</DependentUpon>
+    <Compile Include="EcranDemarragePartieControl.xaml.cs">
+      <DependentUpon>EcranDemarragePartieControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="GrilleJeu.cs" />
     <Compile Include="IA_Othello.cs" />

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\App.xaml
-3-1301932787
+4857546371
 
-162022045560
+17290984392
 15767094614
-EcranDemarragePartieUC.xaml;JeuOthelloControl.xaml;MainWindow.xaml;
+ControleurJeuControl.xaml;EcranDemarragePartieControl.xaml;JeuOthelloControl.xaml;MainWindow.xaml;
 
 True
 

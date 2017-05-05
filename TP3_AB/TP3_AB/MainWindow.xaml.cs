@@ -21,8 +21,7 @@ namespace Othello
     public partial class MainWindow : Window
     {
         private UserControl ContenuEcran { get; set; }
-        private JeuOthelloControl uctJeu { get; set; }
-        private EcranDemarragePartieUC uctEcranDemarrage { get; set; }
+        private ControleurJeuControl uctControleurJeu { get; set; }
         
         public MainWindow()
         {
@@ -34,49 +33,23 @@ namespace Othello
             this.Close();
         }
 
-        private void InitialiserNouvelEcranDemarrage()
-        {
-            uctEcranDemarrage = new EcranDemarragePartieUC(); // On réinitialise l'écran de démarrage
-            uctEcranDemarrage.SupprimerVue = OnSupprimerVueActuelle; // On réattribut la fonction OnDelete à l'action delete
-            uctEcranDemarrage.NouvellePartie = OnNouvellePartie; // On fait pointer l'action startGame sur la méthode OnStartGame();
-        }
-
-        private void InitialiserJeu()
-        {
-            SolidColorBrush couleurHumain = new SolidColorBrush();
-            SolidColorBrush couleurAI = new SolidColorBrush();
-            couleurHumain = uctEcranDemarrage.CouleurHumain;
-            couleurAI = uctEcranDemarrage.CouleurAI;
-
-            uctJeu = new JeuOthelloControl(uctEcranDemarrage.TailleCase,couleurHumain, couleurAI);
-            uctJeu.SupprimerVue = OnSupprimerVueActuelle;
-            uctJeu.NouvellePartie = OnChargerConfigPartie;
-        }
-
         private void btnJouer_Click(object sender, RoutedEventArgs e)
         {
-            OnChargerConfigPartie();
+            InitialiserPartie();
         }
 
-        private void OnSupprimerVueActuelle()
+        private void InitialiserPartie()
+        {
+            uctControleurJeu = new ControleurJeuControl();
+            uctControleurJeu.SupprimerControleur = OnSupprimerEcranActuel;
+            uctControleurJeu.InitialiserNouvellePartie(EcranDemarragePartieControl.TailleCaseDefault, EcranDemarragePartieControl.CouleurHumainDefault, EcranDemarragePartieControl.CouleurAIDefault);
+            ContenuEcran = uctControleurJeu;
+            grdConteneur.Children.Add(ContenuEcran);
+        }
+
+        private void OnSupprimerEcranActuel()
         {
             grdConteneur.Children.Remove(ContenuEcran); // On retire l'écran actuel
-        }
-
-        private void OnNouvellePartie()
-        {
-            OnSupprimerVueActuelle(); // On retire l'écran actuel
-            InitialiserJeu();
-            ContenuEcran = uctJeu;
-            grdConteneur.Children.Add(ContenuEcran);
-        }
-
-        private void OnChargerConfigPartie()
-        {
-            OnSupprimerVueActuelle();
-            InitialiserNouvelEcranDemarrage();
-            ContenuEcran = uctEcranDemarrage;
-            grdConteneur.Children.Add(ContenuEcran);
         }
     }
 }
