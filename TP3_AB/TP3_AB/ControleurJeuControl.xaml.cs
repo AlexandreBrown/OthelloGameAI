@@ -23,7 +23,7 @@ namespace Othello
         private EcranDemarragePartieControl uctEcranDemarrage { get; set; }
         private JeuOthelloControl uctJeuOthello { get; set; }
         private UserControl ContenuEcran { get; set; }
-        public Action SupprimerControleur;
+        public Action SupprimerControleur { get; set; }
 
         public ControleurJeuControl()
         {
@@ -62,7 +62,10 @@ namespace Othello
 
         private void OnSupprimerEcranActuel()
         {
-            grdConteneurJeu.Children.Remove(ContenuEcran);
+            if(grdConteneurJeu.Children != null)
+            {
+                grdConteneurJeu.Children.Remove(ContenuEcran);
+            }
             ActiverBoutonNouvellePartie();
         }
 

@@ -21,6 +21,7 @@ namespace Othello
     public partial class MainWindow : Window
     {
         private UserControl ContenuEcran { get; set; }
+        private InstructionsControl uctInstructions { get; set; }
         private ControleurJeuControl uctControleurJeu { get; set; }
         
         public MainWindow()
@@ -49,7 +50,28 @@ namespace Othello
 
         private void OnSupprimerEcranActuel()
         {
-            grdConteneur.Children.Remove(ContenuEcran); // On retire l'écran actuel
+            if(grdConteneur.Children != null)
+            {
+                grdConteneur.Children.Remove(ContenuEcran); // On retire l'écran actuel
+            }
+        }
+
+        private void btnOuvrirInstructions_Click(object sender, RoutedEventArgs e)
+        {
+            InitialiserInstructions();
+            AfficherInstructions();
+        }
+
+        private void InitialiserInstructions()
+        {
+            uctInstructions = new InstructionsControl();
+            uctInstructions.SupprimerInstructions = OnSupprimerEcranActuel;
+        }
+
+        private void AfficherInstructions()
+        {
+            ContenuEcran = uctInstructions;
+            grdConteneur.Children.Add(ContenuEcran);
         }
     }
 }

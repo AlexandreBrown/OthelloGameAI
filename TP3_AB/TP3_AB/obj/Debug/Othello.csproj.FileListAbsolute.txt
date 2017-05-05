@@ -55,3 +55,5 @@ C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorati
 C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\EcranDemarragePartieControl.g.cs
 C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\ControleurJeuControl.baml
 C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\EcranDemarragePartieControl.baml
+C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\InstructionsControl.g.cs
+C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\InstructionsControl.baml

@@ -65,6 +65,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="InstructionsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JeuOthelloControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -87,6 +91,9 @@
     </Compile>
     <Compile Include="GrilleJeu.cs" />
     <Compile Include="IA_Othello.cs" />
+    <Compile Include="InstructionsControl.xaml.cs">
+      <DependentUpon>InstructionsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JeuOthelloControl.xaml.cs">
       <DependentUpon>JeuOthelloControl.xaml</DependentUpon>
     </Compile>

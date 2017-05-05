@@ -28,8 +28,8 @@
                 <Rectangle Grid.Row="0" Fill="#cfd1d8"></Rectangle>
             </Border>
             <StackPanel Grid.Row="0" VerticalAlignment="Center">
-                <Button Name="btnNouvellePartie" Height="150" Width="175" FontSize="20" Content="Nouvelle partie" Click="btnNouvellePartie_Click"></Button>
-                <Button Name="btnAllerMenuPrincipal" Height="150" Width="175" FontSize="20" Content="Menu principal" Margin="0,20,0,0" Click="btnAllerMenuPrincipal_Click"></Button>
+                <Button Name="btnNouvellePartie" Height="150" Cursor="Hand" Width="175" FontSize="20" Content="Nouvelle partie" Click="btnNouvellePartie_Click"></Button>
+                <Button Name="btnAllerMenuPrincipal" Height="150" Cursor="Hand" Width="175" FontSize="20" Content="Menu principal" Margin="0,20,0,0" Click="btnAllerMenuPrincipal_Click"></Button>
             </StackPanel>
         </Grid>
     </Grid>
