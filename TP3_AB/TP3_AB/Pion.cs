@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Othello
 {
     public enum Couleur { Blanc, Noir }
+    [Serializable]
     public class Pion
     {
         private Couleur Couleur { get; set; } // Par défaut la couleur est vide

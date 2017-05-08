@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
+    [Serializable]
     public class Coordonnee
     {
         public int X { get; set; }

@@ -90,6 +90,7 @@
     <Compile Include="EcranDemarragePartieControl.xaml.cs">
       <DependentUpon>EcranDemarragePartieControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GrilleJeu.cs" />
     <Compile Include="IA_Othello.cs" />
     <Compile Include="InstructionsControl.xaml.cs">

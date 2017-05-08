@@ -8,6 +8,7 @@ using System.Windows;
 namespace Othello
 {
     public enum Direction { TopLeft, Top,TopRight,Right,BottomRight,Bottom,BottomLeft,Left }
+    [Serializable]
     public class GrilleJeu
     {
         #region Static

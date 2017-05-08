@@ -112,12 +112,21 @@ namespace Othello
             CouleurPionAI = jeuSource.CouleurPionAI;
             InitializeComponent();
             DefinirGrid();
+            DefinirCouleurJoueurs(CouleurPionHumain, CouleurPionAI);
 
-            Grille = new GrilleJeu();
-            Grille = grilleSource;
-            TourJeu = jeuSource.TourJeu;
+            // Initialise la liste d'observateurs.
+            observers = new List<IObserver<JeuOthelloControl>>();
+
+            Grille = grilleSource.DeepClone<GrilleJeu>();
+            InitialiserGrillePions();
+            DessinerCases();
+            InitialiserQuadrillageCases();
+            RafraichirAffichage();
+            TourJeu = Couleur.Noir;
             // Initialiser l'IA.
             IA = new IA_Othello(this);
+            MettreAJourScore();
+            AfficherCoupsPermisHumain();
         }
 
         private void DefinirCouleurJoueurs(SolidColorBrush couleurHumain,SolidColorBrush couleurAi)
@@ -324,7 +333,7 @@ namespace Othello
             return el;
         }
 
-        private void AjouterCerclePion(Coordonnee position,Couleur couleur)
+        public void AjouterCerclePion(Coordonnee position,Couleur couleur)
         {
             Ellipse cerclePion;
 
@@ -720,7 +729,7 @@ namespace Othello
             return false;
         }
 
-        private void InverserPionsAdverse(Coordonnee coup, Couleur couleurAppelante)
+        public void InverserPionsAdverse(Coordonnee coup, Couleur couleurAppelante)
         {
             Direction directionEnVerification = new Direction();
             directionEnVerification = Direction.TopLeft; // On commence par vérifier la direction : en haut à gauche

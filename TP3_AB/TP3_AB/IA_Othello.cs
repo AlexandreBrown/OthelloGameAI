@@ -7,6 +7,7 @@ using System.Windows;
 
 namespace Othello
 {
+    [Serializable]
     public class IA_Othello : IObserver<JeuOthelloControl>
     {
         #region Code relié au patron observateur
@@ -62,9 +63,10 @@ namespace Othello
             if (jeu.TourJeu == CouleurIA)
             {
                 CoupsPermisAI = jeu.TrouverCoupsPermis(CouleurIA);
-                if(CoupsPermisAI.Count > 0)
+                if (CoupsPermisAI.Count > 0)
                 {
-                    jeu.ExecuterChoixCase(TrouverMeilleurPosition(jeu,jeu.Grille,3,CoupsPermisAI), CouleurIA);
+                    //TODO : REMOVE await Task.Delay(3000);
+                    jeu.ExecuterChoixCase(TrouverMeilleurPosition(jeu, jeu.Grille, 100000, CoupsPermisAI), CouleurIA);
                 }
                 else
                 {
@@ -142,7 +144,7 @@ namespace Othello
             // On remplit notre liste de coups
             foreach(Coordonnee position in lstPositionsPossibles)
             {
-                Coup coup = new Coup(position, ScoreApresXCoupsSimules(position, 3, jeu, grille));
+                Coup coup = new Coup(position, ScoreApresXCoupsSimules(position, 30, jeu, grille));
                 lstCoups.Add(coup);
             }
         }
@@ -151,8 +153,15 @@ namespace Othello
         {
             int scoreDePosition = 0;
             JeuOthelloControl jeuEnSimulation = new JeuOthelloControl(jeuDepart, grilleDepart);
+            int nbBlancs = jeuEnSimulation.Grille.CalculerNbPionsBlancs();
+            int nbNoirs = jeuEnSimulation.Grille.CalculerNbPionsNoirs();
             // On simule la position en vérification
             SimulerCoup(jeuEnSimulation, positionAIPossibleEnVerif, Couleur.Blanc);
+            nbBlancs = jeuEnSimulation.Grille.CalculerNbPionsBlancs();
+            nbNoirs = jeuEnSimulation.Grille.CalculerNbPionsNoirs();
+
+            int nbBlancsDepart = jeuDepart.Grille.CalculerNbPionsBlancs();
+            int nbNoirsDepart = jeuDepart.Grille.CalculerNbPionsNoirs();
             // On calcul la valeur x de cette position en vérification , x coups plus tard
             for (int i = 0; i < NbCoupsASimuler; i++)
             {
@@ -172,13 +181,16 @@ namespace Othello
                         // On ajoute ce coup à notre liste
                         lstCoups.Add(coup);
                     }
-                    // Une fois que nous avons évalué tous les coups , on choisi le coup qui avantagera le plus le joueur actuel (l'humain)
-                        // On choisi donc le coup avec le score le plus faible pour l'AI (Nous prenons en considération que l'humain jouera le meilleur coup possible)
-                    positionChoisie = PositionMinCoups(lstCoups);
-                    // On met à jour le score de la position initiale pour le score suite à la simulation (le score de la position vaudra celui que nous venons de trouver si le nombre de tour en avance s'arrête ici)
-                    scoreDePosition = MinScoreCoups(lstCoups);
-                    // Une fois la position choisie , on simule le coup du joueur actuel
-                    SimulerCoup(jeuEnSimulation, positionChoisie, Couleur.Noir);
+                    if(lstCoups.Count > 0)
+                    {
+                        // Une fois que nous avons évalué tous les coups , on choisi le coup qui avantagera le plus le joueur actuel (l'humain)
+                            // On choisi donc le coup avec le score le plus faible pour l'AI (Nous prenons en considération que l'humain jouera le meilleur coup possible)
+                        positionChoisie = PositionMinCoups(lstCoups);
+                        // On met à jour le score de la position initiale pour le score suite à la simulation (le score de la position vaudra celui que nous venons de trouver si le nombre de tour en avance s'arrête ici)
+                        scoreDePosition = MinScoreCoups(lstCoups);
+                        // Une fois la position choisie , on simule le coup du joueur actuel
+                        SimulerCoup(jeuEnSimulation, positionChoisie, Couleur.Noir);
+                    }
                 }
                 else // Maximizer (AI)
                 {
@@ -193,14 +205,19 @@ namespace Othello
                         // On ajoute ce coup à notre liste
                         lstCoups.Add(coup);
                     }
-                    // Une fois que nous avons évalué tous les coups , on choisi le coup qui avantagera le plus le joueur actuel (l'AI)
-                    // On choisi donc le coup avec le score le plus fort pour l'AI
-                    positionChoisie = PositionMaxCoups(lstCoups);
-                    // On met à jour le score de la position initiale pour le score suite à la simulation (le score de la position vaudra celui que nous venons de trouver si le nombre de tour en avance s'arrête ici)
-                    scoreDePosition = MaxScoreCoups(lstCoups);
-                    // Une fois la position choisie , on simule le coup du joueur actuel
-                    SimulerCoup(jeuEnSimulation, positionChoisie, Couleur.Blanc);
+                    if (lstCoups.Count > 0)
+                    {
+                        // Une fois que nous avons évalué tous les coups , on choisi le coup qui avantagera le plus le joueur actuel (l'AI)
+                        // On choisi donc le coup avec le score le plus fort pour l'AI
+                        positionChoisie = PositionMaxCoups(lstCoups);
+                        // On met à jour le score de la position initiale pour le score suite à la simulation (le score de la position vaudra celui que nous venons de trouver si le nombre de tour en avance s'arrête ici)
+                        scoreDePosition = MaxScoreCoups(lstCoups);
+                        // Une fois la position choisie , on simule le coup du joueur actuel
+                        SimulerCoup(jeuEnSimulation, positionChoisie, Couleur.Blanc);
+                    }
                 }
+                nbBlancs = jeuEnSimulation.Grille.CalculerNbPionsBlancs();
+                nbNoirs = jeuEnSimulation.Grille.CalculerNbPionsNoirs();
             }
             return scoreDePosition;
         }
@@ -208,6 +225,8 @@ namespace Othello
         private void SimulerCoup(JeuOthelloControl jeu,Coordonnee position,Couleur joueurEnSimulation)
         {
             jeu.Grille.AjouterPion(position, joueurEnSimulation);
+            jeu.InverserPionsAdverse(position, joueurEnSimulation);
+            jeu.AjouterCerclePion(position, joueurEnSimulation);
         }
 
         private int ScoreAIApresCoupSimule(JeuOthelloControl jeuEnSimulation, Coordonnee position,Couleur joueurEnSimulation)
