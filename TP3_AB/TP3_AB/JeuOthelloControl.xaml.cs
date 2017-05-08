@@ -105,6 +105,21 @@ namespace Othello
             AfficherCoupsPermisHumain();
         }
 
+        public JeuOthelloControl(JeuOthelloControl jeuSource,GrilleJeu grilleSource)
+        {
+            TailleCase = jeuSource.TailleCase;
+            CouleurPionHumain = jeuSource.CouleurPionHumain;
+            CouleurPionAI = jeuSource.CouleurPionAI;
+            InitializeComponent();
+            DefinirGrid();
+
+            Grille = new GrilleJeu();
+            Grille = grilleSource;
+            TourJeu = jeuSource.TourJeu;
+            // Initialiser l'IA.
+            IA = new IA_Othello(this);
+        }
+
         private void DefinirCouleurJoueurs(SolidColorBrush couleurHumain,SolidColorBrush couleurAi)
         {
             imgCouleurHumain.Source = new BitmapImage(new Uri(("./Ressources/Images/" + couleurHumain.Color.ToString().Substring(3) + ".jpg"), UriKind.Relative));
@@ -495,50 +510,13 @@ namespace Othello
 
         private void MettreAJourScore()
         {
-            lblAIScore.Content = CalculerNbPiecesAI().ToString();
-            lblHumainScore.Content = CalculerNbPiecesHumain().ToString();
-            lblScore.Content = (CalculerNbPiecesHumain() * 100).ToString();
+            int MultiplicateurDeScore = 100;
+            lblAIScore.Content = Grille.CalculerNbPionsBlancs().ToString();
+            lblHumainScore.Content = Grille.CalculerNbPionsNoirs().ToString();
+            lblScore.Content = (Grille.CalculerNbPionsNoirs() * MultiplicateurDeScore).ToString();
         }
 
-        private int CalculerNbPiecesAI()
-        {
-            int compteur = 0;
-            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
-            {
-                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
-                {
-                    Coordonnee position = new Coordonnee(i, j);
-                    if(Grille.EstCaseLibre(position) == false)
-                    {
-                        if(Grille.EstCaseBlanche(position))
-                        {
-                            compteur++;
-                        }
-                    }
-                }
-            }
-            return compteur;
-        }
 
-        private int CalculerNbPiecesHumain()
-        {
-            int compteur = 0;
-            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
-            {
-                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
-                {
-                    Coordonnee position = new Coordonnee(i, j);
-                    if (Grille.EstCaseLibre(position) == false)
-                    {
-                        if (Grille.EstCaseNoire(position))
-                        {
-                            compteur++;
-                        }
-                    }
-                }
-            }
-            return compteur;
-        }
 
         private void EffacerCasesCoupsPermis()
         {

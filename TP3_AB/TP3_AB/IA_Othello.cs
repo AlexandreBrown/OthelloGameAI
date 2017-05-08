@@ -58,20 +58,164 @@ namespace Othello
 
         private void JouerCoupAsync(JeuOthelloControl jeu)
         {
-            Random rnd = new Random(DateTime.Now.Millisecond);
 
             if (jeu.TourJeu == CouleurIA)
             {
                 CoupsPermisAI = jeu.TrouverCoupsPermis(CouleurIA);
                 if(CoupsPermisAI.Count > 0)
                 {
-                    jeu.ExecuterChoixCase(CoupsPermisAI[rnd.Next(0, CoupsPermisAI.Count)], CouleurIA);
+                    jeu.ExecuterChoixCase(TrouverMeilleurPosition(jeu,jeu.Grille,3,CoupsPermisAI), CouleurIA);
                 }
                 else
                 {
                     jeu.MettreAJourTourPasse(CouleurIA);
                 }
             }
+        }
+
+        private Coordonnee TrouverMeilleurPosition(JeuOthelloControl jeu, GrilleJeu grille,int nombreDeCoupsEnAvance,List<Coordonnee> lstPositionsPossibles)
+        {
+            List<Coup> lstCoups = new List<Coup>();
+            // Attribut un score selon le nombre de coups en avance voulu pour chaque position , ce qui forme un coup pour chaque positions valides
+            RemplirListeCoups(lstCoups, lstPositionsPossibles, nombreDeCoupsEnAvance, jeu,grille);
+            // On attribut le coup avec le plus gros score à la variable meilleurCoup
+            Coordonnee meilleurPosition = PositionMaxCoups(lstCoups);
+            // On retourne la position du meilleur coup
+            return meilleurPosition;
+        }
+
+        private Coordonnee PositionMaxCoups(List<Coup> lstCoups)
+        {
+            Coup maxCoup = lstCoups[0];
+            for (int i = 1; i < lstCoups.Count; i++)
+            {
+                if(lstCoups[i].Score > maxCoup.Score)
+                {
+                    maxCoup = lstCoups[i];
+                }
+            }
+            return maxCoup.Position;
+        }
+
+        private Coordonnee PositionMinCoups(List<Coup> lstCoups)
+        {
+            Coup minCoup = lstCoups[0];
+            for (int i = 1; i < lstCoups.Count; i++)
+            {
+                if (lstCoups[i].Score < minCoup.Score)
+                {
+                    minCoup = lstCoups[i];
+                }
+            }
+            return minCoup.Position;
+        }
+
+        private int MaxScoreCoups(List<Coup> lstCoups)
+        {
+            Coup maxCoup = lstCoups[0];
+            for (int i = 1; i < lstCoups.Count; i++)
+            {
+                if (lstCoups[i].Score > maxCoup.Score)
+                {
+                    maxCoup = lstCoups[i];
+                }
+            }
+            return maxCoup.Score;
+        }
+
+        private int MinScoreCoups(List<Coup> lstCoups)
+        {
+            Coup minCoup = lstCoups[0];
+            for (int i = 1; i < lstCoups.Count; i++)
+            {
+                if (lstCoups[i].Score > minCoup.Score)
+                {
+                    minCoup = lstCoups[i];
+                }
+            }
+            return minCoup.Score;
+        }
+
+
+        private void RemplirListeCoups(List<Coup> lstCoups,List<Coordonnee> lstPositionsPossibles,int nombreDeCoupsEnAvance,JeuOthelloControl jeu,GrilleJeu grille)
+        {
+            // On remplit notre liste de coups
+            foreach(Coordonnee position in lstPositionsPossibles)
+            {
+                Coup coup = new Coup(position, ScoreApresXCoupsSimules(position, 3, jeu, grille));
+                lstCoups.Add(coup);
+            }
+        }
+
+        private int ScoreApresXCoupsSimules(Coordonnee positionAIPossibleEnVerif,int NbCoupsASimuler,JeuOthelloControl jeuDepart,GrilleJeu grilleDepart)
+        {
+            int scoreDePosition = 0;
+            JeuOthelloControl jeuEnSimulation = new JeuOthelloControl(jeuDepart, grilleDepart);
+            // On simule la position en vérification
+            SimulerCoup(jeuEnSimulation, positionAIPossibleEnVerif, Couleur.Blanc);
+            // On calcul la valeur x de cette position en vérification , x coups plus tard
+            for (int i = 0; i < NbCoupsASimuler; i++)
+            {
+                List<Coup> lstCoups = new List<Coup>();
+                Coordonnee positionChoisie = new Coordonnee(0, 0); // Représente la position choisie par le joueur actuel (AI ou humain)
+                // Un coup sur deux sera le tour du "minimizer" , autrement dit le joueur voulant que notre score (score AI) soit le plus faible possible
+                if (i % 2 == 0) // Minimizer (Humain)
+                {
+                    // On doit évaluer chaque coups possible de ce joueur
+                    foreach (Coordonnee position in jeuEnSimulation.TrouverCoupsPermis(Couleur.Noir))
+                    {
+                        int score = 0;
+                        // On récupère le score du AI suite au coup actuel
+                        score = ScoreAIApresCoupSimule(jeuEnSimulation, position, Couleur.Noir);
+                        // On stock le coup (la position que nous avons évaluée ainsi que sa valeur)
+                        Coup coup = new Coup(position, score);
+                        // On ajoute ce coup à notre liste
+                        lstCoups.Add(coup);
+                    }
+                    // Une fois que nous avons évalué tous les coups , on choisi le coup qui avantagera le plus le joueur actuel (l'humain)
+                        // On choisi donc le coup avec le score le plus faible pour l'AI (Nous prenons en considération que l'humain jouera le meilleur coup possible)
+                    positionChoisie = PositionMinCoups(lstCoups);
+                    // On met à jour le score de la position initiale pour le score suite à la simulation (le score de la position vaudra celui que nous venons de trouver si le nombre de tour en avance s'arrête ici)
+                    scoreDePosition = MinScoreCoups(lstCoups);
+                    // Une fois la position choisie , on simule le coup du joueur actuel
+                    SimulerCoup(jeuEnSimulation, positionChoisie, Couleur.Noir);
+                }
+                else // Maximizer (AI)
+                {
+                    // On doit évaluer chaque coups possible de ce joueur
+                    foreach (Coordonnee position in jeuEnSimulation.TrouverCoupsPermis(Couleur.Blanc))
+                    {
+                        int score = 0;
+                        // On récupère le score du AI suite au coup actuel
+                        score = ScoreAIApresCoupSimule(jeuEnSimulation, position, Couleur.Blanc);
+                        // On stock le coup (la position que nous avons évaluée ainsi que sa valeur)
+                        Coup coup = new Coup(position, score);
+                        // On ajoute ce coup à notre liste
+                        lstCoups.Add(coup);
+                    }
+                    // Une fois que nous avons évalué tous les coups , on choisi le coup qui avantagera le plus le joueur actuel (l'AI)
+                    // On choisi donc le coup avec le score le plus fort pour l'AI
+                    positionChoisie = PositionMaxCoups(lstCoups);
+                    // On met à jour le score de la position initiale pour le score suite à la simulation (le score de la position vaudra celui que nous venons de trouver si le nombre de tour en avance s'arrête ici)
+                    scoreDePosition = MaxScoreCoups(lstCoups);
+                    // Une fois la position choisie , on simule le coup du joueur actuel
+                    SimulerCoup(jeuEnSimulation, positionChoisie, Couleur.Blanc);
+                }
+            }
+            return scoreDePosition;
+        }
+
+        private void SimulerCoup(JeuOthelloControl jeu,Coordonnee position,Couleur joueurEnSimulation)
+        {
+            jeu.Grille.AjouterPion(position, joueurEnSimulation);
+        }
+
+        private int ScoreAIApresCoupSimule(JeuOthelloControl jeuEnSimulation, Coordonnee position,Couleur joueurEnSimulation)
+        {
+            GrilleJeu grilleSimulation= new GrilleJeu();
+            grilleSimulation = jeuEnSimulation.Grille;
+            grilleSimulation.AjouterPion(position, joueurEnSimulation);
+            return grilleSimulation.CalculerNbPionsBlancs();
         }
 
     }

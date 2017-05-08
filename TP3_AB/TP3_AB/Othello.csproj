@@ -86,6 +86,7 @@
       <DependentUpon>ControleurJeuControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Coordonnee.cs" />
+    <Compile Include="Coup.cs" />
     <Compile Include="EcranDemarragePartieControl.xaml.cs">
       <DependentUpon>EcranDemarragePartieControl.xaml</DependentUpon>
     </Compile>

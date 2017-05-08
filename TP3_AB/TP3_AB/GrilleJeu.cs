@@ -46,6 +46,45 @@ namespace Othello
             }
         }
 
+        public int CalculerNbPionsBlancs()
+        {
+            int compteur = 0;
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Coordonnee position = new Coordonnee(i, j);
+                    if (EstCaseLibre(position) == false)
+                    {
+                        if (EstCaseBlanche(position))
+                        {
+                            compteur++;
+                        }
+                    }
+                }
+            }
+            return compteur;
+        }
+
+        public int CalculerNbPionsNoirs()
+        {
+            int compteur = 0;
+            for (int i = 1; i <= GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 1; j <= GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Coordonnee position = new Coordonnee(i, j);
+                    if (EstCaseLibre(position) == false)
+                    {
+                        if (EstCaseNoire(position))
+                        {
+                            compteur++;
+                        }
+                    }
+                }
+            }
+            return compteur;
+        }
 
         private void AjouterPionsDepart()
         {
