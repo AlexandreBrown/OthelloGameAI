@@ -83,7 +83,6 @@ namespace Othello
 
         public JeuOthelloControl(int tailleCase, SolidColorBrush couleurPionHumain, SolidColorBrush couleurPionAI)
         {
-            this.Cursor = Cursors.Hand;
             TailleCase = tailleCase;
             CouleurPionHumain = couleurPionHumain;
             CouleurPionAI = couleurPionAI;
@@ -650,46 +649,66 @@ namespace Othello
 
         public void ExecuterChoixCase(Coordonnee position,Couleur couleurAppelante)
         {
-            if (coupEstLegal(new Coordonnee(position.X, position.Y), couleurAppelante))
+            if (AuMoinsUnCoupPossible(couleurAppelante))
             {
-                // Jouer un coup.
-                Grille.AjouterPion(position, TourJeu);
-                InverserPionsAdverse(position, couleurAppelante);
-                RafraichirAffichage();
-                AjouterCerclePion(position, TourJeu);
-                MettreAJourScore();
-                if (TourJeu == Couleur.Blanc)
+                if (coupEstLegal(new Coordonnee(position.X, position.Y), couleurAppelante))
                 {
-                    this.Cursor = Cursors.Hand;
-                    EffacerCasesCoupsPermisHumain();
-                    AfficherCasesCoupsPermisHumain();
-                    TourJeu = Couleur.Noir;
-                }
-                else
-                {
-                    EffacerCasesCoupsPermisHumain();
-                    this.Cursor = Cursors.No;
-                    TourJeu = Couleur.Blanc;
-                }
+                    // Jouer un coup.
+                    Grille.AjouterPion(position, TourJeu);
+                    InverserPionsAdverse(position, couleurAppelante);
+                    RafraichirAffichage();
+                    AjouterCerclePion(position, TourJeu);
+                    MettreAJourScore();
+                    if (TourJeu == Couleur.Blanc)
+                    {
+                        this.Cursor = Cursors.Arrow;
+                        EffacerCasesCoupsPermisHumain();
+                        AfficherCasesCoupsPermisHumain();
+                        TourJeu = Couleur.Noir;
+                    }
+                    else
+                    {
+                        EffacerCasesCoupsPermisHumain();
+                        this.Cursor = Cursors.No;
+                        TourJeu = Couleur.Blanc;
+                    }
 
-                Notify();
+                    Notify();
+                }
             }
-            if (HumainPeutJouer(couleurAppelante) == false)
+            else
             {
                 MettreAJourTourPasse(couleurAppelante);
             }
 
-
         }
 
-        private bool HumainPeutJouer(Couleur couleurAppelante)
+        private bool AuMoinsUnCoupPossible(Couleur couleurAppelante)
         {
-            if(couleurAppelante == Couleur.Noir)
+            if(couleurAppelante == Couleur.Blanc)
             {
-                if (CoupsPermisHumain.Count == 0)
-                {
-                    return false;
-                }
+                return AIPeutJouer();
+            }else if(couleurAppelante == Couleur.Noir)
+            {
+                return HumainPeutJouer();
+            }
+            return false;
+        }
+
+        private bool HumainPeutJouer()
+        {
+            if (CoupsPermisHumain.Count == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool AIPeutJouer()
+        {
+            if (IA.CoupsPermisAI.Count == 0)
+            {
+                return false;
             }
             return true;
         }
@@ -712,7 +731,6 @@ namespace Othello
             if(PartieEstTerminee())
             {
                 MessageBox.Show("GAME OVER!");
-
             }
         }
 

@@ -65,7 +65,7 @@ namespace Othello
                 CoupsPermisAI = jeu.TrouverCoupsPermis(CouleurIA);
                 if (CoupsPermisAI.Count > 0)
                 {
-                    await Task.Delay(500);
+                    await Task.Delay(200);
                     jeu.ExecuterChoixCase(TrouverMeilleurPosition(jeu, jeu.Grille, 3, CoupsPermisAI), CouleurIA);
                 }
                 else
@@ -153,64 +153,73 @@ namespace Othello
         {
             int scoreDePosition = 0;
             JeuOthelloControl jeuEnSimulation = new JeuOthelloControl(jeuDepart, grilleDepart);
-            // On joue la position en vérification
+            // On joue la position en vérification sur une copie du jeu actuel
             JouerCoup(jeuEnSimulation, positionAIPossibleEnVerif, Couleur.Blanc);
             // On calcul la valeur x de cette position en vérification , x coups plus tard
             for (int i = 0; i < NbCoupsASimuler; i++)
             {
                 List<Coup> lstCoups = new List<Coup>();
-                Coordonnee positionChoisie = new Coordonnee(0, 0); // Représente la position choisie par le joueur actuel (AI ou humain)
                 // Un coup sur deux sera le tour du "minimizer" , autrement dit le joueur voulant que notre score (score AI) soit le plus faible possible
                 if (i % 2 == 0) // Minimizer (Humain)
                 {
-                    // On doit évaluer chaque coups possible de ce joueur
-                    foreach (Coordonnee position in jeuEnSimulation.TrouverCoupsPermis(Couleur.Noir))
-                    {
-                        int score = 0;
-                        // On récupère le score du AI suite au coup actuel
-                        score = ScoreAIApresCoupSimule(jeuEnSimulation, position, Couleur.Noir);
-                        // On stock le coup (la position que nous avons évaluée ainsi que sa valeur)
-                        Coup coup = new Coup(position, score);
-                        // On ajoute ce coup à notre liste
-                        lstCoups.Add(coup);
-                    }
-                    if(lstCoups.Count > 0)
-                    {
-                        // Une fois que nous avons évalué tous les coups , on choisi le coup qui avantagera le plus le joueur actuel (l'humain)
-                            // On choisi donc le coup avec le score le plus faible pour l'AI (Nous prenons en considération que l'humain jouera le meilleur coup possible)
-                        positionChoisie = PositionMinCoups(lstCoups);
-                        // On met à jour le score de la position initiale pour le score suite à la simulation (le score de la position vaudra celui que nous venons de trouver si le nombre de tour en avance s'arrête ici)
-                        scoreDePosition = MinScoreCoups(lstCoups);
-                        // Une fois la position choisie , on joue le coup du joueur actuel
-                        JouerCoup(jeuEnSimulation, positionChoisie, Couleur.Noir);
-                    }
+                    SimulerMinimizer(jeuEnSimulation, Couleur.Noir, ref lstCoups, ref scoreDePosition);
                 }
                 else // Maximizer (AI)
                 {
-                    // On doit évaluer chaque coups possible de ce joueur
-                    foreach (Coordonnee position in jeuEnSimulation.TrouverCoupsPermis(Couleur.Blanc))
-                    {
-                        int score = 0;
-                        // On récupère le score du AI suite au coup actuel
-                        score = ScoreAIApresCoupSimule(jeuEnSimulation, position, Couleur.Blanc);
-                        // On stock le coup (la position que nous avons évaluée ainsi que sa valeur)
-                        Coup coup = new Coup(position, score);
-                        // On ajoute ce coup à notre liste
-                        lstCoups.Add(coup);
-                    }
-                    if (lstCoups.Count > 0)
-                    {
-                        // Une fois que nous avons évalué tous les coups , on choisi le coup qui avantagera le plus le joueur actuel (l'AI)
-                        // On choisi donc le coup avec le score le plus fort pour l'AI
-                        positionChoisie = PositionMaxCoups(lstCoups);
-                        // On met à jour le score de la position initiale pour le score suite à la simulation (le score de la position vaudra celui que nous venons de trouver si le nombre de tour en avance s'arrête ici)
-                        scoreDePosition = MaxScoreCoups(lstCoups);
-                        // Une fois la position choisie , on joue le coup du joueur actuel
-                        JouerCoup(jeuEnSimulation, positionChoisie, Couleur.Blanc);
-                    }
+                    SimulerMaximizer(jeuEnSimulation, CouleurIA, ref lstCoups, ref scoreDePosition);
                 }
             }
             return scoreDePosition;
+        }
+
+        private void SimulerMinimizer(JeuOthelloControl jeuEnSimulation,Couleur couleurMinimizer, ref List<Coup> lstCoups,ref int scoreDePosition)
+        {
+            // On doit évaluer chaque coups possible de ce joueur
+            foreach (Coordonnee position in jeuEnSimulation.TrouverCoupsPermis(couleurMinimizer))
+            {
+                int score = 0;
+                // On récupère le score du AI suite au coup actuel
+                score = ScoreAIApresCoupSimule(jeuEnSimulation, position, couleurMinimizer);
+                // On stock le coup (la position que nous avons évaluée ainsi que sa valeur)
+                Coup coup = new Coup(position, score);
+                // On ajoute ce coup à notre liste
+                lstCoups.Add(coup);
+            }
+            if (lstCoups.Count > 0)
+            {
+                // Une fois que nous avons évalué tous les coups , on choisi le coup qui avantagera le plus le joueur actuel (l'humain)
+                // On choisi donc le coup avec le score le plus faible pour l'AI (Nous prenons en considération que l'humain jouera le meilleur coup possible)
+                Coordonnee positionChoisie = PositionMinCoups(lstCoups);
+                // On met à jour le score de la position
+                scoreDePosition = MinScoreCoups(lstCoups);
+                // Une fois la position choisie , on joue le coup du joueur actuel
+                JouerCoup(jeuEnSimulation, positionChoisie, couleurMinimizer);
+            }
+        }
+
+        private void SimulerMaximizer(JeuOthelloControl jeuEnSimulation,Couleur couleurMaximizer,ref List<Coup> lstCoups,ref int scoreDePosition)
+        {
+            // On doit évaluer chaque coups possible de ce joueur
+            foreach (Coordonnee position in jeuEnSimulation.TrouverCoupsPermis(couleurMaximizer))
+            {
+                int score = 0;
+                // On récupère le score du AI suite au coup actuel
+                score = ScoreAIApresCoupSimule(jeuEnSimulation, position, couleurMaximizer);
+                // On stock le coup (la position que nous avons évaluée ainsi que sa valeur)
+                Coup coup = new Coup(position, score);
+                // On ajoute ce coup à notre liste
+                lstCoups.Add(coup);
+            }
+            if (lstCoups.Count > 0)
+            {
+                // Une fois que nous avons évalué tous les coups , on choisi le coup qui avantagera le plus le joueur actuel (l'AI)
+                // On choisi donc le coup avec le score le plus fort pour l'AI
+                Coordonnee positionChoisie = PositionMaxCoups(lstCoups);
+                // On met à jour le score de la position
+                scoreDePosition = MaxScoreCoups(lstCoups);
+                // Une fois la position choisie , on joue le coup du joueur actuel
+                JouerCoup(jeuEnSimulation, positionChoisie, Couleur.Blanc);
+            }
         }
 
         private void JouerCoup(JeuOthelloControl jeu,Coordonnee position,Couleur joueurEnSimulation)
