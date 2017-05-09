@@ -83,6 +83,7 @@ namespace Othello
 
         public JeuOthelloControl(int tailleCase, SolidColorBrush couleurPionHumain, SolidColorBrush couleurPionAI)
         {
+            this.Cursor = Cursors.Hand;
             TailleCase = tailleCase;
             CouleurPionHumain = couleurPionHumain;
             CouleurPionAI = couleurPionAI;
@@ -102,7 +103,7 @@ namespace Othello
             // Initialiser l'IA.
             IA = new IA_Othello(this);
             MettreAJourScore();
-            AfficherCoupsPermisHumain();
+            AfficherCasesCoupsPermisHumain();
         }
 
         public JeuOthelloControl(JeuOthelloControl jeuSource,GrilleJeu grilleSource)
@@ -126,7 +127,7 @@ namespace Othello
             // Initialiser l'IA.
             IA = new IA_Othello(this);
             MettreAJourScore();
-            AfficherCoupsPermisHumain();
+            AfficherCasesCoupsPermisHumain();
         }
 
         private void DefinirCouleurJoueurs(SolidColorBrush couleurHumain,SolidColorBrush couleurAi)
@@ -527,7 +528,7 @@ namespace Othello
 
 
 
-        private void EffacerCasesCoupsPermis()
+        private void EffacerCasesCoupsPermisHumain()
         {
             foreach(Rectangle rect in CasesCoupsPermis)
             {
@@ -535,15 +536,14 @@ namespace Othello
             }
         }
 
-        private void AfficherCoupsPermisHumain()
+        private void AfficherCasesCoupsPermisHumain()
         {
             MettreAJourCoupsPermisHumain();
-            EffacerCasesCoupsPermis();
             for (int i = 0; i < CoupsPermisHumain.Count; i++)
             {
                 Rectangle rect = new Rectangle();
                 rect.Fill = Brushes.Black;
-                rect.Opacity = 1;
+                rect.Opacity = 0.5;
                 rect.Height = TailleCase - 5;
                 rect.Width = TailleCase - 5;
                 Grid.SetColumn(rect, CoupsPermisHumain[i].X);
@@ -641,8 +641,11 @@ namespace Othello
 
         private void GrilleJeu_Click(object sender, MouseButtonEventArgs e)
         {
-            Coordonnee position = new Coordonnee(Grid.GetColumn(sender as UIElement), Grid.GetRow(sender as UIElement));
-            ExecuterChoixCase(position,Couleur.Noir);
+            if(TourJeu == Couleur.Noir)
+            {
+                Coordonnee position = new Coordonnee(Grid.GetColumn(sender as UIElement), Grid.GetRow(sender as UIElement));
+                ExecuterChoixCase(position,Couleur.Noir);
+            }
         }
 
         public void ExecuterChoixCase(Coordonnee position,Couleur couleurAppelante)
@@ -654,14 +657,18 @@ namespace Othello
                 InverserPionsAdverse(position, couleurAppelante);
                 RafraichirAffichage();
                 AjouterCerclePion(position, TourJeu);
-                AfficherCoupsPermisHumain();
                 MettreAJourScore();
                 if (TourJeu == Couleur.Blanc)
                 {
+                    this.Cursor = Cursors.Hand;
+                    EffacerCasesCoupsPermisHumain();
+                    AfficherCasesCoupsPermisHumain();
                     TourJeu = Couleur.Noir;
                 }
                 else
                 {
+                    EffacerCasesCoupsPermisHumain();
+                    this.Cursor = Cursors.No;
                     TourJeu = Couleur.Blanc;
                 }
 
