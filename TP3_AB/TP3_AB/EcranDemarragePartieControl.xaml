@@ -21,18 +21,19 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <!-- Row 0 -->
-            <Label Grid.Row="0" Grid.Column="0" Content="Configuration de la partie" FontWeight="Bold" FontSize="34" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Configuration de la partie" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Separator Grid.Row="0" VerticalAlignment="Bottom"/>
             <!-- Row 1 -->
-            <Label Grid.Row="1" Grid.Column="0" Content="Taille des cases de jeu" FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="Aperçu:" FontSize="20" Margin="20,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Rectangle Grid.Row="1" Grid.Column="0" Width="70" Height="70" Margin="70,30,0,0" HorizontalAlignment="Left" Fill="Beige"></Rectangle>
-            <Grid Grid.Row="1" Grid.Column="0" Width="70" Height="70" Margin="70,30,0,0" HorizontalAlignment="Left">
+            <Label Grid.Row="1" Grid.Column="0" Content="Taille des cases de jeu" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Aperçu:" FontSize="15" Margin="20,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Rectangle Grid.Row="1" Grid.Column="0" Width="70" Height="70" Margin="70,10,0,0" HorizontalAlignment="Left" Fill="Beige"></Rectangle>
+            <Grid Grid.Row="1" Grid.Column="0" Width="70" Height="70" Margin="70,10,0,0" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -49,11 +50,11 @@
                     IsSnapToTickEnabled="True"
                     TickFrequency="2">
             </Slider>
-            <Label Grid.Row="1" Grid.Column="0" Content="Taille (px)" FontSize="20" Margin="0,50,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <Button Name="btnDefaultValues" Grid.Row="1" Grid.Column="0" Height=" 60" Cursor="Hand" Width=" 150" Content="Valeurs par défaut" FontSize="17" Margin="0,70,30,0" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="btnDefaultValues_Click"></Button>
+            <Label Grid.Row="1" Grid.Column="0" Content="Taille (px)" FontSize="20" Margin="0,40,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Button Name="btnDefaultValues" Grid.Row="1" Grid.Column="0" Height=" 60" Cursor="Hand" Width=" 150" Content="Valeurs par défaut" FontSize="17" Margin="0,50,30,0" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="btnDefaultValues_Click"></Button>
             <Separator Grid.Row="1" VerticalAlignment="Bottom"/>
             <!-- Row 2 -->
-            <Label Grid.Row="2" Grid.Column="0" Content="Jeu de couleur" FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Jeu de couleur" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Grid Grid.Row="2" Height="100" VerticalAlignment="Center" Margin="0,20,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -62,32 +63,32 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Name="stpCouleur01" Cursor="Hand" PreviewMouseLeftButtonUp="stpCouleur01_PreviewMouseLeftButtonUp">
-                    <Viewbox Height="30">
+                <StackPanel Grid.Column="0" Name="stpCouleur01" Cursor="Hand" Margin="0,5,0,0" PreviewMouseLeftButtonUp="stpCouleur01_PreviewMouseLeftButtonUp">
+                    <Viewbox Height="25">
                         <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur01" IsChecked="True"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor01.jpg" Width="100" Height="65"></Image>
                     </Border>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Name="stpCouleur02" Cursor="Hand" PreviewMouseLeftButtonUp="stpCouleur02_PreviewMouseLeftButtonUp_1">
-                    <Viewbox Height="30">
+                <StackPanel Grid.Column="1" Name="stpCouleur02" Cursor="Hand" Margin="0,5,0,0" PreviewMouseLeftButtonUp="stpCouleur02_PreviewMouseLeftButtonUp_1">
+                    <Viewbox Height="25">
                         <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur02"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor02.jpg" Width="100" Height="65"></Image>
                     </Border>
                 </StackPanel>
-                <StackPanel Grid.Column="2" Name="stpCouleur03" Cursor="Hand" PreviewMouseLeftButtonUp="stpCouleur03_PreviewMouseLeftButtonUp">
-                    <Viewbox Height="30">
+                <StackPanel Grid.Column="2" Name="stpCouleur03" Cursor="Hand" Margin="0,5,0,0" PreviewMouseLeftButtonUp="stpCouleur03_PreviewMouseLeftButtonUp">
+                    <Viewbox Height="25">
                         <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur03"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
                         <Image Source="./Ressources/Images/OthelloColor03.jpg" Width="100" Height="65"></Image>
                     </Border>
                 </StackPanel>
-                <StackPanel Grid.Column="3" Name="stpCouleur4" Cursor="Hand" PreviewMouseLeftButtonUp="stpCouleur4_PreviewMouseLeftButtonUp">
-                    <Viewbox Height="30">
+                <StackPanel Grid.Column="3" Name="stpCouleur4" Cursor="Hand" Margin="0,5,0,0" PreviewMouseLeftButtonUp="stpCouleur4_PreviewMouseLeftButtonUp">
+                    <Viewbox Height="25">
                         <RadioButton GroupName="grpCouleurPiece"  Name="rdbCouleur04"/>
                     </Viewbox>
                     <Border Width="100" Height="65" BorderThickness="1" BorderBrush="Black">
@@ -96,9 +97,21 @@
                 </StackPanel>
             </Grid>
             <Separator Grid.Row="2" VerticalAlignment="Bottom"/>
-            <!-- Row 3 -->
-            <Button Name="btnAnnulerConfigPartie" Grid.Row="3" Height="35" Width="150" Content="Annuler" Margin="0,0,200,0" FontSize="15" HorizontalAlignment="Center" Click="btnAnnulerConfigPartie_Click" Cursor="Hand"></Button>
-            <Button Name="btnDebutPartie" Grid.Row="3" Height="35" Width="150" Content="Débuter la partie" IsDefault="False" FontSize="15" Margin="200,0,0,0" HorizontalAlignment="Center" Cursor="Hand" Click="btnDebutPartie_Click"></Button>
+            <!-- Rpw 3 -->
+            <Label Grid.Row="3" Grid.Column="0" Content="Niveau de difficulté :" FontWeight="Bold"  FontSize="20" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="20,0,0,0"></Label>
+            <DockPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Margin="0,0,10,0">
+                <Viewbox Height="30" Name="viewBoxReduireDifficulte" Cursor="Hand" PreviewMouseLeftButtonUp="viewBoxReduireDifficulte_PreviewMouseLeftButtonUp">
+                    <Image Source="./Ressources/Images/Moins.png" ></Image>
+                </Viewbox>
+                    <Label Name="lblDifficulte" Content="" Width="200" FontWeight="Heavy" FontStyle="Italic" FontSize="26"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+                <Viewbox Height="30" Name="viewBoxAugmenterDifficulte" Cursor="Hand" PreviewMouseLeftButtonUp="viewBoxAugmenterDifficulte_PreviewMouseLeftButtonUp">
+                    <Image Source="./Ressources/Images/Plus.png" ></Image>
+                </Viewbox>
+            </DockPanel>
+            <Separator Grid.Row="2" VerticalAlignment="Bottom"/>
+            <!-- Row 4 -->
+            <Button Name="btnAnnulerConfigPartie" Grid.Row="4" Height="35" Width="150" Content="Annuler" Margin="0,0,200,0" FontSize="15" HorizontalAlignment="Center" Click="btnAnnulerConfigPartie_Click" Cursor="Hand"></Button>
+            <Button Name="btnDebutPartie" Grid.Row="4" Height="35" Width="150" Content="Débuter la partie" IsDefault="False" FontSize="15" Margin="200,0,0,0" HorizontalAlignment="Center" Cursor="Hand" Click="btnDebutPartie_Click"></Button>
         </Grid>
     </Grid>
 </UserControl>

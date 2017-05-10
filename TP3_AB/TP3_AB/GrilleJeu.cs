@@ -89,6 +89,7 @@ namespace Othello
 
         private void AjouterPionsDepart()
         {
+
             /*
             for (int i = 0; i < 8; i++)
             {
@@ -100,7 +101,8 @@ namespace Othello
             }
 
             ListeCasesJeu[2][3].AjouterPion(Couleur.Noir);
-            ListeCasesJeu[2][4].AjouterPion(Couleur.Noir);
+            ListeCasesJeu[2][7].AjouterPion(Couleur.Noir);
+            
             ListeCasesJeu[2][5].AjouterPion(Couleur.Blanc);
             ListeCasesJeu[2][6].AjouterPion(Couleur.Noir);
 
@@ -116,13 +118,12 @@ namespace Othello
 
             ListeCasesJeu[5][4].AjouterPion(Couleur.Noir);
             */
-            
+
             ListeCasesJeu[3][3].AjouterPion(Couleur.Blanc);
             ListeCasesJeu[4][4].AjouterPion(Couleur.Blanc);
 
             ListeCasesJeu[3][4].AjouterPion(Couleur.Noir);
             ListeCasesJeu[4][3].AjouterPion(Couleur.Noir);
-            
         }
 
         public bool AjouterPion(Coordonnee position, Couleur couleur)

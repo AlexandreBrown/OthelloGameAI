@@ -71,14 +71,14 @@ namespace Othello
 
         private void OnNouvellePartie()
         {
-            InitialiserNouvellePartie(uctEcranDemarrage.TailleCase, uctEcranDemarrage.CouleurHumain, uctEcranDemarrage.CouleurAI);
+            InitialiserNouvellePartie(uctEcranDemarrage.TailleCase, uctEcranDemarrage.CouleurHumain, uctEcranDemarrage.CouleurAI,uctEcranDemarrage.Difficulte);
             OnSupprimerEcranActuel();
         }
 
-        public void InitialiserNouvellePartie(int tailleCases, SolidColorBrush couleurHumain, SolidColorBrush couleurAI)
+        public void InitialiserNouvellePartie(int tailleCases, SolidColorBrush couleurHumain, SolidColorBrush couleurAI,NiveauDifficulte difficulte)
         {
             RetirerJeuActuel();
-            CreerNouveauJeu(tailleCases, couleurHumain, couleurAI);
+            CreerNouveauJeu(tailleCases, couleurHumain, couleurAI, difficulte);
             AjouterJeu();
         }
 
@@ -90,9 +90,9 @@ namespace Othello
             }
         }
 
-        private void CreerNouveauJeu(int tailleCases, SolidColorBrush couleurHumain, SolidColorBrush couleurAI)
+        private void CreerNouveauJeu(int tailleCases, SolidColorBrush couleurHumain, SolidColorBrush couleurAI,NiveauDifficulte difficulte)
         {
-            uctJeuOthello = new JeuOthelloControl(tailleCases, couleurHumain, couleurAI);
+            uctJeuOthello = new JeuOthelloControl(tailleCases, couleurHumain, couleurAI, difficulte);
         }
 
         private void AjouterJeu()

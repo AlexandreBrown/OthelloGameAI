@@ -25,15 +25,15 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Othello Mania" FontSize="60" FontFamily="Bauhaus 93" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#334c9e"/>
             <!-- Row 1 -->
             <Rectangle Grid.Row="1" Grid.Column="0" Fill="#8d9099"/>
-            <Button Name="btnOuvrirInstructions" Grid.Row="1" Grid.Column="0" Height="70" Width="700" Cursor="Hand" Content="Instructions" FontSize="40" Click="btnOuvrirInstructions_Click"/>
+            <Button Name="btnOuvrirInstructions" Grid.Row="1" Grid.Column="0" Focusable="False" Height="70" Width="700" Cursor="Hand" Content="Instructions" FontSize="40" Click="btnOuvrirInstructions_Click"/>
 
             <!-- Row 2 -->
             <Rectangle Grid.Row="2" Grid.Column="0" Fill="#8d9099"/>
-            <Button Name="btnJouer" Grid.Row="2" Grid.Column="0" Height="70" Width="700" Cursor="Hand" Content="Jouer" FontSize="40" Click="btnJouer_Click"/>
+            <Button Name="btnJouer" Grid.Row="2" Grid.Column="0" Height="70" Focusable="False" Width="700" Cursor="Hand" Content="Jouer" FontSize="40" Click="btnJouer_Click"/>
 
             <!-- Row 4 -->
             <Rectangle Grid.Row="4" Grid.Column="0" Fill="#cfd1d8"/>
-            <Button Name="btnQuitMainWindow" Grid.Row="4" Grid.Column="0" Height="40" Width="150" Cursor="Hand" Content="Quitter" FontSize="20" Margin="0,0,10,0" HorizontalAlignment="Right" Click="btnQuitMainWindow_Click"/>
+            <Button Name="btnQuitMainWindow" Grid.Row="4" Grid.Column="0" Focusable="False" Height="40" Width="150" Cursor="Hand" Content="Quitter" FontSize="20" Margin="0,0,10,0" HorizontalAlignment="Right" Click="btnQuitMainWindow_Click"/>
         </Grid>
     </Grid>
 </Window>

@@ -23,6 +23,7 @@ namespace Othello
         private UserControl ContenuEcran { get; set; }
         private InstructionsControl uctInstructions { get; set; }
         private ControleurJeuControl uctControleurJeu { get; set; }
+        private EcranDemarragePartieControl uctEcranConfig { get; set; }
         
         public MainWindow()
         {
@@ -36,14 +37,35 @@ namespace Othello
 
         private void btnJouer_Click(object sender, RoutedEventArgs e)
         {
-            InitialiserPartie();
+            AfficherEcranDemarrage();
+            // Todo : Voir ivan et demander si il veux par defaut ou non
+            //InitialiserPartieParDefaut();
+        }
+
+        private void AfficherEcranDemarrage()
+        {
+            uctEcranConfig = new EcranDemarragePartieControl();
+            uctEcranConfig.SupprimerEcranActuel = OnSupprimerEcranActuel;
+            uctEcranConfig.NouvellePartie = InitialiserPartie;
+            ContenuEcran = uctEcranConfig;
+            grdConteneur.Children.Add(ContenuEcran);
         }
 
         private void InitialiserPartie()
         {
             uctControleurJeu = new ControleurJeuControl();
             uctControleurJeu.SupprimerControleur = OnSupprimerEcranActuel;
-            uctControleurJeu.InitialiserNouvellePartie(EcranDemarragePartieControl.TailleCaseDefault, EcranDemarragePartieControl.CouleurHumainDefault, EcranDemarragePartieControl.CouleurAIDefault);
+            uctControleurJeu.InitialiserNouvellePartie(uctEcranConfig.TailleCase, uctEcranConfig.CouleurHumain, uctEcranConfig.CouleurAI, uctEcranConfig.Difficulte);
+            OnSupprimerEcranActuel();
+            ContenuEcran = uctControleurJeu;
+            grdConteneur.Children.Add(ContenuEcran);
+        }
+
+        private void InitialiserPartieParDefaut()
+        {
+            uctControleurJeu = new ControleurJeuControl();
+            uctControleurJeu.SupprimerControleur = OnSupprimerEcranActuel;
+            uctControleurJeu.InitialiserNouvellePartie(EcranDemarragePartieControl.TailleCaseDefault, EcranDemarragePartieControl.CouleurHumainDefault, EcranDemarragePartieControl.CouleurAIDefault,EcranDemarragePartieControl.DifficulteParDefaut);
             ContenuEcran = uctControleurJeu;
             grdConteneur.Children.Add(ContenuEcran);
         }

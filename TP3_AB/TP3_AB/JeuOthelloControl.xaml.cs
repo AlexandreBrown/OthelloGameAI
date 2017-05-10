@@ -64,7 +64,7 @@ namespace Othello
         public GrilleJeu Grille { get; private set; }
 
         private List<List<Ellipse>> GrillePions { get; set; }
-        private List<Rectangle> CasesCoupsPermis { get; set; } = new List<Rectangle>();
+        private List<Ellipse> CasesCoupsPermis { get; set; } = new List<Ellipse>();
         private List<Coordonnee> CoupsPermisHumain { get; set; } = new List<Coordonnee>();
 
         public Couleur TourJeu { get; set; }
@@ -74,14 +74,11 @@ namespace Othello
 
         private IA_Othello IA { get; set; }
 
-        private bool HumainPasseTour = false;
-        private bool AIPasseTour = false;
-
         public Action SupprimerVue;
         public Action NouvellePartie { get; set; }
 
 
-        public JeuOthelloControl(int tailleCase, SolidColorBrush couleurPionHumain, SolidColorBrush couleurPionAI)
+        public JeuOthelloControl(int tailleCase, SolidColorBrush couleurPionHumain, SolidColorBrush couleurPionAI,NiveauDifficulte niveauDifficulte)
         {
             TailleCase = tailleCase;
             CouleurPionHumain = couleurPionHumain;
@@ -100,16 +97,16 @@ namespace Othello
             RafraichirAffichage();
             TourJeu = Couleur.Noir;
             // Initialiser l'IA.
-            IA = new IA_Othello(this);
+            IA = new IA_Othello(this, niveauDifficulte);
             MettreAJourScore();
             AfficherCasesCoupsPermisHumain();
         }
 
-        public JeuOthelloControl(JeuOthelloControl jeuSource,GrilleJeu grilleSource)
+        public JeuOthelloControl(GrilleJeu grilleSource)
         {
-            TailleCase = jeuSource.TailleCase;
-            CouleurPionHumain = jeuSource.CouleurPionHumain;
-            CouleurPionAI = jeuSource.CouleurPionAI;
+            TailleCase = EcranDemarragePartieControl.TailleCaseDefault;
+            CouleurPionHumain = EcranDemarragePartieControl.CouleurHumainDefault;
+            CouleurPionAI = EcranDemarragePartieControl.CouleurAIDefault;
             InitializeComponent();
             DefinirGrid();
             DefinirCouleurJoueurs(CouleurPionHumain, CouleurPionAI);
@@ -124,7 +121,7 @@ namespace Othello
             RafraichirAffichage();
             TourJeu = Couleur.Noir;
             // Initialiser l'IA.
-            IA = new IA_Othello(this);
+            IA = new IA_Othello(this,EcranDemarragePartieControl.DifficulteParDefaut);
             MettreAJourScore();
             AfficherCasesCoupsPermisHumain();
         }
@@ -529,32 +526,36 @@ namespace Othello
 
         private void EffacerCasesCoupsPermisHumain()
         {
-            foreach(Rectangle rect in CasesCoupsPermis)
+            foreach(var casePermise in CasesCoupsPermis)
             {
-                grdJeu.Children.Remove(rect);
+                grdJeu.Children.Remove(casePermise);
             }
         }
 
         private void AfficherCasesCoupsPermisHumain()
         {
-            MettreAJourCoupsPermisHumain();
+            MettreAJourCoupsPermis(Couleur.Noir);
             for (int i = 0; i < CoupsPermisHumain.Count; i++)
             {
-                Rectangle rect = new Rectangle();
-                rect.Fill = Brushes.Black;
-                rect.Opacity = 0.5;
-                rect.Height = TailleCase - 5;
-                rect.Width = TailleCase - 5;
-                Grid.SetColumn(rect, CoupsPermisHumain[i].X);
-                Grid.SetRow(rect, CoupsPermisHumain[i].Y);
-                grdJeu.Children.Add(rect);
-                CasesCoupsPermis.Add(rect);
+                Ellipse pionFantome = CreerCercle(Brushes.Black);
+                pionFantome.Opacity = 0.25;
+                Grid.SetColumn(pionFantome, CoupsPermisHumain[i].X);
+                Grid.SetRow(pionFantome, CoupsPermisHumain[i].Y);
+                grdJeu.Children.Add(pionFantome);
+                CasesCoupsPermis.Add(pionFantome);
             }
         }
 
-        private void MettreAJourCoupsPermisHumain()
+        private void MettreAJourCoupsPermis(Couleur couleurAppelante)
         {
-            CoupsPermisHumain = TrouverCoupsPermis(Couleur.Noir);
+            if(couleurAppelante == Couleur.Blanc)
+            {
+                IA.CoupsPermisAI = TrouverCoupsPermis(Couleur.Blanc);
+            }else if(couleurAppelante == Couleur.Noir)
+            {
+                CoupsPermisHumain = TrouverCoupsPermis(Couleur.Noir);
+            }
+            
         }
 
         public List<Coordonnee> TrouverCoupsPermis(Couleur couleurAppelante)
@@ -642,102 +643,87 @@ namespace Othello
         {
             if(TourJeu == Couleur.Noir)
             {
-                Coordonnee position = new Coordonnee(Grid.GetColumn(sender as UIElement), Grid.GetRow(sender as UIElement));
-                ExecuterChoixCase(position,Couleur.Noir);
+                    Coordonnee position = new Coordonnee(Grid.GetColumn(sender as UIElement), Grid.GetRow(sender as UIElement));
+                    ExecuterChoixCase(position, Couleur.Noir);
             }
         }
 
         public void ExecuterChoixCase(Coordonnee position,Couleur couleurAppelante)
         {
-            if (AuMoinsUnCoupPossible(couleurAppelante))
+            if (coupEstLegal(new Coordonnee(position.X, position.Y), couleurAppelante))
             {
-                if (coupEstLegal(new Coordonnee(position.X, position.Y), couleurAppelante))
+                // Jouer un coup.
+                Grille.AjouterPion(position, TourJeu);
+                InverserPionsAdverse(position, couleurAppelante);
+                RafraichirAffichage();
+                AjouterCerclePion(position, TourJeu);
+                MettreAJourScore();
+                if(PartieTerminee(TourJeu) == false)
                 {
-                    // Jouer un coup.
-                    Grille.AjouterPion(position, TourJeu);
-                    InverserPionsAdverse(position, couleurAppelante);
-                    RafraichirAffichage();
-                    AjouterCerclePion(position, TourJeu);
-                    MettreAJourScore();
-                    if (TourJeu == Couleur.Blanc)
+                    if(AdversaireDoitPasserUnTour(TourJeu) == false)
                     {
-                        this.Cursor = Cursors.Arrow;
-                        EffacerCasesCoupsPermisHumain();
-                        AfficherCasesCoupsPermisHumain();
-                        TourJeu = Couleur.Noir;
+                        if (TourJeu == Couleur.Blanc)
+                        {
+                            this.Cursor = Cursors.Arrow;
+                            EffacerCasesCoupsPermisHumain();
+                            AfficherCasesCoupsPermisHumain();
+                            TourJeu = Couleur.Noir;
+                        }
+                        else
+                        {
+                            EffacerCasesCoupsPermisHumain();
+                            this.Cursor = Cursors.No;
+                            TourJeu = Couleur.Blanc;
+                            Notify();
+                        }
                     }
                     else
                     {
-                        EffacerCasesCoupsPermisHumain();
-                        this.Cursor = Cursors.No;
-                        TourJeu = Couleur.Blanc;
+                        if(TourJeu == Couleur.Blanc)
+                        {
+                            MessageBox.Show("VOUS DEVEZ PASSER VOTRE TOUR!");
+                            Notify();
+                        }
                     }
-
-                    Notify();
+                }
+                else
+                {
+                    MessageBox.Show("GAME OVER!");
                 }
             }
-            else
-            {
-                MettreAJourTourPasse(couleurAppelante);
-            }
-
         }
 
-        private bool AuMoinsUnCoupPossible(Couleur couleurAppelante)
+        private bool PartieTerminee(Couleur joueurActuel)
         {
-            if(couleurAppelante == Couleur.Blanc)
+            return (AdversaireDoitPasserUnTour(joueurActuel) && CoupPossible(joueurActuel) == false);
+        }
+
+        private bool AdversaireDoitPasserUnTour(Couleur joueurActuel)
+        {
+            if(joueurActuel == Couleur.Blanc)
             {
-                return AIPeutJouer();
-            }else if(couleurAppelante == Couleur.Noir)
+                return (CoupPossible(Couleur.Noir) == false);
+            }
+            if(joueurActuel == Couleur.Noir)
             {
-                return HumainPeutJouer();
+                return (CoupPossible(Couleur.Blanc) == false);
             }
             return false;
+           
         }
 
-        private bool HumainPeutJouer()
+        public bool CoupPossible(Couleur couleurAppelante)
         {
-            if (CoupsPermisHumain.Count == 0)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        private bool AIPeutJouer()
-        {
-            if (IA.CoupsPermisAI.Count == 0)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public void MettreAJourTourPasse(Couleur couleurAppelante)
-        {
+            MettreAJourCoupsPermis(couleurAppelante);
             if (couleurAppelante == Couleur.Blanc)
             {
-                AIPasseTour = true;
-            }
-            else if (couleurAppelante == Couleur.Noir)
+                return IA.CoupsPermisAI.Count > 0;
+            }else if (couleurAppelante == Couleur.Noir)
             {
-                HumainPasseTour = true;
+                return CoupsPermisHumain.Count > 0;
             }
-            VerifierSiPartieTerminee();
-        }
-
-        private void VerifierSiPartieTerminee()
-        {
-            if(PartieEstTerminee())
-            {
-                MessageBox.Show("GAME OVER!");
-            }
-        }
-
-        private bool PartieEstTerminee()
-        {
-            return AIPasseTour && HumainPasseTour;
-        }
+            return false;
+        } 
 
         private bool EstPionAdverse(Coordonnee position,Couleur couleurAppelante)
         {

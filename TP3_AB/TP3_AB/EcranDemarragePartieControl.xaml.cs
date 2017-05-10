@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 namespace Othello
 {
+    public enum NiveauDifficulte { Facile,Normal,Difficile,Professionnel }
     /// <summary>
     /// Interaction logic for EcranDemarragePartieControl.xaml
     /// </summary>
@@ -25,6 +26,8 @@ namespace Othello
         public int TailleCase { get; set; }
         public SolidColorBrush CouleurHumain { get; set; }
         public SolidColorBrush CouleurAI { get; set; }
+        public NiveauDifficulte Difficulte { get; set; }
+        public static NiveauDifficulte DifficulteParDefaut { get; set; } = NiveauDifficulte.Normal;
         public static int TailleCaseDefault = 50;
         public static SolidColorBrush CouleurHumainDefault = (SolidColorBrush) (new BrushConverter().ConvertFrom("#000000"));
         public static SolidColorBrush CouleurAIDefault = (SolidColorBrush) (new BrushConverter().ConvertFrom("#FFFFFF"));
@@ -50,6 +53,8 @@ namespace Othello
             SetTailleCasePreview(TailleCaseDefault);
             SetSelectedColor(1);
             rdbCouleur01.IsChecked = true;
+            Difficulte = DifficulteParDefaut;
+            MettreAJourDifficulteAfficher();
         }
 
         private void sldTailleCase_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -117,6 +122,57 @@ namespace Othello
         {
             rdbCouleur04.IsChecked = true;
             SetSelectedColor(4);
+        }
+
+        private void AugmenterDifficulte()
+        {
+            int augmentation= 1;
+            if((int)Difficulte < Enum.GetNames(typeof(NiveauDifficulte)).Length -1 )
+            {
+                Difficulte = (NiveauDifficulte)((int)Difficulte + augmentation);
+            }
+        }
+
+        private void ReduireDifficulte()
+        {
+            int reduction = 1;
+            if ((int)Difficulte > (int)NiveauDifficulte.Facile )
+            {
+                Difficulte = (NiveauDifficulte)((int)Difficulte - reduction);
+            }
+        }
+
+        private void MettreAJourDifficulteAfficher()
+        {
+            string nouvelleDiff = "";
+            switch((int)Difficulte)
+            {
+                case (int)NiveauDifficulte.Facile:
+                    nouvelleDiff = "Facile";
+                    break;
+                case (int)NiveauDifficulte.Normal:
+                    nouvelleDiff = "Normal";
+                    break;
+                case (int)NiveauDifficulte.Difficile:
+                    nouvelleDiff = "Difficile";
+                    break;
+                case (int)NiveauDifficulte.Professionnel:
+                    nouvelleDiff = "Professionnel";
+                    break;
+            }
+            lblDifficulte.Content = nouvelleDiff;
+        }
+
+        private void viewBoxReduireDifficulte_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ReduireDifficulte();
+            MettreAJourDifficulteAfficher();
+        }
+
+        private void viewBoxAugmenterDifficulte_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            AugmenterDifficulte();
+            MettreAJourDifficulteAfficher();
         }
     }
 }
