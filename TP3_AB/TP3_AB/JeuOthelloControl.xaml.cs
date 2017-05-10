@@ -77,6 +77,8 @@ namespace Othello
         public Action SupprimerVue;
         public Action NouvellePartie { get; set; }
 
+        public bool EnCours { get; set; } = false;
+
 
         public JeuOthelloControl(int tailleCase, SolidColorBrush couleurPionHumain, SolidColorBrush couleurPionAI,NiveauDifficulte niveauDifficulte)
         {
@@ -658,7 +660,8 @@ namespace Othello
                 RafraichirAffichage();
                 AjouterCerclePion(position, TourJeu);
                 MettreAJourScore();
-                if(PartieTerminee(TourJeu) == false)
+                EnCours = true; 
+                if (PartieTerminee(TourJeu) == false)
                 {
                     if(AdversaireDoitPasserUnTour(TourJeu) == false)
                     {
@@ -679,7 +682,7 @@ namespace Othello
                     }
                     else
                     {
-                        if(TourJeu == Couleur.Blanc)
+                        if (TourJeu == Couleur.Blanc)
                         {
                             MessageBox.Show("VOUS DEVEZ PASSER VOTRE TOUR!");
                             Notify();
@@ -688,12 +691,13 @@ namespace Othello
                 }
                 else
                 {
+                    EnCours = false;
                     MessageBox.Show("GAME OVER!");
                 }
             }
         }
 
-        private bool PartieTerminee(Couleur joueurActuel)
+        public bool PartieTerminee(Couleur joueurActuel)
         {
             return (AdversaireDoitPasserUnTour(joueurActuel) && CoupPossible(joueurActuel) == false);
         }

@@ -32,7 +32,29 @@ namespace Othello
 
         private void btnNouvellePartie_Click(object sender, RoutedEventArgs e)
         {
-            InitialiserConfigPartie();
+
+            if(PartieEnCours())
+            {
+                ValiderEcrasementDePartie();
+            }
+            else
+            {
+                InitialiserConfigPartie();
+            }
+        }
+
+        private void ValiderEcrasementDePartie()
+        {
+            MessageBoxResult resultat = System.Windows.MessageBox.Show("La partie en cours sera écrasée", "Nouvelle partie?", MessageBoxButton.OKCancel, MessageBoxImage.Exclamation, MessageBoxResult.Cancel);
+            if (resultat == MessageBoxResult.OK)
+            {
+                InitialiserConfigPartie();
+            }
+        }
+
+        private bool PartieEnCours()
+        {
+            return uctJeuOthello.EnCours;
         }
 
         private void btnAllerMenuPrincipal_Click(object sender, RoutedEventArgs e)
