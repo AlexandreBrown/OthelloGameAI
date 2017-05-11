@@ -20,26 +20,10 @@
         <Rectangle Grid.Row="0" Grid.Column="0" Fill="#8d9099" Height="45" Width="780"></Rectangle>
         <Label Content="Instructions" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center"></Label>
         <!-- Row 1 -->
-        <TextBlock Width="780" Height="450" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" 
-            Text=
-            "Le jeu se joue sur une grille de 64 cases (8 par 8).
-            o Les coordonnées des cases vont de A à H de gauche à droite et de 1 à 8 du haut vers le bas.
-            • Au début de la partie …
-                o Deux pions blancs sont placés en D4 et E5.
-                o Deux pions noirs sont placés en E4 et D5.
-            • Le premier joueur est toujours celui qui contrôle les pions noirs.
-            • Il y a deux conditions à vérifier pour qu'un coup soit considéré comme étant légal.
-                o Le pion doit être placé sur une case vide qui est adjacente à un pion adverse.
-                o Le pion doit de plus encadrer au moins un pion de l'adversaire.
-           Par « encadrer », on entend qu'au moins un pion de la couleur de l'adversaire se retrouvera
-            positionné entre le nouveau pion du joueur et un pion de ce même joueur déjà présent en jeu.
-            Ceci peut être fait sur un axe horizontal, vertical ou diagonal.
-            • Quand un coup est joué, tous les pions de l'adversaire qui sont encadrés changent de couleur et
-                prennent celle du joueur qui vient de jouer son coup.
-            • Si aucun coup légal n'existe pour un joueur, il passe son tour.
-                o Si les deux joueurs passent leur tour l'un après l'autre, la partie se termine.
-            • Lorsqu'une partie est terminée, le joueur ayant la couleur avec le plus de pions en jeu gagne.">
-        </TextBlock>
+        <TextBlock Name="txbInstructions" Width="750" Height="400" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" />
+        <Border Grid.Row="1" Grid.Column="0" Margin="0,5,25,0" BorderThickness="5" BorderBrush="Black" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <MediaElement Name="mediaExempleJeuOthello" Source="./Ressources/Images/ExemplePartieOthello.gif" MediaEnded="mediaExempleJeuOthello_MediaEnded" HorizontalAlignment="Right" VerticalAlignment="Top" Height="200" Grid.Row="1" Grid.Column="0" />
+        </Border>
         <!-- Row 2 -->
         <Rectangle Grid.Row="2" Grid.Column="0" Fill="#191d2c"></Rectangle>
         <Rectangle Grid.Row="2" Grid.Column="0" Fill="#8d9099" Height="30" Width="780"></Rectangle>

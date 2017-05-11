@@ -742,7 +742,7 @@ namespace Othello
                 msg.Append("Vous avez gagné!\n");
             }else
             {
-                msg.Append("Égalité");
+                msg.Append("Égalité\n");
             }
             msg.Append("Ordinateur : ").Append(scoreAI.ToString()).Append(" Vous : ").Append(scoreHumain.ToString());
             return msg.ToString();

@@ -8,7 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/moins.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/images/plus.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ressources/dll/wpfanimatedgif.dll")]
 
 
