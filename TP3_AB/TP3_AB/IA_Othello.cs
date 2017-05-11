@@ -244,12 +244,18 @@ namespace Othello
             foreach (Coordonnee position in jeuEnSimulation.TrouverCoupsPermis(couleurMinimizer))
             {
                 int score = 0;
-                // On récupère le score du AI suite au coup actuel
-                score = ScoreAIApresCoupSimule(jeuEnSimulation, position, couleurMinimizer);
+                if (EstCoin(position) == false )
+                {
+                    // On récupère le score du AI suite au coup actuel
+                    score = ScoreAIApresCoupSimule(jeuEnSimulation, position, couleurMinimizer);
+                }else
+                {
+                    score = -64;
+                }
                 // On stock le coup (la position que nous avons évaluée ainsi que sa valeur)
                 Coup coup = new Coup(position, score);
                 // On ajoute ce coup à notre liste
-                lstCoups.Add(coup);
+                lstCoups.Add(coup);  
             }
             if (lstCoups.Count > 0)
             {
@@ -269,8 +275,15 @@ namespace Othello
             foreach (Coordonnee position in jeuEnSimulation.TrouverCoupsPermis(couleurMaximizer))
             {
                 int score = 0;
-                // On récupère le score du AI suite au coup actuel
-                score = ScoreAIApresCoupSimule(jeuEnSimulation, position, couleurMaximizer);
+                if (EstCoin(position) == false)
+                {
+                    // On récupère le score du AI suite au coup actuel
+                    score = ScoreAIApresCoupSimule(jeuEnSimulation, position, couleurMaximizer);
+                }
+                else
+                {
+                    score = 64;
+                }
                 // On stock le coup (la position que nous avons évaluée ainsi que sa valeur)
                 Coup coup = new Coup(position, score);
                 // On ajoute ce coup à notre liste

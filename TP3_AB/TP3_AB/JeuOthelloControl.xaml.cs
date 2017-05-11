@@ -74,6 +74,8 @@ namespace Othello
 
         private IA_Othello IA { get; set; }
 
+        private NiveauDifficulte Difficulte { get; set; }
+
         public Action SupprimerVue;
         public Action NouvellePartie { get; set; }
 
@@ -85,6 +87,7 @@ namespace Othello
             TailleCase = tailleCase;
             CouleurPionHumain = couleurPionHumain;
             CouleurPionAI = couleurPionAI;
+            Difficulte = niveauDifficulte;
             InitializeComponent();
             DefinirGrid();
             DefinirCouleurJoueurs(CouleurPionHumain, CouleurPionAI);
@@ -528,7 +531,7 @@ namespace Othello
 
         private void EffacerCasesCoupsPermisHumain()
         {
-            foreach(var casePermise in CasesCoupsPermis)
+            foreach (var casePermise in CasesCoupsPermis)
             {
                 grdJeu.Children.Remove(casePermise);
             }
@@ -557,7 +560,6 @@ namespace Othello
             {
                 CoupsPermisHumain = TrouverCoupsPermis(Couleur.Noir);
             }
-            
         }
 
         public List<Coordonnee> TrouverCoupsPermis(Couleur couleurAppelante)
@@ -682,9 +684,9 @@ namespace Othello
                     }
                     else
                     {
+                        AfficherMsgAdversairePasseTour(TourJeu);
                         if (TourJeu == Couleur.Blanc)
                         {
-                            MessageBox.Show("VOUS DEVEZ PASSER VOTRE TOUR!");
                             Notify();
                         }
                     }
@@ -692,9 +694,41 @@ namespace Othello
                 else
                 {
                     EnCours = false;
-                    MessageBox.Show("GAME OVER!");
+                    MessageBox.Show("Partie terminée\n"+AfficherScoresEtGagant(),"Partie terminée");
                 }
             }
+        }
+
+        private void AfficherMsgAdversairePasseTour(Couleur TourJeu)
+        {
+            StringBuilder msg = new StringBuilder();
+            if(TourJeu == Couleur.Blanc)
+            {
+                msg.Append("Aucun coup possible , vous devez passer votre tour!");
+            }else
+            {
+                msg.Append("Aucun coup possible pour l'ordinateur, il passe son tour!");
+            }
+            MessageBox.Show(msg.ToString());
+        }
+
+        private string AfficherScoresEtGagant()
+        {
+            StringBuilder msg = new StringBuilder();
+            int scoreAI = Grille.CalculerNbPionsBlancs();
+            int scoreHumain = Grille.CalculerNbPionsNoirs();
+            if(scoreAI > scoreHumain)
+            {
+                msg.Append("Vous avez perdu!\n");
+            }else if (scoreHumain > scoreAI)
+            {
+                msg.Append("Vous avez gagné!\n");
+            }else
+            {
+                msg.Append("Égalité");
+            }
+            msg.Append("Ordinateur : ").Append(scoreAI.ToString()).Append(" Vous : ").Append(scoreHumain.ToString());
+            return msg.ToString();
         }
 
         public bool PartieTerminee(Couleur joueurActuel)

@@ -38,8 +38,6 @@ namespace Othello
         private void btnJouer_Click(object sender, RoutedEventArgs e)
         {
             AfficherEcranDemarrage();
-            // Todo : Voir ivan et demander si il veux par defaut ou non
-            //InitialiserPartieParDefaut();
         }
 
         private void AfficherEcranDemarrage()
@@ -57,15 +55,6 @@ namespace Othello
             uctControleurJeu.SupprimerControleur = OnSupprimerEcranActuel;
             uctControleurJeu.InitialiserNouvellePartie(uctEcranConfig.TailleCase, uctEcranConfig.CouleurHumain, uctEcranConfig.CouleurAI, uctEcranConfig.Difficulte);
             OnSupprimerEcranActuel();
-            ContenuEcran = uctControleurJeu;
-            grdConteneur.Children.Add(ContenuEcran);
-        }
-
-        private void InitialiserPartieParDefaut()
-        {
-            uctControleurJeu = new ControleurJeuControl();
-            uctControleurJeu.SupprimerControleur = OnSupprimerEcranActuel;
-            uctControleurJeu.InitialiserNouvellePartie(EcranDemarragePartieControl.TailleCaseDefault, EcranDemarragePartieControl.CouleurHumainDefault, EcranDemarragePartieControl.CouleurAIDefault,EcranDemarragePartieControl.DifficulteParDefaut);
             ContenuEcran = uctControleurJeu;
             grdConteneur.Children.Add(ContenuEcran);
         }
