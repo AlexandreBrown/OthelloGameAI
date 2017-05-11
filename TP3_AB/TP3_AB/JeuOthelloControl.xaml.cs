@@ -105,6 +105,7 @@ namespace Othello
             IA = new IA_Othello(this, niveauDifficulte);
             MettreAJourScore();
             AfficherCasesCoupsPermisHumain();
+            SetCouleurTourJeu();
         }
 
         public JeuOthelloControl(GrilleJeu grilleSource)
@@ -645,7 +646,7 @@ namespace Othello
 
         private void GrilleJeu_Click(object sender, MouseButtonEventArgs e)
         {
-            if(TourJeu == Couleur.Noir)
+            if(TourJeu == Couleur.Noir && PartieTerminee(Couleur.Noir) == false)
             {
                     Coordonnee position = new Coordonnee(Grid.GetColumn(sender as UIElement), Grid.GetRow(sender as UIElement));
                     ExecuterChoixCase(position, Couleur.Noir);
@@ -677,10 +678,11 @@ namespace Othello
                         else
                         {
                             EffacerCasesCoupsPermisHumain();
-                            this.Cursor = Cursors.No;
+                            this.Cursor = Cursors.Wait;
                             TourJeu = Couleur.Blanc;
                             Notify();
                         }
+                        SetCouleurTourJeu();
                     }
                     else
                     {
@@ -693,9 +695,24 @@ namespace Othello
                 }
                 else
                 {
+                    this.Cursor = Cursors.Arrow;
                     EnCours = false;
-                    MessageBox.Show("Partie terminée\n"+AfficherScoresEtGagant(),"Partie terminée");
+                    MessageBox.Show("Score final\n"+AfficherScoresEtGagant(),"Partie terminée");
                 }
+            }
+        }
+
+        private void SetCouleurTourJeu()
+        {
+            if(TourJeu == Couleur.Blanc)
+            {
+                lblHumain.Foreground = Brushes.Black;
+                lblAI.Foreground = Brushes.Blue;
+            }
+            else if(TourJeu == Couleur.Noir)
+            {
+                lblAI.Foreground = Brushes.Black;
+                lblHumain.Foreground = Brushes.Blue;
             }
         }
 
@@ -707,9 +724,9 @@ namespace Othello
                 msg.Append("Aucun coup possible , vous devez passer votre tour!");
             }else
             {
-                msg.Append("Aucun coup possible pour l'ordinateur, il passe son tour!");
+                msg.Append("Aucun coup possible pour l'ordinateur, il doit passer son tour!");
             }
-            MessageBox.Show(msg.ToString());
+            MessageBox.Show(msg.ToString(),"Information");
         }
 
         private string AfficherScoresEtGagant()

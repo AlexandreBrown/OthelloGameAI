@@ -7,6 +7,63 @@
         mc:Ignorable="d"
         Title="Othello" Height="600" Width="800" 
         ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" CornerRadius="8" BorderBrush="Black" BorderThickness="2">
+                                <Border.Background>
+                                    <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                        <RadialGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5" 
+                                   ScaleX="1.5" ScaleY="1.5"/>
+                                                <TranslateTransform X="0.02" Y="0.3"/>
+                                            </TransformGroup>
+                                        </RadialGradientBrush.RelativeTransform>
+                                        <GradientStop Offset="1" Color="#00000000"/>
+                                        <GradientStop Offset="0.3" Color="#FFFFFFFF"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         TextElement.FontWeight="Bold"></ContentPresenter>
+                            </Border>
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                            <RadialGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                                    <TranslateTransform X="0.02" Y="0.3"/>
+                                                </TransformGroup>
+                                            </RadialGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#00000000" Offset="1"/>
+                                            <GradientStop Color="#FF303030" Offset="0.3"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#4286f4"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
     <Grid Name="grdConteneur">
         <Grid Name="grdPrincipale">
             <Grid.RowDefinitions>
@@ -25,15 +82,15 @@
             <Label Grid.Row="0" Grid.Column="0" Content="Othello Mania" FontSize="60" FontFamily="Bauhaus 93" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#334c9e"/>
             <!-- Row 1 -->
             <Rectangle Grid.Row="1" Grid.Column="0" Fill="#8d9099"/>
-            <Button Name="btnOuvrirInstructions" Grid.Row="1" Grid.Column="0" Focusable="False" Height="70" Width="700" Cursor="Hand" Content="Instructions" FontSize="40" Click="btnOuvrirInstructions_Click"/>
+            <Button Name="btnOuvrirInstructions" Grid.Row="1" Grid.Column="0" Focusable="False" Height="70" Width="700" Content="Instructions" FontSize="40" Click="btnOuvrirInstructions_Click"/>
 
             <!-- Row 2 -->
             <Rectangle Grid.Row="2" Grid.Column="0" Fill="#8d9099"/>
-            <Button Name="btnJouer" Grid.Row="2" Grid.Column="0" Height="70" Focusable="False" Width="700" Cursor="Hand" Content="Jouer" FontSize="40" Click="btnJouer_Click"/>
+            <Button Name="btnJouer" Grid.Row="2" Grid.Column="0" Height="70" Focusable="False" Width="700" Content="Jouer" FontSize="40" Click="btnJouer_Click"/>
 
             <!-- Row 4 -->
             <Rectangle Grid.Row="4" Grid.Column="0" Fill="#cfd1d8"/>
-            <Button Name="btnQuitMainWindow" Grid.Row="4" Grid.Column="0" Focusable="False" Height="40" Width="150" Cursor="Hand" Content="Quitter" FontSize="20" Margin="0,0,10,0" HorizontalAlignment="Right" Click="btnQuitMainWindow_Click"/>
+            <Button Name="btnQuitMainWindow" Grid.Row="4" Grid.Column="0" Focusable="False" Height="40" Width="150" Content="Quitter" FontSize="20" Margin="0,0,10,0" HorizontalAlignment="Right" Click="btnQuitMainWindow_Click"/>
         </Grid>
     </Grid>
 </Window>

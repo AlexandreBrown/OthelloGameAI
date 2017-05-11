@@ -34,7 +34,7 @@
                 <Border Width="40" Height="30" BorderThickness="1" BorderBrush="Black">
                     <Image x:Name="imgCouleurHumain" Width="40" Height="30" ></Image>
                 </Border>
-                <Label Content="Vous:" FontSize="25" FontWeight="Bold"></Label>
+                <Label Name="lblHumain" Content="Vous:" FontSize="25" FontWeight="Bold"></Label>
                 <Label Name="lblHumainScore" FontSize="25"></Label>
             </DockPanel>
             <!--Nombre de pièces ordinateur -->
@@ -42,7 +42,7 @@
                 <Border Width="40" Height="30" BorderThickness="1" BorderBrush="Black">
                     <Image x:Name="imgCouleurAI" Width="40" Height="30"></Image>
                 </Border>
-                <Label Content="L'ordinateur:" FontSize="25" FontWeight="Bold" ></Label>
+                <Label Name="lblAI" Content="L'ordinateur:" FontSize="25" FontWeight="Bold" ></Label>
                 <Label Name="lblAIScore" FontSize="25"></Label>
             </DockPanel>
             <!-- Row 1 -->

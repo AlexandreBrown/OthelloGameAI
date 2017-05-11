@@ -42,6 +42,7 @@
         </TextBlock>
         <!-- Row 2 -->
         <Rectangle Grid.Row="2" Grid.Column="0" Fill="#191d2c"></Rectangle>
-        <Button Grid.Row="2" Name="btnQuitter" Content="J'ai compris!" Cursor="Hand" Height="35" Width="150" Click="btnQuitter_Click"></Button>
+        <Rectangle Grid.Row="2" Grid.Column="0" Fill="#8d9099" Height="30" Width="780"></Rectangle>
+        <Button Grid.Row="2" Name="btnQuitter" Content="J'ai compris!" Height="28" Width="150" Click="btnQuitter_Click"></Button>
     </Grid>
 </UserControl>

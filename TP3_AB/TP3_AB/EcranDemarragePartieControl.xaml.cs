@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 
 namespace Othello
 {
-    public enum NiveauDifficulte { Facile,Normal,Difficile,Professionnel }
     /// <summary>
     /// Interaction logic for EcranDemarragePartieControl.xaml
     /// </summary>
@@ -129,6 +128,10 @@ namespace Othello
             int augmentation= 1;
             if((int)Difficulte < Enum.GetNames(typeof(NiveauDifficulte)).Length -1 )
             {
+                if((int)Difficulte == (int)NiveauDifficulte.Difficile)
+                {
+                    augmentation = ((int)NiveauDifficulte.Professionnel - (int)Difficulte);
+                }
                 Difficulte = (NiveauDifficulte)((int)Difficulte + augmentation);
             }
         }
@@ -138,6 +141,10 @@ namespace Othello
             int reduction = 1;
             if ((int)Difficulte > (int)NiveauDifficulte.Facile )
             {
+                if ((int)Difficulte == (int)NiveauDifficulte.Professionnel)
+                {
+                    reduction = ((int)NiveauDifficulte.Professionnel - (int)NiveauDifficulte.Difficile);
+                }
                 Difficulte = (NiveauDifficulte)((int)Difficulte - reduction);
             }
         }
