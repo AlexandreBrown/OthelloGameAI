@@ -62,3 +62,4 @@ C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorati
 C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello.exe
 C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello.pdb
 C:\Users\alinux\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\obj\Debug\Othello.csprojResolveAssemblyReference.cache
+C:\Users\MaitreBrown\Documents\session4\ameliorationFonc\tp\cegep_session4_ameliorationFonc_TP_Synthese\TP3_AB\TP3_AB\bin\Debug\Ressources\Images\ExemplePartieOthello.gif

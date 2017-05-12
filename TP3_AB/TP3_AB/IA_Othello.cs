@@ -100,19 +100,26 @@ namespace Othello
         {
             if(Difficulte > NiveauDifficulte.Facile)
             {
-                if(PossibiliteDeCoin(lstPositionsPossibles) == false)
+                if(ListeCoupsContientCoupGagnant(lstPositionsPossibles,Jeu) == false)
                 {
-                    List<Coup> lstCoups = new List<Coup>();
-                    // Attribut un score selon le nombre de coups en avance voulu pour chaque position , ce qui forme un coup pour chaque positions valides
-                    RemplirListeCoups(lstCoups, lstPositionsPossibles, nombreDeCoupsEnAvance, jeu,grille);
-                    // On attribut le coup avec le plus gros score à la variable meilleurCoup
-                    Coordonnee meilleurPosition = PositionMaxCoups(lstCoups);
-                    // On retourne la position du meilleur coup
-                    return meilleurPosition;
+                    if(PossibiliteDeCoin(lstPositionsPossibles) == false)
+                    {
+                        List<Coup> lstCoups = new List<Coup>();
+                        // Attribut un score selon le nombre de coups en avance voulu pour chaque position , ce qui forme un coup pour chaque positions valides
+                        RemplirListeCoups(lstCoups, lstPositionsPossibles, nombreDeCoupsEnAvance, jeu,grille);
+                        // On attribut le coup avec le plus gros score à la variable meilleurCoup
+                        Coordonnee meilleurPosition = PositionMaxCoups(lstCoups);
+                        // On retourne la position du meilleur coup
+                        return meilleurPosition;
+                    }
+                    else
+                    {
+                        return TrouverCoin(lstPositionsPossibles); // Les coins sont des positions très importantes qui devraient toujours être priorisées
+                    }
                 }
                 else
                 {
-                    return TrouverCoin(lstPositionsPossibles); // Les coins sont des positions très importantes qui devraient toujours être priorisées
+                    return TrouverCoupGagnant(lstPositionsPossibles, Jeu);
                 }
             }
             else
@@ -324,14 +331,77 @@ namespace Othello
             return scoreDuJeu;
         }
 
+        private int CalculerScoreAISelonMobilitee(JeuOthelloControl jeuEnSimulation)
+        {
+            int score = 0;
+            score = jeuEnSimulation.TrouverCoupsPermis(CouleurIA).Count;
+            return score;
+        }
+
+        private bool ResteCoins(JeuOthelloControl jeu)
+        {
+            int compteurCoinsRestants = 4;
+            for (int i = 1; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 1; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Coordonnee position = new Coordonnee(i, j);
+                    if(EstCoin(position))
+                    {
+                        compteurCoinsRestants--;
+                    }
+                }
+            }
+            return compteurCoinsRestants > 0;
+        }
+
+        private bool ListeCoupsContientCoupGagnant(List<Coordonnee> lstCoups,JeuOthelloControl jeu)
+        {
+            foreach (Coordonnee coup in lstCoups)
+            {
+                if (CoupGagnant(coup, jeu))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private Coordonnee TrouverCoupGagnant(List<Coordonnee> lstCoups,JeuOthelloControl jeu)
+        {
+            foreach (Coordonnee coup in lstCoups)
+            {
+                if(CoupGagnant(coup,jeu))
+                {
+                    return coup;
+                }
+            }
+            return new Coordonnee(0,0);
+        }
+
+        private bool CoupGagnant(Coordonnee positionEnVerification,JeuOthelloControl jeuEnVerification)
+        {
+            JeuOthelloControl jeuSimulation = new JeuOthelloControl(jeuEnVerification.Grille);
+            jeuSimulation.InverserPionsAdverse(positionEnVerification, CouleurIA);
+            jeuSimulation.Grille.AjouterPion(positionEnVerification, CouleurIA);
+            return (jeuSimulation.TrouverCoupsPermis(Couleur.Noir).Count == 0) ;
+        }
+
         private int ScoreAIApresCoupSimule(JeuOthelloControl jeuEnSimulation, Coordonnee position,Couleur joueurEnSimulation)
         {
             int score = 0;
+            int multiplicateurRegions = 100;
+            int multiplicateurPionsRetournes = 1;
             JeuOthelloControl jeuSimulation = new JeuOthelloControl(jeuEnSimulation.Grille);
             jeuSimulation.InverserPionsAdverse(position, joueurEnSimulation);
             jeuSimulation.Grille.AjouterPion(position, joueurEnSimulation);
-            score += CalculerScoreAISelonRegions(jeuSimulation) * 100;
-            score += jeuEnSimulation.Grille.CalculerNbPionsBlancs();
+            if(ResteCoins(jeuEnSimulation) == false)
+            {
+                multiplicateurPionsRetournes = 1000;
+            }
+            score += CalculerScoreAISelonRegions(jeuSimulation)* multiplicateurRegions;
+            score += ((jeuEnSimulation.Grille.CalculerNbPionsBlancs() - jeuEnSimulation.Grille.CalculerNbPionsNoirs())* multiplicateurPionsRetournes);
+            score += CalculerScoreAISelonMobilitee(jeuEnSimulation);
             return score;
         }
 
