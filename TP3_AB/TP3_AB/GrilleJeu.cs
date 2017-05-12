@@ -89,36 +89,6 @@ namespace Othello
 
         private void AjouterPionsDepart()
         {
-
-            /*
-            for (int i = 0; i < 8; i++)
-            {
-                ListeCasesJeu[0][i].AjouterPion(Couleur.Blanc);
-            }
-            for (int i = 1; i < 8; i++)
-            {
-                ListeCasesJeu[1][i].AjouterPion(Couleur.Blanc);
-            }
-
-            ListeCasesJeu[2][3].AjouterPion(Couleur.Noir);
-            ListeCasesJeu[2][7].AjouterPion(Couleur.Noir);
-            
-            ListeCasesJeu[2][5].AjouterPion(Couleur.Blanc);
-            ListeCasesJeu[2][6].AjouterPion(Couleur.Noir);
-
-            ListeCasesJeu[3][3].AjouterPion(Couleur.Noir);
-            ListeCasesJeu[3][4].AjouterPion(Couleur.Noir);
-            ListeCasesJeu[3][5].AjouterPion(Couleur.Noir);
-            ListeCasesJeu[3][6].AjouterPion(Couleur.Noir);
-
-            ListeCasesJeu[4][3].AjouterPion(Couleur.Noir);
-            ListeCasesJeu[4][4].AjouterPion(Couleur.Noir);
-            ListeCasesJeu[4][6].AjouterPion(Couleur.Noir);
-            ListeCasesJeu[4][7].AjouterPion(Couleur.Noir);
-
-            ListeCasesJeu[5][4].AjouterPion(Couleur.Noir);
-            */
-
             ListeCasesJeu[3][3].AjouterPion(Couleur.Blanc);
             ListeCasesJeu[4][4].AjouterPion(Couleur.Blanc);
 
