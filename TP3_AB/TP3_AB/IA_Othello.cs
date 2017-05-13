@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace Othello
 {
-    public enum NiveauDifficulte { Facile, Normal, Difficile, Professionnel = 4 }
+    public enum NiveauDifficulte { Facile, Normal, Difficile, Professionnel }
     [Serializable]
     public class IA_Othello : IObserver<JeuOthelloControl>
     {
@@ -202,11 +202,11 @@ namespace Othello
             {
                 List<Coup> lstCoups = new List<Coup>();
                 // Un coup sur deux sera le tour du "minimizer" , autrement dit le joueur voulant que notre score (score AI) soit le plus faible possible
-                if (i % 2 == 0) // Minimizer (Humain)
+                if (i % 2 == 0) // "Minimizer" (Humain)
                 {
                     SimulerMinMax(jeuEnSimulation, Couleur.Noir, ref lstCoups, ref scoreDePosition);
                 }
-                else // Maximizer (AI)
+                else // "Maximizer" (AI)
                 {
                     SimulerMinMax(jeuEnSimulation, CouleurIA, ref lstCoups, ref scoreDePosition);
                 }
@@ -285,41 +285,13 @@ namespace Othello
             return 0;
         }
 
-        private double CalculerScoreAISelonMobilitee(JeuOthelloControl jeuEnSimulation)
-        {
-            double NbCoupsPossiblesAI = 0;
-            double NbCoupsPossiblesHumain = 0;
-            NbCoupsPossiblesAI = (double)(jeuEnSimulation.TrouverCoupsPermis(CouleurIA).Count);
-            NbCoupsPossiblesHumain = (double)(jeuEnSimulation.TrouverCoupsPermis(Couleur.Noir).Count);
-            if (NbCoupsPossiblesAI + NbCoupsPossiblesHumain != 0)
-            {
-                return ( 100 * ((NbCoupsPossiblesAI - NbCoupsPossiblesHumain) / (NbCoupsPossiblesAI + NbCoupsPossiblesHumain)) );
-            }
-            return 0;
-        }
-
-        private double CalculerScoreSelonNbPions(JeuOthelloControl jeu)
-        {
-            double nbPionsAI = (double)jeu.Grille.CalculerNbPionsBlancs();
-            double nbPionsHumain = (double)jeu.Grille.CalculerNbPionsNoirs();
-            return ( 100 * ((nbPionsAI - nbPionsHumain) / (nbPionsAI + nbPionsHumain)) );
-        }
-
         private double ScoreAIApresCoupSimule(JeuOthelloControl jeuEnSimulation, Coordonnee position,Couleur joueurEnSimulation)
         {
             double score = 0;
-            double ImportanceNbPionsRetournes = 1;
-            double ImportancePositions = 100;
             JeuOthelloControl jeuSimulation = new JeuOthelloControl(jeuEnSimulation.Grille);
             jeuSimulation.InverserPionsAdverse(position, joueurEnSimulation);
             jeuSimulation.Grille.AjouterPion(position, joueurEnSimulation);
-            if(jeuEnSimulation.ResteCoins() == false)
-            {
-                ImportanceNbPionsRetournes = 1000;
-            }
             score += CalculerScoreAISelonRegions(jeuSimulation);
-            score += CalculerScoreSelonNbPions(jeuEnSimulation)*ImportanceNbPionsRetournes;
-            //score += CalculerScoreAISelonMobilitee(jeuEnSimulation);
             return score;
         }
 

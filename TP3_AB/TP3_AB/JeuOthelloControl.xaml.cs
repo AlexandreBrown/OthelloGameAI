@@ -599,6 +599,38 @@ namespace Othello
             }
         }
 
+        public int TrouverNombreCoinsOccupesParCouleurX(Couleur couleurX)
+        {
+            int nbCoins = 0;
+            for (int i = 1; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j= 1; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Coordonnee position = new Coordonnee(i, j);
+                    if(Grille.EstCaseLibre(position) == false)
+                    {
+                        if(EstCoin(position))
+                        {
+                            if(couleurX == Couleur.Blanc)
+                            {
+                                if(Grille.EstCaseBlanche(position))
+                                {
+                                    nbCoins++;
+                                }
+                            }else if (couleurX == Couleur.Noir)
+                            {
+                                if (Grille.EstCaseNoire(position))
+                                {
+                                    nbCoins++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return nbCoins;
+        }
+
         private bool CoupEstPresentDansListe(Coordonnee coup,List<Coordonnee> lstCoups)
         {
             foreach(Coordonnee c in lstCoups)
