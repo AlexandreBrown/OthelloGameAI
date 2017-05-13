@@ -9,9 +9,9 @@ namespace Othello
     class Coup
     {
         public Coordonnee Position { get; set; }
-        public int Score { get; set; }
+        public double Score { get; set; }
 
-        public Coup(Coordonnee position,int score)
+        public Coup(Coordonnee position,double score)
         {
             Position = position;
             Score = score;

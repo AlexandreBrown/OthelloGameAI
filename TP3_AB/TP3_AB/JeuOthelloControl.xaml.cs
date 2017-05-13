@@ -611,6 +611,108 @@ namespace Othello
             return false;
         }
 
+        public Coordonnee TrouverCoupGagnant(List<Coordonnee> lstCoups,Couleur joueur)
+        {
+            foreach (Coordonnee coup in lstCoups)
+            {
+                if (CoupGagnant(coup, joueur))
+                {
+                    return coup;
+                }
+            }
+            return new Coordonnee(0, 0);
+        }
+
+        public bool ListeCoupsContientCoupGagnant(List<Coordonnee> lstCoups, Couleur joueur)
+        {
+            foreach (Coordonnee coup in lstCoups)
+            {
+                if (CoupGagnant(coup, joueur))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool CoupGagnant(Coordonnee positionEnVerification,Couleur joueur)
+        {
+            JeuOthelloControl jeuSimulation = new JeuOthelloControl(this.Grille);
+            jeuSimulation.InverserPionsAdverse(positionEnVerification, joueur);
+            jeuSimulation.Grille.AjouterPion(positionEnVerification, joueur);
+            if(joueur == Couleur.Blanc)
+            {
+                return (jeuSimulation.TrouverCoupsPermis(Couleur.Noir).Count == 0);
+            }
+            return (jeuSimulation.TrouverCoupsPermis(Couleur.Blanc).Count == 0);
+
+        }
+
+        public bool PossibiliteDeCoin(List<Coordonnee> lstPositions)
+        {
+            foreach (Coordonnee position in lstPositions)
+            {
+                if (EstCoin(position))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool ResteCoins()
+        {
+            int compteurCoinsRestants = 4;
+            for (int i = 1; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
+            {
+                for (int j = 1; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
+                {
+                    Coordonnee position = new Coordonnee(i, j);
+                    if (EstCoin(position))
+                    {
+                        compteurCoinsRestants--;
+                    }
+                }
+            }
+            return compteurCoinsRestants > 0;
+        }
+
+        public Coordonnee TrouverCoin(List<Coordonnee> lstPositions)
+        {
+            Coordonnee coin = new Coordonnee(lstPositions[0].X, lstPositions[0].Y);
+            foreach (Coordonnee position in lstPositions)
+            {
+                if (EstCoin(position))
+                {
+                    coin.X = position.X;
+                    coin.Y = position.Y;
+                }
+            }
+            return coin;
+        }
+
+        public bool EstCoin(Coordonnee position)
+        {
+            return (EstCoinHautGauche(position) || EstCoinHautDroite(position) || EstCoinBasDroite(position) || EstCoinBasGauche(position));
+        }
+
+        private bool EstCoinHautGauche(Coordonnee position)
+        {
+            return (position.X == 1 && position.Y == 1);
+        }
+        private bool EstCoinHautDroite(Coordonnee position)
+        {
+            return (position.X == GrilleJeu.TAILLE_GRILLE_JEU && position.Y == 1);
+        }
+        private bool EstCoinBasDroite(Coordonnee position)
+        {
+            return (position.X == GrilleJeu.TAILLE_GRILLE_JEU && position.Y == GrilleJeu.TAILLE_GRILLE_JEU);
+        }
+        private bool EstCoinBasGauche(Coordonnee position)
+        {
+            return (position.X == 1 && position.Y == GrilleJeu.TAILLE_GRILLE_JEU);
+        }
+
         private List<Coordonnee> TrouverCasesValides(Coordonnee positionInitiale, Couleur couleurAppelante)
         {
             List<Coordonnee> coupsPermis = new List<Coordonnee>();
