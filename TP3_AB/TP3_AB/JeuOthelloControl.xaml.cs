@@ -528,7 +528,12 @@ namespace Othello
             lblScore.Content = (Grille.CalculerNbPionsNoirs() * MultiplicateurDeScore).ToString();
         }
 
-
+        public void JouerCoup(Coordonnee position, Couleur joueur)
+        {
+            Grille.AjouterPion(position, joueur);
+            InverserPionsAdverse(position, joueur);
+            AjouterCerclePion(position, joueur);
+        }
 
         private void EffacerCasesCoupsPermisHumain()
         {
@@ -657,11 +662,8 @@ namespace Othello
         {
             if (coupEstLegal(new Coordonnee(position.X, position.Y), couleurAppelante))
             {
-                // Jouer un coup.
-                Grille.AjouterPion(position, TourJeu);
-                InverserPionsAdverse(position, couleurAppelante);
+                JouerCoup(position, couleurAppelante);
                 RafraichirAffichage();
-                AjouterCerclePion(position, TourJeu);
                 MettreAJourScore();
                 EnCours = true; 
                 if (PartieTerminee(TourJeu) == false)
@@ -690,6 +692,11 @@ namespace Othello
                         if (TourJeu == Couleur.Blanc)
                         {
                             Notify();
+                        }
+                        else
+                        {
+                            EffacerCasesCoupsPermisHumain();
+                            AfficherCasesCoupsPermisHumain();
                         }
                     }
                 }
