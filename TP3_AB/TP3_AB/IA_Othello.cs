@@ -154,7 +154,7 @@ namespace Othello
             return minCoup.Position;
         }
 
-        private double MaxScoreCoups(List<Coup> lstCoups)
+        private int MaxScoreCoups(List<Coup> lstCoups)
         {
             Coup maxCoup = lstCoups[0];
             for (int i = 1; i < lstCoups.Count; i++)
@@ -167,7 +167,7 @@ namespace Othello
             return maxCoup.Score;
         }
 
-        private double MinScoreCoups(List<Coup> lstCoups)
+        private int MinScoreCoups(List<Coup> lstCoups)
         {
             Coup minCoup = lstCoups[0];
             for (int i = 1; i < lstCoups.Count; i++)
@@ -191,9 +191,9 @@ namespace Othello
             }
         }
 
-        private double ScoreApresXCoupsSimules(Coordonnee positionAIPossibleEnVerif, int NbCoupsASimuler, JeuOthelloControl jeuDepart, GrilleJeu grilleDepart)
+        private int ScoreApresXCoupsSimules(Coordonnee positionAIPossibleEnVerif, int NbCoupsASimuler, JeuOthelloControl jeuDepart, GrilleJeu grilleDepart)
         {
-            double scoreDePosition = 0;
+            int scoreDePosition = 0;
             JeuOthelloControl jeuEnSimulation = new JeuOthelloControl(grilleDepart);
             // On joue la position en vérification sur une copie du jeu actuel
             jeuEnSimulation.JouerCoup(positionAIPossibleEnVerif, Couleur.Blanc);
@@ -215,12 +215,12 @@ namespace Othello
         }
 
 
-        private void SimulerMinMax(JeuOthelloControl jeuEnSimulation, Couleur couleurEnSimulation, ref List<Coup> lstCoups, ref double scoreDePosition)
+        private void SimulerMinMax(JeuOthelloControl jeuEnSimulation, Couleur couleurEnSimulation, ref List<Coup> lstCoups, ref int scoreDePosition)
         {
             // On doit évaluer chaque coups possible de ce joueur
             foreach (Coordonnee position in jeuEnSimulation.TrouverCoupsPermis(couleurEnSimulation))
             {
-                double score = 0;
+                int score = 0;
                 // On récupère le score du AI suite au coup actuel
                 score = ScoreAIApresCoupSimule(jeuEnSimulation, position, couleurEnSimulation);
                 // On stock le coup (la position que nous avons évaluée ainsi que sa valeur)
@@ -256,10 +256,10 @@ namespace Othello
             }
         }
 
-        public double CalculerScoreAISelonRegions(JeuOthelloControl jeu)
+        private int CalculerScoreAISelonRegions(JeuOthelloControl jeu)
         {
-            double scoreAI = 0;
-            double scoreHumain = 0;
+            int scoreAI = 0;
+            int scoreHumain = 0;
             for (int i = 1; i < GrilleJeu.TAILLE_GRILLE_JEU; i++)
             {
                 for (int j = 1; j < GrilleJeu.TAILLE_GRILLE_JEU; j++)
@@ -269,29 +269,33 @@ namespace Othello
                     {
                         if (jeu.Grille.EstCaseBlanche(position))
                         {
-                            scoreAI += (double)ScoreRegions[position.X - 1, position.Y - 1];
+                            scoreAI += ScoreRegions[position.X - 1, position.Y - 1];
                         }
                         else if(jeu.Grille.EstCaseNoire(position))
                         {
-                            scoreHumain += (double)ScoreRegions[position.X - 1, position.Y - 1];
+                            scoreHumain += ScoreRegions[position.X - 1, position.Y - 1];
                         }
                     }
                 }
             }
-            if (scoreAI + scoreHumain != 0)
-            {
-                return ( 100 * ((scoreAI - scoreHumain) / (scoreAI + scoreHumain)) );
-            }
-            return 0;
+            return scoreAI - scoreHumain;
         }
 
-        private double ScoreAIApresCoupSimule(JeuOthelloControl jeuEnSimulation, Coordonnee position,Couleur joueurEnSimulation)
+        private int CalculerScoreSelonNbPions(JeuOthelloControl jeu)
         {
-            double score = 0;
+            int nbPionsAI = jeu.Grille.CalculerNbPionsBlancs();
+            int nbPionsHumain = jeu.Grille.CalculerNbPionsNoirs();
+            return nbPionsAI - nbPionsHumain;
+        }
+
+        private int ScoreAIApresCoupSimule(JeuOthelloControl jeuEnSimulation, Coordonnee position,Couleur joueurEnSimulation)
+        {
+            int score = 0;
             JeuOthelloControl jeuSimulation = new JeuOthelloControl(jeuEnSimulation.Grille);
             jeuSimulation.InverserPionsAdverse(position, joueurEnSimulation);
             jeuSimulation.Grille.AjouterPion(position, joueurEnSimulation);
             score += CalculerScoreAISelonRegions(jeuSimulation);
+            score += CalculerScoreSelonNbPions(jeuSimulation);
             return score;
         }
 
